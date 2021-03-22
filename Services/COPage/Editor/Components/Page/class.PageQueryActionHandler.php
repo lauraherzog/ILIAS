@@ -44,6 +44,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
      */
     protected $ctrl;
 
+    /**
+     * @var \ilPluginAdmin
+     */
+    protected $plugin_admin;
+
 
     function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -54,6 +59,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->plugin_admin = $DIC["ilPluginAdmin"];
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
@@ -93,9 +99,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->dropdown = $r->render($dd);
         $o->addCommands = $this->getAddCommands();
         $o->pageEditHelp = $this->getPageEditHelp();
+        $o->multiEditHelp = $this->getMultiEditHelp();
         $o->pageTopActions = $this->getTopActions();
         $o->multiActions = $this->getMultiActions();
         $o->pasteMessage = $this->getPasteMessage();
+        $o->errorMessage = $this->getErrorMessage();
         $o->config = $this->getConfig();
         $o->components = $this->getComponentsEditorUI();
         $o->pcModel = $this->getPCModel();
@@ -105,7 +113,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->confirmation = $this->getConfirmationTemplate();
         $o->autoSaveInterval = $this->getAutoSaveInterval();
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
-        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"]));
+        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
+            count($this->user->getPCClipboardContent()) > 0;
         return new Server\Response($o);
     }
 
@@ -141,13 +150,29 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         foreach ($config->getEnabledTopPCTypes() as $def) {
             $commands[$def["pc_type"]] = $lng->txt("cont_ed_insert_" . $def["pc_type"]);
         }
+
+        $pl_names = $this->plugin_admin->getActivePluginsForSlot(
+            IL_COMP_SERVICE,
+            "COPage",
+            "pgcp"
+        );
+        foreach ($pl_names as $pl_name) {
+            $plugin = $this->plugin_admin->getPluginObject(
+                IL_COMP_SERVICE,
+                "COPage",
+                "pgcp",
+                $pl_name
+            );
+            $commands["plug_".$plugin->getPluginName()] =
+                $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+        }
+
         return $commands;
     }
 
     /**
      * Get page help (drag drop explanation)
-     * @param
-     * @return
+     * @return string
      */
     protected function getPageEditHelp()
     {
@@ -159,7 +184,24 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl->setVariable("PLUS", \ilGlyphGUI::get(\ilGlyphGUI::ADD));
         $tpl->setVariable("DRAG_ARROW", \ilGlyphGUI::get(\ilGlyphGUI::DRAG));
         $tpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
-        $tpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
+        $tpl->setVariable("TXT_EDIT", $lng->txt("cont_click_edit"));
+        $tpl->setVariable("TXT_SEL", $lng->txt("cont_shift_click_to_select"));
+        $tpl->parseCurrentBlock();
+
+        return $tpl->get();
+    }
+
+    /**
+     * Get page help (drag drop explanation)
+     * @return string
+     */
+    protected function getMultiEditHelp()
+    {
+        $lng = $this->lng;
+        $lng->loadLanguageModule("content");
+        $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "Services/COPage/Editor");
+        $tpl->setCurrentBlock("multi-help");
+        $tpl->setVariable("TXT_SEL", $lng->txt("cont_click_multi_select"));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
@@ -432,6 +474,17 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     }
 
     /**
+     * Confirmation screen for cut/paste step
+     * @return string
+     */
+    protected function getErrorMessage()
+    {
+        $html = $this->ui_wrapper->getRenderedFailureBox();
+
+        return $html;
+    }
+
+    /**
      * Format selection
      */
     protected function getFormatSelection() {
@@ -476,7 +529,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $this->ui_wrapper,
                 $this->page_gui->getPageObject()->getParentType(),
                 $this->page_gui,
-                $this->page_gui->getStyleId(),
+                (int) $this->page_gui->getStyleId(),
                 $query["pcid"]);
         }
         $o = new \stdClass();

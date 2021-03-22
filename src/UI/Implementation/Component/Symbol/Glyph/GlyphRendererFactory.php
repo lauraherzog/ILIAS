@@ -9,7 +9,7 @@ use ILIAS\UI\Component;
 
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
-    const USE_BUTTON_CONTEXT_FOR = [
+    public const USE_BUTTON_CONTEXT_FOR = [
         'BulkyButton',
         'BulkyLink'
     ];
@@ -22,7 +22,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->refinery
+                $this->refinery,
+                $this->image_path_resolver
             );
         }
         return new Renderer(
@@ -30,7 +31,8 @@ class GlyphRendererFactory extends Render\DefaultRendererFactory
             $this->tpl_factory,
             $this->lng,
             $this->js_binding,
-            $this->refinery
+            $this->refinery,
+            $this->image_path_resolver
         );
     }
 }

@@ -129,6 +129,10 @@ export default class ParagraphUIActionHandler {
           this.ui.cmdTex();
           break;
 
+        case ACTIONS.SELECTION_FN:
+          this.ui.cmdFn();
+          break;
+
         case ACTIONS.SELECTION_ANCHOR:
           this.ui.cmdAnc();
           break;
@@ -150,15 +154,15 @@ export default class ParagraphUIActionHandler {
           break;
 
         case ACTIONS.LINK_WIKI_SELECTION:
-          //this.ui.cmdListIndent();
+          this.ui.cmdWikiLinkSelection(params.url);
           break;
 
         case ACTIONS.LINK_WIKI:
-          //this.ui.cmdListIndent();
+          this.ui.cmdWikiLink();
           break;
 
         case ACTIONS.LINK_INTERNAL:
-          //this.ui.cmdExtLink();
+          this.ui.cmdIntLink();
           break;
 
         case ACTIONS.SECTION_CLASS:
@@ -170,7 +174,7 @@ export default class ParagraphUIActionHandler {
           break;
 
         case ACTIONS.LINK_USER:
-          //this.ui.cmdListIndent();
+          this.ui.cmdUserLink();
           break;
 
         case ACTIONS.SAVE_RETURN:
@@ -297,7 +301,6 @@ export default class ParagraphUIActionHandler {
       pcmodel.text,
       pcmodel.characteristic
     );
-    console.log(this.client);
     this.client.sendCommand(update_action).then(result => {
       const pl = result.getPayload();
       this.handleSaveResponse(pcid, pl, page_model);
@@ -321,11 +324,15 @@ export default class ParagraphUIActionHandler {
 
   handleSaveResponse(pcid, pl, page_model) {
     const still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
-    if (pl.renderedContent && !still_editing) {
-      this.ui.replaceRenderedParagraph(pcid, pl.renderedContent);
-    }
-    if (pl.last_update && still_editing) {
-      this.ui.showLastUpdate(pl.last_update);
+    if (pl.error) {
+      this.ui.showError(pl.error);
+    } else {
+      if (pl.renderedContent && !still_editing) {
+        this.ui.replaceRenderedParagraph(pcid, pl.renderedContent);
+      }
+      if (pl.last_update && still_editing) {
+        this.ui.showLastUpdate(pl.last_update);
+      }
     }
   }
 
@@ -353,14 +360,19 @@ export default class ParagraphUIActionHandler {
 
   handleSaveResponseSplit(pl, page_model) {
     let still_editing;
-    for (const [pcid, renderedContent] of Object.entries(pl.renderedContent)) {
-      still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
-      if (renderedContent && !still_editing) {
-        this.ui.replaceRenderedParagraph(pcid, renderedContent);
+
+    if (pl.error) {
+      this.ui.showError(pl.error);
+    } else {
+      for (const [pcid, renderedContent] of Object.entries(pl.renderedContent)) {
+        still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
+        if (renderedContent && !still_editing) {
+          this.ui.replaceRenderedParagraph(pcid, renderedContent);
+        }
       }
-    }
-    if (pl.last_update) {
-      this.ui.showLastUpdate(pl.last_update);
+      if (pl.last_update) {
+        this.ui.showLastUpdate(pl.last_update);
+      }
     }
   }
 

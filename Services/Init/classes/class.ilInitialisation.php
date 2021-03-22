@@ -292,13 +292,25 @@ class ilInitialisation
             return $delegatingFactory->getLocal($customizingConfiguration, true);
         };
 
+        $DIC['filesystem.node_modules'] = function ($c) {
+            //customizing
+
+            /**
+             * @var FilesystemFactory $delegatingFactory
+             */
+            $delegatingFactory = $c['filesystem.factory'];
+            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'node_modules');
+            return $delegatingFactory->getLocal($customizingConfiguration, true);
+        };
+
         $DIC['filesystem'] = function ($c) {
             return new \ILIAS\Filesystem\FilesystemsImpl(
                 $c['filesystem.storage'],
                 $c['filesystem.web'],
                 $c['filesystem.temp'],
                 $c['filesystem.customizing'],
-                $c['filesystem.libs']
+                $c['filesystem.libs'],
+                $c['filesystem.node_modules']
             );
         };
     }
@@ -1628,21 +1640,24 @@ class ilInitialisation
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
-                            $c["refinery"]
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
-                            $c["refinery"]
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
-                            $c["refinery"]
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
                         )
                     )
                 )
@@ -1678,6 +1693,10 @@ class ilInitialisation
                 }
             }
         }
+
+        $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {
+            return new ilImagePathResolver();
+        };
     }
 
     /**

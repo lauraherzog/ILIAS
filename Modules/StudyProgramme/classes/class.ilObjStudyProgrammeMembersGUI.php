@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeMailMemberSearchGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeExpireDateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeDeadlineGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilFormPropertyDispatchGUI
  */
 class ilObjStudyProgrammeMembersGUI
 {
@@ -214,7 +215,7 @@ class ilObjStudyProgrammeMembersGUI
     protected function getAssignmentsById() : array
     {
         $assignments = $this->object->getAssignments();
-        ;
+
         return array_filter($assignments, function (ilStudyProgrammeUserAssignment $assignment) {
             return $assignment->getStudyProgramme()->getId() == $this->object->getId();
         });

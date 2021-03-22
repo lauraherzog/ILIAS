@@ -3,6 +3,7 @@
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -13,7 +14,7 @@ use ILIAS\UI\Component;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    const MODE_ROLE = "group";
+    public const MODE_ROLE = "group";
 
     /**
      * @param Component\Component $component
@@ -109,7 +110,7 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->touchBlock($type . "_disabled");
         }
-        $this->maybeRenderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
+        $this->renderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
     }
 
 
@@ -124,19 +125,16 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getSelectSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $options = json_encode($signal->getOptions());
 
-            $component = $component->withOnLoadCode(function ($id) use ($internal_signal, $signal) {
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($internal_signal, $signal) {
                 return "$(document).on('{$internal_signal}', function(event, signalData) {
 							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '{$signal}', '{$id}');
 							return false;
 						})";
             });
-
-            //maybeRenderId does not return id
-            $id = $this->bindJavaScript($component);
-            $tpl->setVariable('ID', $id);
         }
+
+        $this->renderId($component, $tpl, "id", "ID");
 
         //setup entries
         $options = $component->getOptions();
@@ -167,6 +165,9 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.pagination.html", true, true);
 
+        /**
+         * @var $component Component\ViewControl\Pagination
+         */
         $component = $component->withResetSignals();
         $triggeredSignals = $component->getTriggeredSignals();
         if ($triggeredSignals) {
@@ -269,7 +270,7 @@ class Renderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
 
         if ($label === '') {
-            $label = (string) ($val + 1);
+            $label = (string) ((int) $val + 1);
         }
 
         if ($component->getTriggeredSignals()) {
@@ -295,11 +296,11 @@ class Renderer extends AbstractComponentRenderer
      *
      * @param Component\ViewControl\Pagination 	$component
      * @param RendererInterface $default_renderer 	$default_renderer
-     * @param ILIAS\UI\Implementation\Render\Template 	$tpl
+     * @param \ILIAS\UI\Implementation\Render\Template 	$tpl
      *
      * @return void
      */
-    protected function setPaginationBrowseControls(Component\ViewControl\Pagination $component, RendererInterface $default_renderer, &$tpl)
+    protected function setPaginationBrowseControls(Component\ViewControl\Pagination $component, RendererInterface $default_renderer, $tpl)
     {
         $prev = max(0, $component->getCurrentPage() - 1);
         $next = $component->getCurrentPage() + 1;
@@ -346,11 +347,11 @@ class Renderer extends AbstractComponentRenderer
      * @param Component\ViewControl\Pagination 	$component
      * @param int[]	$range
      * @param RendererInterface $default_renderer 	$default_renderer
-     * @param ILIAS\UI\Implementation\Render\Template 	$tpl
+     * @param \ILIAS\UI\Implementation\Render\Template $tpl
      *
      * @return void
      */
-    protected function setPaginationFirstLast(Component\ViewControl\Pagination $component, $range, RendererInterface $default_renderer, &$tpl)
+    protected function setPaginationFirstLast(Component\ViewControl\Pagination $component, $range, RendererInterface $default_renderer, $tpl)
     {
         if (!in_array(0, $range)) {
             $shy = $this->getPaginationShyButton(0, $component);
@@ -375,14 +376,15 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
-    protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var)
+    protected function renderId(Component\JavaScriptBindable $component, $tpl, $block, $template_var)
     {
         $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock($block);
-            $tpl->setVariable($template_var, $id);
-            $tpl->parseCurrentBlock();
+        if (!$id) {
+            $id = $this->createId();
         }
+        $tpl->setCurrentBlock($block);
+        $tpl->setVariable($template_var, $id);
+        $tpl->parseCurrentBlock();
     }
 
     /**

@@ -17,7 +17,7 @@ function with_usage_in_legacy_form()
     $item = new ilTextareaInputGUI('Description', 'description');
     $item->setRequired(true);
     $form->addItem($item);
-    $item = new ilFileStandardDropzoneInputGUI('Files', 'files');
+    $item = new ilFileStandardDropzoneInputGUI('cancel', 'Files', 'files');
     $item->setUploadUrl($form->getFormAction());
     $item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' ]);
     $item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
@@ -42,7 +42,7 @@ function with_usage_in_legacy_form()
                     });
                     $uploadResult = count($uploadedPDFs) == 0;
                     echo json_encode(array( 'success' => $uploadResult ));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo json_encode(array( 'success' => false ));
                 }
                 exit();

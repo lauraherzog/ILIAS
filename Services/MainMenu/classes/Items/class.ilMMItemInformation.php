@@ -11,6 +11,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 
 /**
  * Class ilMMItemInformation
@@ -65,7 +66,12 @@ class ilMMItemInformation implements ItemInformation
         if (!$default_language) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
-
+        if ($item instanceof RepositoryLink && empty($item->getTitle())) {
+            $item = $item->withTitle(($item->getRefId() > 0) ?
+                \ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($item->getRefId())) :
+                ""
+            );
+        }
         if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
             && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
         ) {
@@ -133,11 +139,10 @@ class ilMMItemInformation implements ItemInformation
             }
 
             try {
-                $stream = $this->storage->consume()->stream($ri)->getStream();
+                $src = $this->storage->consume()->src($ri);
             } catch (FileNotFoundException $f) {
                 return $item;
             }
-            $data = 'data:' . $this->storage->manage()->getCurrentRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
 
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
@@ -148,7 +153,7 @@ class ilMMItemInformation implements ItemInformation
                 $aria_label = 'Custom icon';
             }
 
-            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, $aria_label);
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
 
             return $item->withSymbol($symbol);
         }

@@ -383,6 +383,16 @@ class ilObjStudyProgramme extends ilContainer
         return true;
     }
 
+    public function hasAdvancedMetadata() : bool
+    {
+        $sub_type_id = $this->getTypeSettings()->getTypeId();
+        if ($sub_type_id) {
+            $type = $this->type_repository->readType($sub_type_id);
+        }
+
+        return !is_null($type) && count($this->type_repository->readAssignedAMDRecordIdsByType($type->getId(), true)) > 0;
+    }
+
     ////////////////////////////////////
     // GETTERS AND SETTERS
     ////////////////////////////////////
@@ -734,6 +744,9 @@ class ilObjStudyProgramme extends ilContainer
                         continue;
                     }
                     $r_parent = $reference->getParent();
+                    if (is_null($r_parent)) {
+                        continue;
+                    }
                     array_push($queque, $r_parent);
                     $parents[] = $r_parent;
                 }
