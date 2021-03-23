@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo $CHANGED_FILES
-exit 0
-
 #CHANGED_FILES=$(git diff --name-only --diff-filter=ACM -- '*.php')
 for FILE in ${CHANGED_FILES}
 do
