@@ -10,7 +10,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - run: echo "CHANGED_FILES=$(git log --name-only --pretty="format:" ${{ github.event.before }}..${{ github.event.after }} | sort -u)" >> $GITHUB_ENV
+        with:
+          fetch-depth: 0
+      - run: echo "CHANGED_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
