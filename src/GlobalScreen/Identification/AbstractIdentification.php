@@ -8,8 +8,7 @@ use ILIAS\GlobalScreen\Provider\Provider;
  *
  * @package ILIAS\GlobalScreen\Identification
  */
-abstract class AbstractIdentification implements IdentificationInterface
-{
+abstract class AbstractIdentification implements IdentificationInterface{
 
     /**
      * @var string
