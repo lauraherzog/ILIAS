@@ -10,9 +10,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - run: echo "CHANGED_FILES=$(git diff --name-only ${{ github.event.before }}..${{ github.event.after }})" >> $GITHUB_ENV
+
+      - name: list files
+        run: |
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
+          CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          echo $CHANGED_FILES
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
