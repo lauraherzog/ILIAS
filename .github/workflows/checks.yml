@@ -14,7 +14,8 @@ jobs:
       - name: list files
         run: |
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-          CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename')
+          CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename ' | grep '.php')
+          echo $CHANGED_FILES
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
