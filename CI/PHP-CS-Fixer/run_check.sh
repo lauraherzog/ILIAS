@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #CHANGED_FILES=$(git diff --name-only --diff-filter=ACM -- '*.php')
+echo 'Starting CS Fixer with:'
+echo $CHANGED_FILES
 for FILE in ${CHANGED_FILES}
 do
 	echo "Check file: ${FILE}"
