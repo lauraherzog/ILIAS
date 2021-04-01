@@ -6,8 +6,9 @@
 #          echo $CHANGED_FILES >> $GITHUB_ENV
 
 URL="https://api.github.com/repos/${GH_REPO}/pulls/${PR_NUMBER}/files"
-CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
-echo $CHANGED_FILES
+FILE_DATA=$(curl -s -X GET -G $URL)
+#CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
+echo $FILE_DATA
 
 exit
 
