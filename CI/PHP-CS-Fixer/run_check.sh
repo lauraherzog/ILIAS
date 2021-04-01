@@ -1,8 +1,14 @@
 #!/bin/bash
 
-#CHANGED_FILES=$(git diff --name-only --diff-filter=ACM -- '*.php')
-echo 'Starting CS Fixer with:'
-echo $CHANGED_FILES
+
+#          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
+#          CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename ' | grep '.php')
+#          echo $CHANGED_FILES >> $GITHUB_ENV
+
+echo $GITHUB_ENV
+
+exit
+
 for FILE in ${CHANGED_FILES}
 do
 	echo "Check file: ${FILE}"

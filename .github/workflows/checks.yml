@@ -12,19 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.pull_request.base.sha }}
-
-      - name: Get changed files
-        id: changes
-        run: |
-          echo "::set-output name=all::$(git diff --name-only --diff-filter=ACMRT --diff-filter=ACM -- '*.php')"
-
-#      - name: list files
-#        run: |
-#          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-#          CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename ' | grep '.php')
-#          echo $CHANGED_FILES >> $GITHUB_ENV
 
 #      - name: Setup PHP
 #        uses: shivammathur/setup-php@v2
@@ -43,8 +30,8 @@ jobs:
 #      - name: Install PHP CS Fixer
 #        run: composer require friendsofphp/php-cs-fixer --no-interaction --no-progress
 
-#      - name: PHP CS Fixer
-#        run: CI/PHP-CS-Fixer/run_check.sh
+      - name: PHP CS Fixer
+        run: CI/PHP-CS-Fixer/run_check.sh
 
 #      - name: Special Char Checker
 #        run: CI/Special-Char-Checker/special-char-checker.sh
