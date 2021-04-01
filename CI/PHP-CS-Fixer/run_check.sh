@@ -1,10 +1,5 @@
 #!/bin/bash
 
-
-#          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${{ github.event.pull_request.number }}/files"
-#          
-#          echo $CHANGED_FILES >> $GITHUB_ENV
-
 URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
 CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
 
