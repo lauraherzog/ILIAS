@@ -5,7 +5,8 @@
 #          CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename ' | grep '.php')
 #          echo $CHANGED_FILES >> $GITHUB_ENV
 
-echo $GITHUB_ENV
+echo "Repo: $GH_REPO"
+echo "Number: $PR_NUMBER"
 
 exit
 
