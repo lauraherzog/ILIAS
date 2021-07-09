@@ -914,8 +914,25 @@ class ilBlogPostingGUI extends ilPageObjectGUI
      */
     public function getCommentsHTMLExport()
     {
-        return $this->getNotesHTML($this->getBlogPosting(),
-            false, $this->enable_public_notes, false, null, true);
+        return $this->getNotesHTML(
+            $this->getBlogPosting(),
+            false,
+            $this->enable_public_notes,
+            false,
+            null,
+            true
+        );
     }
 
+    /**
+     * Show edit toolbar
+     */
+    protected function showEditToolbar()
+    {
+    }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilobjbloggui", "");
+    }
 }

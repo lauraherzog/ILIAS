@@ -82,7 +82,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 
         $ctrl = $DIC->ctrl();
 
-        $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $_GET["ppage"]);
+        $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $this->requested_ppage);
         return $ctrl->getLinkTargetByClass("ilobjportfoliotemplategui", "preview");
     }
 
@@ -93,4 +93,10 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
     {
         return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
     }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilObjPortfolioTemplateGUI", "view");
+    }
+
 }

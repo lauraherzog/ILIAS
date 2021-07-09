@@ -1,4 +1,4 @@
-// Build: 2021321174933 
+// Build: 2021417224134 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12146,16 +12146,30 @@ function sendJSONRequest (url, data, callback, user, password, headers)
                     typeof(document.getElementById("res")) != "undefined" 
                     && typeof(document.getElementById("res").contentWindow) != "undefined" 
                     && typeof(document.getElementById("res").contentWindow.event) != "undefined" 
-                    && (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload")
+                    && (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload" || document.getElementById("res").contentWindow.event.type=="pagehide")
                    ) 
                 || (
                     typeof(window.event) != "undefined" 
                     && (window.event.type=="unload" || window.event.type=="beforeunload" || window.event.type=="click")
                    )
-                || ( //LM in frame
+                || (//LM in frame 1
+                    typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[1]) != "undefined"
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[1].contentWindow) != "undefined"
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event) != "undefined" 
+                    && (
+                        document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event.type=="unload" 
+                        || document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event.type=="beforeunload"
+                       )
+                )
+                || (//LM in frame 0
                     typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0]) != "undefined"
                     && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow) != "undefined"
-                   )
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event) != "undefined" 
+                    && (
+                        document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event.type=="unload" 
+                        || document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event.type=="beforeunload"
+                       )
+                )
                 || ( //Articulate Rise
                     typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
                     && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow) != "undefined" 
@@ -12163,6 +12177,16 @@ function sendJSONRequest (url, data, callback, user, password, headers)
                     && (
                         document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="unload" 
                         || document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="beforeunload"
+                       )
+                   )
+                || ( //Articulate Rise as SCORM 1.2 in 2004 Player
+                    typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0]) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event) != "undefined" 
+                    && (
+                        document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="unload" 
+                        || document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="beforeunload"
                        )
                    )
                 ) {
@@ -12180,7 +12204,7 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 		console.log("async request for chrome");
 		// navigator.sendBeacon(url, toJSONString(data));
 		// console.log('use sendBeacon');
-        windowOpenerLoc.reload();
+        try{windowOpenerLoc.reload();} catch(e){}
 		return "1";
 	}
 	if (url == this.config.scorm_player_unload_url && navigator.userAgent.indexOf("Chrom") > -1) {

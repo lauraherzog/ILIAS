@@ -343,7 +343,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $values["startfile"] = $startfile;
         $values["title"] = $this->object->getTitle();
-        $values["desc"] = $this->object->getDescription();
+        $values["desc"] = $this->object->getLongDescription();
         //$values["lic"] = $this->object->getShowLicense();
 
         $this->form->setValuesByArray($values);
@@ -781,7 +781,19 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             $this->createFromDirectory($e->getTmpDir());
         }
     }
-    
+
+    /**
+     * Post (successful) object import hook
+     *
+     * @param ilObject $a_new_object
+     */
+    protected function afterImport(ilObject $a_new_object)
+    {
+        $this->ctrl->setParameter($this, "ref_id", $a_new_object->getRefid());
+        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->ctrl->redirect($this, "properties");
+    }
+
     /**
      * Create new object from a html zip file
      *

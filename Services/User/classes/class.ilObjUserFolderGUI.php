@@ -1024,7 +1024,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             return $utab->getUserIdsForFilter();
         } else {
             return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_user',
+                'read_users',
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,
                 (array) $_POST['id']
@@ -1206,6 +1206,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $tpl = $DIC['tpl'];
         $rbacsystem = $DIC['rbacsystem'];
         $ilCtrl = $DIC->ctrl();
+        $access = $DIC->access();
 
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
@@ -1215,17 +1216,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'view'
             )
         );
-
-        if (!$rbacsystem->checkAccess(
-            "write",
-            $this->object->getRefId()
-        )) {
-            $this->ilias->raiseError(
-                $this->lng->txt("permission_denied"),
-                $this->ilias->error_obj->MESSAGE
-            );
+        if (
+            !$rbacsystem->checkAccess('create_usr', $this->object->getRefId()) &&
+            !$access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
+        ) {
+            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());
     }
@@ -1644,15 +1640,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
                         }
-                        $select = $ui->input()->field()->select(
-                            $role["name"],
-                            $selectable_roles
-                        )
-                                     ->withRequired(true);
-                        array_push(
-                            $local_selects,
-                            $select
-                        );
+                        if (count($selectable_roles)) {
+                            $select = $ui->input()->field()->select($role["name"], $selectable_roles);
+                            array_push($local_selects, $select);
+                        }
                     }
                 }
             }
@@ -3848,7 +3839,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
         $access = $DIC->access();
 
-        if (!$this->checkPermissionBool("read_user")) {
+        if (!$this->checkPermissionBool("read_users")) {
             $a_user_ids = $access->filterUserIdsByPositionOfCurrentUser(
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,

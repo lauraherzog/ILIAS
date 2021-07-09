@@ -235,7 +235,7 @@ class ilObjCourseGUI extends ilContainerGUI
         include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         include_once 'Modules/Course/classes/class.ilCourseFile.php';
 
-        $files = &ilCourseFile::_readFilesByCourse($this->object->getId());
+        $files = ilCourseFile::_readFilesByCourse($this->object->getId());
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
@@ -385,25 +385,14 @@ class ilObjCourseGUI extends ilContainerGUI
         //
         
         // #10360
+        $info->enableAvailability(false);
         $this->lng->loadLanguageModule("rep");
         $info->addSection($this->lng->txt("rep_activation_availability"));
         $info->showLDAPRoleGroupMappingInfo();
                                 
         // activation
-        if ($this->object->getActivationUnlimitedStatus()) {
-            $info->addProperty(
-                $this->lng->txt("rep_activation_access"),
-                $this->lng->txt('crs_visibility_limitless')
-            );
-        } else {
-            $info->addProperty(
-                $this->lng->txt('rep_activation_access'),
-                ilDatePresentation::formatPeriod(
-                    new ilDateTime($this->object->getActivationStart(), IL_CAL_UNIX),
-                    new ilDateTime($this->object->getActivationEnd(), IL_CAL_UNIX)
-                )
-            );
-        }
+        $info->addAccessPeriodProperty();
+
         switch ($this->object->getSubscriptionLimitationType()) {
             case IL_CRS_SUBSCRIPTION_DEACTIVATED:
                 $txt = $this->lng->txt("crs_info_reg_deactivated");
@@ -471,17 +460,20 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilDatePresentation::formatDate($this->object->getCancellationEnd())
             );
         }
-                
-        if ($this->object->getCourseStart()) {
+
+        if (
+            $this->object->getCourseStart() instanceof ilDateTime &&
+            !$this->object->getCourseStart()->isNull()
+        ) {
             $info->addProperty(
                 $this->lng->txt('crs_period'),
                 ilDatePresentation::formatPeriod(
                     $this->object->getCourseStart(),
                     $this->object->getCourseEnd()
-            )
+                )
             );
         }
-        
+
         // Confirmation
         include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         $privacy = ilPrivacySettings::_getInstance();

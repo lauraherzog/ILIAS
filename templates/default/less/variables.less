@@ -65,7 +65,7 @@ with the il- variable set here.
 //** Variant 2 of the extended color set in ILIAS
 @il-extended-color-2: #d38000;
 //** Variant 3 of the extended color set in ILIAS
-@il-extended-color-3: #26646d;
+@il-extended-color-3: #307C88;
 //** Variant 4 of the extended color set in ILIAS
 @il-extended-color-4: #86cb92;
 //** Variant 5 of the extended color set in ILIAS
@@ -136,7 +136,9 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 2px solid @il-focus-color;
+@il-focus-outline: 3px solid @il-focus-color;
+// The offset should only be used if the contrast between the focus outline and the component is insufficient.
+@il-focus-outline-offset: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -338,7 +340,7 @@ with the il- variable set here.
 @il-disabled-btn-border: #b0b0b0;
 @il-disabled-btn-color: darken(@il-text-color, 20%);
 //** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
-@il-btn-tag-bg: #26646d;
+@il-btn-tag-bg: #75deea;
 @il-btn-tag-bg-relevance-verylow: desaturate(@il-btn-tag-bg, 80%);
 @il-btn-tag-bg-relevance-low: desaturate(@il-btn-tag-bg, 60%);
 @il-btn-tag-bg-relevance-middle: desaturate(@il-btn-tag-bg, 40%);
@@ -497,7 +499,7 @@ with the il- variable set here.
 //
 //##
 @il-toolbar-margin: 15px; // Margin between toolbar items
-@il-toolbar-bg: @il-main-dark-bg;
+@il-toolbar-bg: @il-main-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;
 
@@ -527,7 +529,7 @@ with the il- variable set here.
 //== Status Counter
 //
 //##
-@il-counter-status-bg: lighten(@il-neutral-color, 40%);
+@il-counter-status-bg: @il-neutral-light-color;
 @il-counter-status-margin-top: 10px;
 
 
@@ -755,13 +757,13 @@ with the il- variable set here.
 @il-standard-page-system-info-border-top-and-bottom: none;
 @il-standard-page-system-info-border-left-and-right: none;
 /** nagtive or positive contrast color for text and glyph **/
-@il-standard-page-system-info-contrast: 50%;
+@il-standard-page-system-info-contrast: 60%;
 /** contrast threshold for contrast color **/
 @il-standard-page-system-info-contrast-threshold: 43%;
 /** three color variants for neutral, important, breaking Head Infos **/
 @il-standard-page-system-info-color-variant-neutral: lighten(@il-main-color, 50%); // looks nice with @il-mainbar-btn-bg-color as well
 @il-standard-page-system-info-color-variant-important: lighten(@il-danger-color, 40%);
-@il-standard-page-system-info-color-variant-breaking: lighten(@il-danger-color, 5%);
+@il-standard-page-system-info-color-variant-breaking: darken(@il-danger-color, 10%);
 
 //== View Control
 //

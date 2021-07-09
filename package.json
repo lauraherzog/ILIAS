@@ -31,7 +31,7 @@
     "pouchdb": "^7.2.1",
     "qtip2": "^3.0.3",
     "rollup-plugin-sourcemaps": "^0.6.2",
-    "tinymce": "^5.4.2",
+    "tinymce": "git+https://github.com/Minervis-GmbH/tinymce-dist.git",
     "typeahead": "^0.2.2",
     "webui-popover": "^1.2.18"
   },
@@ -40,6 +40,7 @@
     "@rollup/plugin-node-resolve": "^8.1.0",
     "chai": "^4.2.0",
     "esm": "^3.2.25",
+    "less": "^4.1.1",
     "mocha": "^8.0.1",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"

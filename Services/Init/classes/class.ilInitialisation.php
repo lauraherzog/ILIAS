@@ -18,6 +18,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -208,7 +209,8 @@ class ilInitialisation
                 new ResourceARRepository(),
                 new InformationARRepository(),
                 new StakeholderARRepository(),
-                new LockHandlerilDB($c->database())
+                new LockHandlerilDB($c->database()),
+                new WhiteAndBlacklistedFileNamePolicy([], [])
             );
         };
     }
@@ -526,10 +528,12 @@ class ilInitialisation
         global $ilClientIniFile;
 
         if (!$ilClientIniFile->readVariable("client", "access")) {
-            $mess = array("en" => "The server is not available due to maintenance." .
+            $mess = array(
+                "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
                 "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis.");
+                    " Wir bitten um Verständnis."
+            );
             $mess_id = "init_error_maintenance";
 
             if (ilContext::hasHTML() && is_file("./maintenance.html")) {
@@ -973,7 +977,7 @@ class ilInitialisation
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }
-        if (is_object($rbacsystem)) {
+        if (is_object($rbacsystem) && $DIC->offsetExists('tree')) {
             $rbacsystem->initMemberView();
         }
     }
@@ -1862,15 +1866,16 @@ class ilInitialisation
             return true;
         }
 
-        if (strtolower((string) $_REQUEST["baseClass"]) == "ilstartupgui") {
-            $cmd_class = $_REQUEST["cmdClass"];
-
-            if ($cmd_class == "ilaccountregistrationgui" ||
-                $cmd_class == "ilpasswordassistancegui") {
-                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $cmd_class);
+        $requestBaseClass = strtolower((string) $_REQUEST['baseClass']);
+        if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
+            $requestCmdClass = strtolower((string) $_REQUEST['cmdClass']);
+            if (
+                $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
+                $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
+            ) {
+                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
                 return true;
             }
-
             $cmd = self::getCurrentCmd();
             if (
                 $cmd == "showTermsOfService" || $cmd == "showClientList" ||
@@ -1885,7 +1890,7 @@ class ilInitialisation
 
         // #12884
         if (($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
-            $_GET["baseClass"] == "ilImprintGUI") {
+            strtolower((string) $_GET["baseClass"]) == strtolower(ilImprintGUI::class)) {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
             return true;
         }
@@ -1896,7 +1901,6 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
             return true;
         }
-
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }
@@ -1943,8 +1947,7 @@ class ilInitialisation
             }
             $message = $a_message_static[$lang];
         }
-
-        return utf8_decode($message);
+        return $message;
     }
 
     /**
@@ -2049,7 +2052,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
         };
 
         $c["bt.injector"] = function ($c) {

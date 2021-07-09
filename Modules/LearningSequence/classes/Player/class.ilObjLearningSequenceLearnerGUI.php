@@ -16,7 +16,6 @@ class ilObjLearningSequenceLearnerGUI
 
     public function __construct(
         int $ls_ref_id,
-        bool $has_items,
         $first_access,
         int $usr_id,
         ilAccess $access,
@@ -33,7 +32,6 @@ class ilObjLearningSequenceLearnerGUI
     ) {
         $this->ls_object = $ls_object;
         $this->ls_ref_id = $ls_ref_id;
-        $this->has_items = $has_items;
         $this->first_access = $first_access;
         $this->usr_id = $usr_id;
         $this->access = $access;
@@ -85,12 +83,19 @@ class ilObjLearningSequenceLearnerGUI
 
     protected function view(string $cmd)
     {
-        $content = $this->getWrappedHTML($this->getMainContent($cmd));
-        $curriculum = $this->getWrappedHTML($this->getCurriculum());
-
         $this->initToolbar($cmd);
-        $this->tpl->setContent($content);
-        $this->tpl->setRightContent($curriculum);
+        
+        $content = $this->getMainContent($cmd);
+        $this->tpl->setContent(
+            $this->getWrappedHTML($content)
+        );
+        
+        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
+        if (count($curriculum->getSteps()) > 0) {
+            $this->tpl->setRightContent(
+                $this->getWrappedHTML([$curriculum])
+            );
+        }
     }
 
     protected function addMember(int $usr_id)
@@ -116,38 +121,32 @@ class ilObjLearningSequenceLearnerGUI
     {
         $is_member = $this->roles->isMember($this->usr_id);
         $completed = $this->roles->isCompletedByUser($this->usr_id);
-        $has_items = $this->has_items;
 
         if (!$is_member) {
-            if ($has_items) {
-                $may_subscribe = $this->userMayJoin();
-                if ($may_subscribe) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_start"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_START)
-                    );
-                }
+            $may_subscribe = $this->userMayJoin();
+            if ($may_subscribe) {
+                $this->toolbar->addButton(
+                    $this->lng->txt("lso_player_start"),
+                    $this->ctrl->getLinkTarget($this, self::CMD_START)
+                );
             }
         } else {
             if (!$completed) {
-                if ($has_items) {
-                    $label = "lso_player_resume";
-                    if ($this->first_access === -1) {
-                        $label = "lso_player_start";
-                    }
+                $label = "lso_player_resume";
+                if ($this->first_access === -1) {
+                    $label = "lso_player_start";
+                }
 
-                    $this->toolbar->addButton(
-                        $this->lng->txt($label),
-                        $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
-                    );
-                }
+                $this->toolbar->addButton(
+                    $this->lng->txt($label),
+                    $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
+                );
             } else {
-                if ($has_items) {
-                    $this->toolbar->addButton(
-                        $this->lng->txt("lso_player_review"),
-                        $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
-                    );
-                }
+                $this->toolbar->addButton(
+                    $this->lng->txt("lso_player_review"),
+                    $this->ctrl->getLinkTarget($this, self::CMD_VIEW)
+                );
+
                 if ($cmd === self::CMD_STANDARD) {
                     $this->toolbar->addButton(
                         $this->lng->txt("lso_player_extro"),
@@ -183,12 +182,6 @@ class ilObjLearningSequenceLearnerGUI
         return $this->renderer->render($components);
     }
 
-    private function getCurriculum() : array
-    {
-        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-        return array($curriculum);
-    }
-
     private function getMainContent(string $cmd) : array
     {
         if ($cmd === self::CMD_STANDARD) {
@@ -215,16 +208,20 @@ class ilObjLearningSequenceLearnerGUI
 
         switch ($response) {
             case null:
-                //render the page
                 $this->tpl->enableDragDropFileUpload(null);
                 $this->tpl->setContent('THIS SHOULD NOT SHOW');
                 return;
+            
+            case ilLSPlayer::RET_NOITEMS:
+                \ilUtil::sendInfo($this->lng->txt('container_no_items'));
+                $this->tpl->setContent('');
+                return;
 
-            case 'EXIT::' . $this->player::LSO_CMD_FINISH:
+            case ilLSPlayer::RET_EXIT . ilLSPlayer::LSO_CMD_FINISH:
                 $cmd = self::CMD_EXTRO;
                 break;
 
-            case 'EXIT::' . $this->player::LSO_CMD_SUSPEND:
+            case ilLSPlayer::RET_EXIT . ilLSPlayer::LSO_CMD_SUSPEND:
             default:
                 $cmd = self::CMD_STANDARD;
                 break;

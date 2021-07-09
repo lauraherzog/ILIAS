@@ -2061,7 +2061,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             if ($this->mayContribute() && $this->mayEditPosting($this->blpg)) {
                 $ctrl->setParameter($this, "prvm", "");
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
-                $link = $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
+                if ($this->prtf_embed) {
+                    $this->ctrl->setParameterByClass("ilobjportfoliogui", "ppage", $this->user_page);
+                }
+                $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                 $toolbar->addSeparator();
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
@@ -3002,6 +3005,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
+        $access = $DIC->access();
 
         if (substr($a_target, -3) == "wsp") {
             $id = explode("_", $a_target);
@@ -3039,18 +3043,22 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }
-            $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
+            if ($access->checkAccess("read", "", $id[0])) {
+                $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
+            }
+            if ($access->checkAccess("visible", "", $id[0])) {
+                $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
+            }
         }
     }
 
-	/**
-	 * Handle export choice
-	 * @param
-	 * @return
-	 */
-	protected function exportWithComments()
-	{
-		$this->export(true);
-	}
-
+    /**
+     * Handle export choice
+     * @param
+     * @return
+     */
+    protected function exportWithComments()
+    {
+        $this->export(true);
+    }
 }
