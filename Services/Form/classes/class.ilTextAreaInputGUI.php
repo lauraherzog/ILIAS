@@ -532,7 +532,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         $rte->addPlugin("link");
                         $rte->addPlugin("code");
 
-                        $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
+                        if (method_exists($rte, 'removeAllContextMenuItems')) {
+                            $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
+                        }
                         
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
                         $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
@@ -559,12 +561,8 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                 $ttpl->setCurrentBlock("prop_textarea");
                 $ttpl->setVariable("ROWS", $this->getRows());
             }
-            if (!$this->getDisabled()) {
-                $ttpl->setVariable(
-                    "POST_VAR",
-                    $this->getPostVar()
-                );
-            }
+
+            $ttpl->setVariable("POST_VAR", $this->getPostVar());
             $ttpl->setVariable("ID", $this->getFieldId());
             if ($this->getDisabled()) {
                 $ttpl->setVariable('DISABLED', 'disabled="disabled" ');

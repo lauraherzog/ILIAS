@@ -194,6 +194,7 @@ export default class TinyWrapper {
         language: "en",
         height: "100%",
         plugins: "save,paste,lists",
+        smart_paste: false,
         save_onsavecallback: "saveParagraph",
         mode: "exact",
         elements: this.id,
@@ -278,6 +279,30 @@ export default class TinyWrapper {
     this.pasting = true;
   }
 
+  // check if there is no following node we could move to
+  // with down/right
+  isLastNode(node) {
+    while(node.parentNode) {
+      if (node.nextSibling) {
+        return false;
+      }
+      node = node.parentNode;
+    }
+    return true;
+  }
+
+  // check if there is no previous node we could move to
+  // with left/up
+  isFirstNode(node) {
+    while(node.parentNode) {
+      if (node.previousSibling) {
+        return (node.previousSibling.nodeName === "HEAD");
+      }
+      node = node.parentNode;
+    }
+    return true;
+  }
+
   setup(tiny) {
     this.log("tiny-wrapper.init.setup");
     this.tiny = tiny;
@@ -298,6 +323,8 @@ export default class TinyWrapper {
       if ([39,40].includes(ev.keyCode)) {
         if (
           currentRng.collapsed &&
+          currentRng.commonAncestorContainer.nodeName === "#text" &&
+          wrapper.isLastNode(currentRng.commonAncestorContainer) &&
           currentRng.startOffset === currentRng.endOffset &&
           currentRng.startOffset === wrapper.forwardOffset    // means offset did not change = end
         ) {
@@ -334,7 +361,6 @@ export default class TinyWrapper {
       if ([8].includes(ev.keyCode)) {
         if (wrapper.mergePrevious) {
           let dom = tiny.dom;
-
           // add split point
           let sp = dom.create("span", {class: 'split-point'}, " ");
           tiny.selection.setNode(sp);
@@ -393,7 +419,9 @@ export default class TinyWrapper {
       if ([39,40].includes(ev.keyCode) && !ev.shiftKey) {
         if (
           currentRng.collapsed &&
-          currentRng.startOffset === currentRng.endOffset
+          currentRng.startOffset === currentRng.endOffset &&
+          currentRng.commonAncestorContainer.nodeName === "#text" &&
+          wrapper.isLastNode(currentRng.commonAncestorContainer)
         ) {
           wrapper.forwardOffset = currentRng.startOffset;
         }
@@ -401,8 +429,8 @@ export default class TinyWrapper {
 
       // up, left
       if ([37,38].includes(ev.keyCode) && !ev.shiftKey) {
-        console.log(currentRng);
         wrapper.gotoPrevious = (
+          wrapper.isFirstNode(currentRng.commonAncestorContainer) &&
           currentRng.collapsed &&
           currentRng.startOffset === 0 &&
           currentRng.endOffset === 0
@@ -412,10 +440,12 @@ export default class TinyWrapper {
       // backspace (8)
       if ([8].includes(ev.keyCode)) {
         wrapper.mergePrevious = (
+          wrapper.isFirstNode(currentRng.commonAncestorContainer) &&
           currentRng.collapsed &&
           currentRng.startOffset === 0 &&
           currentRng.endOffset === 0
         );
+
         if (wrapper.mergePrevious) {
           const dom = tiny.dom;
           if (dom.select('ol,ul')) {    // do not allow to outdent first list element
@@ -994,4 +1024,13 @@ export default class TinyWrapper {
     ed.selection.collapse(false);
   }
 
+  disable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', false);
+  }
+
+  enable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', true);
+  }
 }

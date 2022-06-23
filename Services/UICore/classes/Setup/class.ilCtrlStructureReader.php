@@ -115,8 +115,7 @@ class ilCtrlStructureReader
             try {
                 $cs = $this->parseFileTo($cs, $full_path, $content);
             } catch (\LogicException $e) {
-                $e->setMessage("In file \"$full_path\": " . $e->getMessage());
-                throw $e;
+                throw new \LogicException("In file \"$full_path\": " . $e->getMessage(), $e->getCode(), $e);
             } catch (\RuntimeException $e) {
                 if (!isset($e->class) || !isset($e->file_path)) {
                     throw $e;
@@ -250,7 +249,7 @@ class ilCtrlStructureReader
             $file = substr(realpath($script), strlen(realpath($start_dir)) + 1);
             // store class to file assignment
             $ilDB->manipulate(sprintf(
-                "INSERT INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) " .
+                "INSERT IGNORE INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) " .
                 " VALUES (%s,%s,%s,%s)",
                 $ilDB->quote($class, "text"),
                 $ilDB->quote($file, "text"),
@@ -269,7 +268,7 @@ class ilCtrlStructureReader
                 }
                 // store call entry
                 $ilDB->manipulate(sprintf(
-                    "INSERT INTO ctrl_calls (parent, child, comp_prefix) " .
+                    "INSERT IGNORE INTO ctrl_calls (parent, child, comp_prefix) " .
                     "VALUES (%s,%s,%s)",
                     $ilDB->quote($parent, "text"),
                     $ilDB->quote($child, "text"),

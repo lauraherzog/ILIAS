@@ -5,8 +5,16 @@
 	}
 }
 
-#ilMMSearchMenu p {
-	white-space: nowrap;
+#ilMMSearchMenu {
+	legend {
+		margin-bottom: 0;
+		margin-top: 20px;
+		font-size: 16px;
+		border-bottom: 0;
+	}
+	p {
+		white-space: nowrap;
+	}
 }
 
 #main_menu_search {
@@ -56,6 +64,9 @@ input.ilMainMenuSearch {
 }
 
 #il_search_toolbar {
+	> div{
+		padding-top: @il-padding-large-vertical;
+	}
 	div.ilFormOption {
 		width: auto;
 	}

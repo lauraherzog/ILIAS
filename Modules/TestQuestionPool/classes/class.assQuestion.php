@@ -1327,7 +1327,6 @@ abstract class assQuestion
         $saveStatus = false;
 
         $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
-
             if ($pass === null) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $pass = ilObjTest::_getPass($active_id);
@@ -3678,7 +3677,15 @@ abstract class assQuestion
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        
+        $refinery = $DIC['refinery'];
+
+        $float_trafo = $refinery->kindlyTo()->float();
+        try {
+            $points = $float_trafo->transform($points);
+        } catch (ILIAS\Refinery\ConstraintViolationException $e) {
+            return false;
+        }
+
         if ($points <= $maxpoints) {
             if (is_null($pass)) {
                 $pass = assQuestion::_getSolutionMaxPass($question_id, $active_id);
@@ -5478,10 +5485,23 @@ abstract class assQuestion
         return new ilTestQuestionConfig();
     }
     // hey.
-// fau.
+    // fau.
 
     public function savePartial()
     {
         return false;
+    }
+
+
+    /* doubles isInUse? */
+    public function isInActiveTest() : bool
+    {
+        $query = 'SELECT user_fi FROM tst_active ' . PHP_EOL
+            . 'JOIN tst_test_question ON tst_test_question.test_fi = tst_active.test_fi ' . PHP_EOL
+            . 'JOIN qpl_questions ON qpl_questions.question_id = tst_test_question.question_fi ' . PHP_EOL
+            . 'WHERE qpl_questions.obj_fi = ' . $this->db->quote($this->getObjId(), 'integer');
+
+        $res = $this->db->query($query);
+        return $res->numRows() > 0;
     }
 }

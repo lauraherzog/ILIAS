@@ -12,7 +12,7 @@ interface ResourceStakeholder
 {
 
     /**
-     * @return string
+     * @return string not longer than 64 characters
      */
     public function getId() : string;
 
@@ -22,7 +22,7 @@ interface ResourceStakeholder
     public function getConsumerNameForPresentation() : string;
 
     /**
-     * @return string
+     * @return string not longer than 250 characters
      */
     public function getFullyQualifiedClassName() : string;
 
@@ -34,8 +34,10 @@ interface ResourceStakeholder
 
     /**
      * @param ResourceIdentification $identification
+     * @return bool true: if the Stakeholder could handle the deletion; false: if the Stakeholder could not handle
+     * the deletion of the resource.
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : void;
+    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool;
 
     /**
      * @param ResourceIdentification $identification

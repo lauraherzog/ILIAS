@@ -135,7 +135,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     private function updateObjectFromRevision(Revision $r, bool $create_previews = true) : void
     {
         $this->setTitle($r->getTitle());
-        $this->setFileName($r->getTitle());
+        $this->setFileName($r->getInformation()->getTitle());
         $this->setVersion($r->getVersionNumber());
         $this->setMaxVersion($r->getVersionNumber());
         $this->setFileSize($r->getInformation()->getSize());
@@ -144,6 +144,18 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($create_previews) {
             $this->createPreview(true);
         }
+    }
+
+    private function appendSuffixToTitle(string $title, string $filename) : string
+    {
+        // bugfix mantis 0026160 && 0030391 and 0032340
+        $title_info = new SplFileInfo($title);
+        $filename_info = new SplFileInfo($filename);
+    
+        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
+        $extension = $filename_info->getExtension();
+    
+        return $filename . '.' . $extension;
     }
 
     /**
@@ -169,6 +181,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendUpload(UploadResult $result, string $title) : int
     {
+        $title = $this->appendSuffixToTitle($title, $result->getName());
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevision($i, $result, $this->stakeholder, $title);
         } else {
@@ -205,6 +218,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function replaceWithUpload(UploadResult $result, string $title) : int
     {
+        $title = $this->appendSuffixToTitle($title, $result->getName());
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->replaceWithUpload($i, $result, $this->stakeholder, $title);
         } else {
@@ -279,7 +293,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function getResourceId() : ?string
     {
-        return $this->resource_id;
+        return $this->resource_id ?? '-';
+    }
+
+    public function getStorageID() : ?string
+    {
+        return $this->implementation->getStorageID();
     }
 
     /**
@@ -454,6 +473,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $new_object->setResourceId($new_resource_identification->serialize());
             $new_object->initImplementation();
             $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
+            $new_object->setTitle($this->getTitle()); // see https://mantis.ilias.de/view.php?id=31375
+            $new_object->update();
         } else {
             // migrate
             global $DIC;
@@ -492,7 +513,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // update metadata with the current file version
         $meta_version_column = ['meta_version' => ['integer', (int) $this->getVersion()]];
         $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
-            'obj_id' => [
+            'rbac_id' => [
                 'integer',
                 $this->getId(),
             ],
@@ -544,8 +565,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
         // delete resource
         $identification = $this->getResourceId();
-        if ($identification) {
-            $this->manager->remove($this->manager->find($identification), $this->stakeholder);
+        if ($identification && $identification != '-') {
+            $resource = $this->manager->find($identification);
+            if ($resource !== null) {
+                $this->manager->remove($resource, $this->stakeholder);
+            }
         }
     }
 
@@ -564,7 +588,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'f_mode' => ['text', $this->getMode()],
             'page_count' => ['text', $this->getPageCount()],
             'rating' => ['integer', $this->hasRating()],
-            'rid' => ['text', $this->resource_id],
+            'rid' => ['text', $this->resource_id ?? ''],
         ];
     }
 

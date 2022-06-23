@@ -1,6 +1,5 @@
 <?php namespace ILIAS\Administration;
 
-use ILIAS\DI\Exceptions\Exception;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -31,6 +30,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
+        if (!$access_helper->isUserLoggedIn()() || !$access_helper->hasAdministrationAccess()()) {
+            return [];
+        }
+
         $entries = [];
         $this->dic->language()->loadLanguageModule('administration');
 
@@ -49,12 +52,13 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
                         ->withIsOutlined(true);
 
-                    if ($_GET["admin_mode"] != 'repository' && $titems[$group_item]["ref_id"] == ROOT_FOLDER_ID) {
+                    $ref_id = $titems[$group_item]["ref_id"];
+                    if ($_GET["admin_mode"] != 'repository' && $ref_id == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');
-                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $titems[$group_item]["ref_id"] . "&admin_mode=repository";
+                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&admin_mode=repository";
                     } else {
                         $identification = $this->if->identifier("mm_adm_" . $titems[$group_item]["type"]);
-                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $titems[$group_item]["ref_id"] . "&cmd=jump";
+                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&cmd=jump";
                     }
 
                     $links[] = $this->globalScreen()
@@ -62,7 +66,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->link($identification)
                         ->withTitle($titems[$group_item]["title"])
                         ->withAction($action)
-                        ->withSymbol($icon);
+                        ->withSymbol($icon)
+                        ->withVisibilityCallable(function() use($ref_id){
+                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
+                        });
                 }
 
                 // Main entry
@@ -75,7 +82,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->withTitle($title)
                     ->withSymbol($this->getIconForGroup($group, $title))
                     ->withParent($top)
-                    ->withPosition($position)
+                    ->withPosition($position * 10)
                     ->withAlwaysAvailable(true)
                     ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
@@ -95,13 +102,13 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $icon_map = array(
             "maintenance" => "icon_sysa",
             "layout_and_navigation" => "icon_laya",
-            "user_administration" => "icon_usra",
+            "repository_and_objects" => "icon_repa",
             "personal_workspace" => "icon_pwsa",
             "achievements" => "icon_achva",
             "communication" => "icon_coma",
+            "user_administration" => "icon_usra",
             "search_and_find" => "icon_safa",
-            "extending_ilias" => "icon_exta",
-            "repository_and_objects" => "icon_repa"
+            "extending_ilias" => "icon_exta"
         );
         $icon_path = \ilUtil::getImagePath("outlined/" . $icon_map[$group] . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
@@ -172,18 +179,6 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             ) {
                 continue;
             }
-            $accessible = $rbacsystem->checkAccess('visible,read', $c["ref_id"]);
-            if (!$accessible) {
-                continue;
-            }
-            if ($c["ref_id"] == ROOT_FOLDER_ID
-                && !$rbacsystem->checkAccess('write', $c["ref_id"])
-            ) {
-                continue;
-            }
-            if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID) {
-                continue;
-            }
             $items[] = $c;
         }
 
@@ -198,21 +193,21 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 array("adm", "lngf", "hlps", "wfe", "pdfg", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
                 array("mme", "stys", "adve", "accs"),
-            "user_administration" =>
-                array("usrf", 'tos', "rolf", "otpl", "auth", "ps"),
+            "repository_and_objects" =>
+                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
+                      "mcts", "mobs", "svyf", "assf", "wbrs", "wiks", 'lsos'),
             "personal_workspace" =>
-                array("dshs", "tags", "cals", "prfa", "prss", "nots", "awra"),
+                array("tags", "cals", "prfa", "prss", "nots"),
             "achievements" =>
                 array("lhts", "skmg", "trac", "bdga", "cert"),
             "communication" =>
-                array("mail", "cadm", "nwss", "coms", "adn"),
+                array("mail", "cadm", "nwss", "coms", "adn", "awra"),
+            "user_administration" =>
+                array("usrf", 'tos', "rolf", "otpl", "auth", "ps"),
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
                 array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
-            "repository_and_objects" =>
-                array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
-                    "mcts", "mobs", "svyf", "assf", "wbrs", "wiks", 'lsos'),
         );
         $groups = [];
         // now get all items and groups that are accessible

@@ -23,7 +23,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     protected $runner;
     /**
-     * @var mixed|null
+     * @var ilDBInterface
      */
     protected $database;
 
@@ -52,6 +52,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
+            new ilStorageContainersExistingObjective()
         ];
     }
 
@@ -96,6 +97,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             // if dir doesn't exists there are no steps to do,
             // so don't initialize ilFileObjectToStorageMigrationHelper
             if (!is_dir($legacy_files_dir)) {
+                /** @var Setup\CLI\IOWrapper $io */
+                $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
+                $io->inform("The legacy ilFile-directory ($legacy_files_dir) cannot be found, we cant perform a migration.");
                 return;
             }
 
@@ -107,7 +111,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 throw new Exception("storage directory is not writable, abort...");
             }
 
-            $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, self::FILE_PATH_REGEX);
+            $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, $this->database);
 
             $storageConfiguration = new LocalConfig("{$data_dir}/{$client_id}");
             $f = new FlySystemFilesystemFactory();
@@ -119,7 +123,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             );
 
         }
-        $this->helper->rewind();
     }
 
     /**
@@ -127,6 +130,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment) : void
     {
+        if ($this->helper === null) {
+            return;
+        }
         $item = $this->helper->getNext();
         $this->runner->migrate($item);
     }
@@ -136,11 +142,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
-        if (is_null($this->helper)) {
-            return 0;
-        }
+        $r = $this->database->query("SELECT COUNT(file_id) AS amount FROM file_data WHERE rid IS NULL OR rid = '';");
+        $d = $this->database->fetchObject($r);
 
-        return $this->helper->getAmountOfItems();
+        return (int) $d->amount;
     }
 
 }

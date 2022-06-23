@@ -17,7 +17,13 @@ use ILIAS\UI\Component\Component;
  * Class Complex
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymbol, supportsAsynchronousLoading, isInterchangeableItem
+class Complex extends AbstractChildItem implements
+    hasContent,
+    hasTitle,
+    hasSymbol,
+    supportsAsynchronousLoading,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
@@ -45,7 +51,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
-        $clone                  = clone($this);
+        $clone = clone($this);
         $clone->content_wrapper = $content_wrapper;
 
         return $clone;
@@ -56,7 +62,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withContent(Component $ui_component) : hasContent
     {
-        $clone          = clone($this);
+        $clone = clone($this);
         $clone->content = $ui_component;
 
         return $clone;
@@ -82,7 +88,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -101,7 +107,7 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      */
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone                         = clone($this);
+        $clone = clone($this);
         $clone->supports_async_loading = $supported;
 
         return $clone;

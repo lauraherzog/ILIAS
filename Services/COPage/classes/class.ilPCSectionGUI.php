@@ -48,10 +48,33 @@ class ilPCSectionGUI extends ilPageContentGUI
             $insert = (bool) !($this->content_obj);
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
+
+            $from = $form->getItemByPostVar("active_from");
+            $from->setSideBySide(false);
+            $on_load_code1 = $from->getOnloadCode();
+            $to = $form->getItemByPostVar("active_to");
+            $to->setSideBySide(false);
+            $on_load_code2 = $to->getOnloadCode();
+
+            $rep_sel = $form->getItemByPostVar("permission_ref_id");
+            $on_load_code3 = "";
+            if ($rep_sel) {
+                $exp = $rep_sel->getExplorerGUI();
+                $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "permission_ref_id");
+                $on_load_code3 = $exp->getOnloadCode();
+                $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+            }
+
             $html = $params["ui_wrapper"]->getRenderedForm(
                 $form,
                 $params["buttons"]
             );
+
+            $html .= "<script>" .
+                implode("\n", array_merge($on_load_code1, $on_load_code2)) .
+                "\n" . $on_load_code3 .
+                "</script>";
+
             return $html;
         }
         return "";
@@ -93,8 +116,8 @@ class ilPCSectionGUI extends ilPageContentGUI
     */
     public static function _getCharacteristics($a_style_id)
     {
-        $chars = ilPCSectionGUI::_getStandardCharacteristics();
-
+        $std_chars = ilPCSectionGUI::_getStandardCharacteristics();
+        $chars = $std_chars;
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
@@ -102,8 +125,8 @@ class ilPCSectionGUI extends ilPageContentGUI
             $chars = $style->getCharacteristics("section");
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($chars[$char] != "") {	// keep lang vars for standard chars
-                    $new_chars[$char] = $chars[$char];
+                if (($std_chars[$char] ?? "") != "") {	// keep lang vars for standard chars
+                    $new_chars[$char] = $std_chars[$char];
                 } else {
                     $new_chars[$char] = $char;
                 }

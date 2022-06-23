@@ -14,7 +14,7 @@
 
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
 
-	<style type="text/css">
+	<style>
 		{CSS_INLINE}
 	</style>
 
@@ -23,8 +23,12 @@
 	<!-- END css_file -->
 
 	<!-- BEGIN js_file -->
-	<script type="text/javascript" src="{JS_FILE}"></script>
+	<script src="{JS_FILE}"></script>
 	<!-- END js_file -->
+
+    <!-- BEGIN meta_datum -->
+    <meta name="{META_KEY}" content="{META_VALUE}" />
+    <!-- END meta_datum -->
 </head>
 
 <body>
@@ -34,7 +38,8 @@
 		<header>
 			<div class="header-inner">
 				<div class="il-logo">
-					{LOGO}
+					<span class="hidden-xs">{LOGO}</span>
+					<span class="visible-xs">{RESPONSIVE_LOGO}</span>
 					<div class="il-pagetitle">
 						{TITLE}
 					</div>
@@ -83,7 +88,7 @@
 
 
 <!-- BEGIN on_load_code -->
-<script type="text/javascript">
+<script>
 	<!-- BEGIN on_load_code_inner -->
 		il.Util.addOnLoad(function() {
 			{OLCODE}

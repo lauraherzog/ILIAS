@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
-
 use ILIAS\Setup;
-use \ILIAS\Refinery\Transformation;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\Refinery\Transformation;
 
 abstract class ilPluginDefaultAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var string
      */
@@ -32,7 +32,7 @@ abstract class ilPluginDefaultAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Transformation
     {
-        throw new \LogicException(self::class . " has no Config.");
+        throw new LogicException(self::class . " has no Config.");
     }
 
     /**
@@ -43,9 +43,9 @@ abstract class ilPluginDefaultAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             'Complete objectives from Services/Component',
             false,
-            new \ilComponentInstallPluginObjective($this->plugin_name),
-            new \ilComponentUpdatePluginObjective($this->plugin_name),
-            new \ilComponentActivatePluginsObjective($this->plugin_name)
+            new ilComponentInstallPluginObjective($this->plugin_name),
+            new ilComponentUpdatePluginObjective($this->plugin_name),
+            new ilComponentActivatePluginsObjective($this->plugin_name)
         );
     }
 
@@ -57,8 +57,9 @@ abstract class ilPluginDefaultAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             'Complete objectives from Services/Component',
             false,
-            new \ilComponentUpdatePluginObjective($this->plugin_name),
-            new \ilComponentActivatePluginsObjective($this->plugin_name)
+            new ilComponentUpdatePluginObjective($this->plugin_name),
+            new ilComponentActivatePluginsObjective($this->plugin_name),
+            new ilComponentPluginLanguageUpdatedObjective($this->plugin_name)
         );
     }
 

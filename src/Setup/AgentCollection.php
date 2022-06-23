@@ -7,6 +7,7 @@ namespace ILIAS\Setup;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use Symfony\Component\Mime\Exception\LogicException;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * An agent that is just a collection of some other agents.
@@ -46,7 +47,7 @@ class AgentCollection implements Agent
     public function withAdditionalAgent(string $key, Agent $agent) : AgentCollection
     {
         if (isset($this->agents[$key])) {
-            throw new \LogicException("An agent with the name '$name' already exists.");
+            throw new \LogicException("An agent with the name '$key' already exists.");
         }
         $clone = clone $this;
         $clone->agents[$key] = $agent;
@@ -96,7 +97,9 @@ class AgentCollection implements Agent
      */
     public function getInstallObjective(Config $config = null) : Objective
     {
-        $this->checkConfig($config);
+        if (!is_null($config)) {
+            $this->checkConfig($config);
+        }
 
         return new ObjectiveCollection(
             "Collected Install Objectives",
@@ -194,6 +197,35 @@ class AgentCollection implements Agent
         }
 
         return $migrations;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNamedObjective(string $name, Config $config = null) : Objective
+    {
+        $names = explode(".", $name);
+        $front = array_shift($names);
+        if (!isset($this->agents[$front])) {
+            throw new \InvalidArgumentException(
+                "Can't find named objective '$name'."
+            );
+        }
+
+        if ($config) {
+            $this->checkConfig($config);
+            $config = $config->maybeGetConfig($front);
+        }
+
+        try {
+            return $this->agents[$front]->getNamedObjective(implode(".", $names), $config);
+        } catch (\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException(
+                "Can't find named objective '$name'.",
+                0,
+                $e
+            );
+        }
     }
 
     protected function getKey(Setup\Migration $migration) : string

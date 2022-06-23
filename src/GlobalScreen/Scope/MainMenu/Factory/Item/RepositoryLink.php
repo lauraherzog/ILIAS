@@ -21,7 +21,12 @@ use ilObject2;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem, isTopItem
+class RepositoryLink extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use hasSymbolTrait;
     use SymbolDecoratorTrait;
@@ -46,7 +51,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -66,7 +71,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withAltText(string $alt_text) : RepositoryLink
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -94,7 +99,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = (int) $action;
 
         return $clone;
@@ -106,7 +111,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withRefId(int $ref_id) : RepositoryLink
     {
-        $clone         = clone $this;
+        $clone = clone $this;
         $clone->ref_id = $ref_id;
 
         return $clone;
@@ -140,5 +145,4 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return false;
     }
-
 }

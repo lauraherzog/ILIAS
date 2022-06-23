@@ -1511,7 +1511,7 @@ class ilObjectListGUI
                 }
                 $this->tpl->setCurrentBlock("item_title_linked");
                 $this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
-                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png", "Services/Preview"));
+                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png"));
                 $this->tpl->setVariable("ALT_PREVIEW_ICON", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
@@ -1591,7 +1591,8 @@ class ilObjectListGUI
 
         // see bug #16519
         $d = $this->getDescription();
-        $d = strip_tags($d, "<b>");
+        // even b tag produced bugs, see #32304
+        $d = strip_tags($d);
         $this->tpl->setCurrentBlock("item_description");
         $this->tpl->setVariable("TXT_DESC", $d);
         $this->tpl->parseCurrentBlock();
@@ -2273,8 +2274,11 @@ class ilObjectListGUI
         if ($this->std_cmd_only) {
             return;
         }
-        
-        if ((int) $ilSetting->get('disable_my_offers')) {
+
+        // note: the setting disable_my_offers is used for
+        // presenting the favourites in the main section of the dashboard
+        // see also bug #32014
+        if (!(bool) $ilSetting->get('rep_favourites', "0")) {
             return;
         }
         
@@ -2472,6 +2476,11 @@ class ilObjectListGUI
 
         include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
+        $this->current_selection_list->setAriaListTitle(sprintf(
+                $this->lng->txt('actions_for'),
+                $this->getTitle()
+            )
+        );
         $this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
         $this->current_selection_list->setAsynchUrl($a_asynch_url);
         if ($a_header_actions) {
@@ -3051,7 +3060,8 @@ class ilObjectListGUI
                 );
             }
         }
-        
+
+        $this->title = ilObject::_lookupTitle($this->obj_id);
         $htpl->setVariable(
             "ACTION_DROP_DOWN",
             $this->insertCommands(false, false, "", true)
@@ -3734,6 +3744,9 @@ class ilObjectListGUI
     ) : ?\ILIAS\UI\Component\Item\Item {
         $ui = $this->ui;
 
+        // even b tag produced bugs, see #32304
+        $description = strip_tags($description);
+
         $this->initItem(
             $ref_id,
             $obj_id,
@@ -3764,7 +3777,11 @@ class ilObjectListGUI
 
         $dropdown = $ui->factory()
             ->dropdown()
-            ->standard($actions);
+            ->standard($actions)
+            ->withAriaLabel(sprintf(
+                $this->lng->txt('actions_for'),
+                $title
+            ));
 
         $def_command = $this->getDefaultCommand();
 
@@ -3776,7 +3793,13 @@ class ilObjectListGUI
 
 
         if ($def_command['link']) {
-            $list_item = $ui->factory()->item()->standard($this->ui->factory()->link()->standard($this->getTitle(), $def_command['link']));
+            $def_command['link'] = $this->modifySAHSlaunch($def_command['link'], $def_command['frame']);
+            $new_viewport = !in_array($this->getDefaultCommand()['frame'], ['', '_top', '_self', '_parent'], true); // Cannot use $def_command['frame']. $this->default_command has been edited.
+            $link = $this->ui->factory()
+                             ->link()
+                             ->standard($this->getTitle(), $def_command['link'])
+                             ->withOpenInNewViewport($new_viewport);
+            $list_item = $ui->factory()->item()->standard($link);
         } else {
             $list_item = $ui->factory()->item()->standard($this->getTitle());
         }
@@ -3843,6 +3866,9 @@ class ilObjectListGUI
     ) : ?\ILIAS\UI\Component\Card\Card {
         $ui = $this->ui;
 
+        // even b tag produced bugs, see #32304
+        $description = strip_tags($description);
+
         $this->initItem(
             $ref_id,
             $obj_id,
@@ -3866,10 +3892,17 @@ class ilObjectListGUI
         $this->insertCommands();
         $actions = [];
 
-        foreach ($this->current_selection_list->getItems() as $action_item) {
-            $actions[] = $ui->factory()
-                            ->button()
-                            ->shy($action_item['title'], $action_item['link']);
+        foreach ($this->current_selection_list->getItems() as $item) {
+            if (!isset($item["onclick"]) || $item["onclick"] == "") {
+                $actions[] =
+                    $ui->factory()->button()->shy($item["title"], $item["link"]);
+            } else {
+                $actions[] =
+                    $ui->factory()->button()->shy($item["title"], "")->withAdditionalOnLoadCode(function ($id) use ($item) {
+                        return
+                            "$('#$id').click(function(e) { " . $item["onclick"] . "});";
+                    });
+            }
         }
 
         $def_command = $this->getDefaultCommand();
@@ -3888,7 +3921,11 @@ class ilObjectListGUI
                 });
             $actions[] = $button;*/
         }
-        $dropdown = $ui->factory()->dropdown()->standard($actions);
+        $dropdown = $ui->factory()->dropdown()->standard($actions)
+                       ->withAriaLabel(sprintf(
+                           $this->lng->txt('actions_for'),
+                           $title
+                       ));
 
         $img = $this->object_service->commonSettings()->tileImage()->getByObjId((int) $obj_id);
         if ($img->exists()) {

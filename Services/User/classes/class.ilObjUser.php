@@ -283,7 +283,8 @@ class ilObjUser extends ilObject
 
             //check style-setting (skins could have more than one stylesheet
             if ($this->prefs["style"] == "" ||
-                    (!ilStyleDefinition::skinExists($this->skin) && ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs["style"]))) {
+                    (!ilStyleDefinition::skinExists($this->skin) && ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs["style"])) ||
+                    !ilStyleDefinition::styleExists($this->prefs["style"])) {
                 //load default (css)
                 $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
             }
@@ -616,7 +617,7 @@ class ilObjUser extends ilObject
             'inactivation_date' => array('timestamp', $this->inactivation_date)
             );
             
-        if (isset($this->agree_date) && (strtotime($this->agree_date) !== false || $this->agree_date == null)) {
+        if ($this->agree_date === null || (is_string($this->agree_date) && strtotime($this->agree_date) !== false)) {
             $update_array["agree_date"] = array("timestamp", $this->agree_date);
         }
         switch ($this->passwd_type) {

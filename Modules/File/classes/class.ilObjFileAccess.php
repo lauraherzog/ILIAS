@@ -260,7 +260,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if (self::$_inlineFileExtensionsArray
             === null
         ) {        // the === makes a huge difference, if the array is empty
-            require_once 'Services/Administration/classes/class.ilSetting.php';
             $settings = new ilSetting('file_access');
             self::$_inlineFileExtensionsArray = preg_split('/ /', $settings->get('inline_file_extensions'), -1,
                 PREG_SPLIT_NO_EMPTY);
@@ -435,18 +434,27 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$preload_list_gui_data[$row["file_id"]]["rid"] = $row["rid"];
         }
 
-        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in('file_id',
+        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND rid !='' AND " . $DIC->database()->in('file_id',
                 $a_obj_ids, false,
                 'integer'));
+        $rids = [];
         while ($row = $DIC->database()->fetchObject($res)) {
-            if ($id = $DIC->resourceStorage()->manage()->find($row->rid)) {
-                $max = $DIC->resourceStorage()->manage()->getResource($id)->getMaxRevision();
-                self::$preload_list_gui_data[$row->file_id]["version"] = $max;
+            $rids[$row->file_id] = $row->rid;
+        }
+        $DIC->resourceStorage()->preload($rids);
+
+        foreach ($rids as $file_id => $rid) {
+            if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
+                $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
+                self::$preload_list_gui_data[$file_id]["version"] = $max->getVersionNumber();
+                self::$preload_list_gui_data[$file_id]["size"] = $max->getInformation()->getSize();
+                self::$preload_list_gui_data[$file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
             }
         }
 
 
     }
+
 
     /**
      * @param $a_obj_id

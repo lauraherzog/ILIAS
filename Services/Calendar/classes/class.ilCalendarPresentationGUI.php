@@ -404,8 +404,7 @@ class ilCalendarPresentationGUI
             $lng->txt("cal_list") => $ctrl->getLinkTargetByClass('ilCalendarInboxGUI', '')
         );
 
-        $aria_label = $lng->txt("cal_change_calendar_view");
-        $view_control = $f->viewControl()->mode($actions, $aria_label)->withActive($lng->txt($a_active));
+        $view_control = $f->viewControl()->mode($actions, "cal_change_calendar_view")->withActive($lng->txt($a_active));
 
         $toolbar->addComponent($view_control);
 
@@ -744,6 +743,8 @@ class ilCalendarPresentationGUI
             $this->addStandardTabs();
         }
 
+        $tpl->setTitleIcon(ilUtil::getImagePath("icon_cals.svg"));
+
         // if we are in single calendar view
         if ($this->category_id > 0) {
             global $DIC;
@@ -778,7 +779,7 @@ class ilCalendarPresentationGUI
                     $header = $category->getTitle();
                     break;
             }
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_cal.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("icon_cals.svg"));
             $tpl->setTitle($header);
 
             $this->action_menu = new ilAdvancedSelectionListGUI();
@@ -849,7 +850,10 @@ class ilCalendarPresentationGUI
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
                 
-                if (ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)) {
+                if (
+                    $category->getRemoteSyncLastExecution()->isNull() ||
+                    ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)
+                ) {
                     // update in any case to avoid multiple updates of invalid calendar sources.
                     $category->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
                     $category->update();

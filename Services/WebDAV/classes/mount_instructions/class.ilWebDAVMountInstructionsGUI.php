@@ -53,8 +53,7 @@ class ilWebDAVMountInstructionsGUI
             . "obj.siblings().removeClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'false');"
             . "obj.siblings().removeAttr('disabled');"
             // Sets the clicked button into the "clicked" state
-            . "obj.addClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'true');"
-            . "obj.attr('disabled', 'disabled');"
+            . "obj.addClass('engaged ilSubmitInactive').attr('aria-pressed', 'true');"
             // Hide all instruction divs at first
             . '$(".instructions").hide();'
             // Show the div which is given as an argument
@@ -120,7 +119,7 @@ class ilWebDAVMountInstructionsGUI
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
         $header_comps = array(
-            $f->legacy("<div style='text-align: center'>"),
+            $f->legacy("<div class='webdav-view-control'>"),
             $view_control,
             $f->legacy("</div>"),
             $js_function_legacy);

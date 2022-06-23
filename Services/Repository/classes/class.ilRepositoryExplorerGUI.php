@@ -82,23 +82,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $objDefinition = $DIC["objDefinition"];
 
         $this->cur_ref_id = (int) $_GET["ref_id"];
+        $this->top_node_id = self::getTopNodeForRefId($this->cur_ref_id);
 
-        $this->top_node_id = 0;
-        if ($ilSetting->get("rep_tree_limit_grp_crs") && $this->cur_ref_id > 0) {
-            $path = $tree->getPathId($this->cur_ref_id);
-            foreach ($path as $n) {
-                if ($top_node > 0) {
-                    break;
-                }
-                if (in_array(
-                    ilObject::_lookupType(ilObject::_lookupObjId($n)),
-                    array("crs", "grp")
-                )) {
-                    $this->top_node_id = $n;
-                }
-            }
-        }
-        
         parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
         $this->setSkipRootNode(false);
@@ -164,7 +149,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             $app_info = ilSessionAppointment::_lookupAppointment($a_node["obj_id"]);
             $title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
         }
-        
         return $title;
     }
     
@@ -486,6 +470,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
                     // need extra session sorting here
                     if ($t == "sess") {
+                        foreach ($group[$t] as $k => $v) {
+                            $app_info = ilSessionAppointment::_lookupAppointment($v["obj_id"]);
+                            $group[$t][$k]["start"] = $app_info["start"];
+                        }
+                        $group[$t] = ilUtil::sortArray($group[$t], 'start', 'asc', true, false);
                     }
 
                     foreach ($group[$t] as $k => $item) {
@@ -516,6 +505,14 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
+    public function nodeHasVisibleChilds($a_node)
+    {
+        if (!$this->obj_definition->isContainer($a_node["type"] ?? "")) {
+            return false;
+        }
+        return parent::nodeHasVisibleChilds($a_node);
+    }
+
     /**
      * Get childs of node
      *
@@ -525,7 +522,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
     public function getChildsOfNode($a_parent_node_id)
     {
         $rbacsystem = $this->rbacsystem;
-        
+
         if (!$rbacsystem->checkAccess("read", $a_parent_node_id)) {
             return array();
         }
@@ -648,5 +645,29 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
                 }
                 break;
         }
+    }
+
+    public static function getTopNodeForRefId(int $ref_id) : int {
+        global $DIC;
+
+        $setting = $DIC->settings();
+        $tree = $DIC->repositoryTree();
+
+        $top_node = 0;
+        if ($setting->get("rep_tree_limit_grp_crs") && $ref_id > 0) {
+            $path = $tree->getPathId($ref_id);
+            foreach ($path as $n) {
+                if ($top_node > 0) {
+                    break;
+                }
+                if (in_array(
+                    ilObject::_lookupType(ilObject::_lookupObjId($n)),
+                    array("crs", "grp")
+                )) {
+                    $top_node = $n;
+                }
+            }
+        }
+        return $top_node;
     }
 }

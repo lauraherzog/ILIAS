@@ -40,8 +40,8 @@ export default class ModelActionHandler {
         this.model.setState(this.model.STATE_DRAG_DROP);
         break;
 
-      case "dnd.stopped":
-        this.model.setState(this.model.STATE_PAGE);
+      case "dnd.drop":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 
       case "switch.multi":
@@ -97,6 +97,7 @@ export default class ModelActionHandler {
         break;
 
       case "multi.paste":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
@@ -124,12 +125,12 @@ export default class ModelActionHandler {
         // we do nothing here, the components decide whether to perform the switch or not
         break;
 
-      case "component.save":
+      case "component.saved":
         this.model.setState(this.model.STATE_PAGE);
         break;
 
       case "component.update":
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 
       case "component.cancel":
@@ -145,6 +146,10 @@ export default class ModelActionHandler {
         this.model.setSectionFormat(params.format);
         break;
 
+      case "format.media":
+        this.model.setMediaFormat(params.format);
+        break;
+
       case "format.paragraph":
         this.model.setParagraphFormat(params.format);
         break;
@@ -155,16 +160,31 @@ export default class ModelActionHandler {
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
-      case "multi.delete":
+      case "format.cancel":
         this.model.selectNone();
         this.model.setState(this.model.STATE_PAGE);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
+      case "multi.delete":
+        this.model.selectNone();
+        this.model.setState(this.model.STATE_SERVER_CMD);
+        this.model.setMultiState(this.model.STATE_MULTI_NONE);
+        break;
+
       case "multi.activate":
         this.model.selectNone();
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
+        break;
+
+      case "page.editing":
+        this.model.selectNone();
+        this.model.setState(this.model.STATE_PAGE);
+        break;
+
+      case "list.edit":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
     }
   }

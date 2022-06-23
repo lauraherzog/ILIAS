@@ -80,6 +80,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->ctrl->redirectbyclass("ilnewstimelinegui");
         }
 
+        $header_action = true;
         switch ($next_class) {
             case 'ilreputilgui':
                 $ru = new \ilRepUtilGUI($this);
@@ -88,7 +89,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
             case 'illtiproviderobjectsettinggui':
-                $this->setSubTabs('properties');
+                $this->setSubTabs('settings');
                 $this->tabs_gui->activateTab('settings');
                 $this->tabs_gui->activateSubTab('lti_provider');
                 $lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
@@ -188,6 +189,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
 
             case 'ilobjectcopygui':
@@ -206,6 +208,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
                 $this->setSubTabs('settings');
                 $this->tabs_gui->setTabActive('settings');
+                $this->tabs_gui->activateSubTab('grp_custom_user_fields');
                 $this->ctrl->forwardCommand($cdf_gui);
                 break;
                 
@@ -278,6 +281,7 @@ class ilObjGroupGUI extends ilContainerGUI
             case "ilcontainernewssettingsgui":
                 $this->setSubTabs("settings");
                 $this->tabs_gui->setTabActive('settings');
+                $this->tabs_gui->activateSubTab('obj_news_settings');
                 include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
                 $news_set_gui = new ilContainerNewsSettingsGUI($this);
                 $news_set_gui->setTimeline(true);
@@ -371,8 +375,10 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->$cmd();
                 break;
         }
-        
-        $this->addHeaderAction();
+
+        if ($header_action) {
+            $this->addHeaderAction();
+        }
     }
     
     public function viewObject()
@@ -2056,7 +2062,7 @@ class ilObjGroupGUI extends ilContainerGUI
         include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
         if (ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId())) {
             include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-            if (ilMembershipNotifications::isActive()) {
+            if (ilMembershipNotifications::isActiveForRefId($this->ref_id)) {
                 $noti = new ilMembershipNotifications($this->ref_id);
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(

@@ -67,7 +67,7 @@ button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover,
 #copg-editor-help {
 
-	.glyphicon-plus-sign {
+	.glyphicon-plus-sign, .il-copg-add-text {
 		color: @il-btn-standard-bg;
 		font-size: @il-font-size-large;
 	}
@@ -114,13 +114,14 @@ div.il_editarea_nojs {
 	border-width: 1px dotted #999;
 }
 
-div.il_editarea {
+div.il_editarea, div.il_editarea_disabled {
 	border: 2px solid transparent;
 	min-height: 20px;
+	user-select: none;
 }
 
 .copg-state-page, .copg-state-multi {
-	div.il_editarea:hover {
+	div.il_editarea:hover, div.il_editarea_disabled:hover {
 		border: 2px solid @il-main-color;
 	}
 }
@@ -140,7 +141,9 @@ div.ilEditLabel {
 }
 
 .copg-state-page, .copg-state-multi {
-	div.il_editarea:hover > div.ilEditLabel, .copg-ghost-wrapper div.ilEditLabel {
+	div.il_editarea:hover > div.ilEditLabel,
+	div.il_editarea_disabled:hover > div.ilEditLabel,
+	.copg-ghost-wrapper div.ilEditLabel {
 		display: block;
 	}
 }
@@ -154,7 +157,7 @@ div.ilc_page_Page > div.il_editarea_disabled {
 	padding: 10px;
 }
 
-div.il_editarea_disabled {
+div.il_editarea_disabled, div.copg-disabled-page {
 	border: 2px dotted @brand-warning;
 	min-height: 20px;
 }
@@ -163,7 +166,7 @@ div.il_editarea_disabled {
 	color: @brand-warning;
 	position: absolute;
 	font-size: @font-size-small;
-	margin-top: -22px;
+	margin-top: -13px;
 	padding: 2px 5px;
 	background-color: @il-main-dark-bg;
 }
@@ -313,6 +316,7 @@ div.il-copg-button-group-wide {
 }
 
 #iltinymenu {
+	padding: 0 @il-padding-xlarge-horizontal;
 	.bd {
 		div {
 			&.last {
@@ -543,6 +547,7 @@ a.nostyle:hover {
 }
 
 #ilPageEditLegend {
+	margin: 10px 0;
 	> div {
 		margin: 5px 0;
 	}
@@ -556,7 +561,7 @@ a.nostyle:hover {
 	}
 
 	tr > td {
-		padding: 9px;
+		padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 	}
 
 	tr > td:first-child {
@@ -701,7 +706,7 @@ div.ilCOPGMediaPrint {
 }
 
 #copg-editor-slate-content {
-	padding: 15px;
+	padding: @il-padding-xlarge-vertical 0px;
 
 	p {
 		padding: 0;
@@ -719,10 +724,10 @@ div.ilCOPGMediaPrint {
 	div.alert {
 		margin: 10px 0;
 	}
-	form {
+	form.form-horizontal {
+		margin-bottom: @il-padding-xlarge-vertical;
 		.ilFormHeader {
-			padding: 10px;
-
+			padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
 			h3.ilHeader {
 				font-size: @font-size-base;
 			}
@@ -733,10 +738,27 @@ div.ilCOPGMediaPrint {
 		.control-label {
 			text-align: left;
 			font-weight: bold;
+			min-height: auto;
+			padding-bottom: 0;
+			margin-bottom: 0;
 		}
 		.ilFormFooter {
+			padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
+			background-color: @il-main-bg;
 		}
 	}
+
+	> .btn-link {
+		padding: 0px @il-padding-xlarge-horizontal;
+	}
+}
+
+#copg-top-actions {
+	padding: 0 @il-padding-xlarge-horizontal;
+}
+
+.copg-edit-button-group {
+	padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 }
 
 p#copg-auto-save {
@@ -789,6 +811,10 @@ p#copg-auto-save {
 	th, td {
 		border: 1px solid #CCCCCC;
 	}
+
+	th {
+		vertical-align: middle;
+	}
 }
 
 .copg-new-content-placeholder {
@@ -802,4 +828,33 @@ p#copg-auto-save {
 	border: 1px solid @il-main-color;
 	height: 30px;
 	z-index: 100000;
+}
+
+.il-copg-media-cover {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	z-index: 9;
+}
+
+.il-copg-edit-list-button {
+	padding: 0;
+	img {
+		filter: invert(100%);
+		width: 26px;
+		height: 25px;
+	}
+}
+
+#il-copg-ed-modal .modal-content {
+	.Whoops.container {
+		.left-panel {
+			position: static;
+			float: left;
+		}
+		.details-container {
+			position: static;
+		}
+	}
 }

@@ -142,10 +142,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         require_once 'Modules/Test/classes/class.ilTestProcessLockerFactory.php';
         $processLockerFactory = new ilTestProcessLockerFactory($this->assSettings, $ilDB);
-
-        $processLockerFactory->setActiveId($activeId);
-        
-        $this->processLocker = $processLockerFactory->getLocker();
+        $this->processLocker = $processLockerFactory->withContextId((int) $activeId)->getLocker();
     }
 
     /**
@@ -362,7 +359,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect)
     {
-        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), null);
+        // fix #031263: add pass
+        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), $this->testSession->getPass());
         
         if (strlen($feedback)) {
             $cssClass = (
@@ -1526,8 +1524,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("SECONDNOW", $datenow["seconds"]);
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
-        if($this->ctrl->getCmd() == 'outQuestionSummary') {
-            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd'));
+        if ($this->ctrl->getCmd() == 'outQuestionSummary') {
+            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboard'));
         } else {
             $template->setVariable("REDIRECT_URL", "");
         }
@@ -2888,9 +2886,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $fixedSeed = $questionId . $this->testSession->getActiveId() . $this->testSession->getPass();
         
-        if (strlen($fixedSeed < ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH)) {
+        if (strlen($fixedSeed) < self::FIXED_SHUFFLER_SEED_MIN_LENGTH) {
             $fixedSeed *= (
-                10 * (ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
+                10 * (self::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
             );
         }
         

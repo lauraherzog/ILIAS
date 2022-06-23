@@ -138,9 +138,9 @@ class AvatarTest extends ILIAS_UI_TestBase
         $letter = $f->letter('ro');
         $html = $this->brutallyTrimHTML($r->render($letter));
         $expected = $this->brutallyTrimHTML('
-<div class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-1" aria-label="user_avatar">	
+<span class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-1" aria-label="user_avatar" role="img">	
     <span class="abbreviation">ro</span>
-</div>');
+</span>');
         $this->assertEquals($expected, $html);
     }
 
@@ -153,9 +153,9 @@ class AvatarTest extends ILIAS_UI_TestBase
         $letter = $f->picture($str, 'ro');
         $html = $this->brutallyTrimHTML($r->render($letter));
         $expected = $this->brutallyTrimHTML('
-<div class="il-avatar il-avatar-picture il-avatar-size-large">	
+<span class="il-avatar il-avatar-picture il-avatar-size-large">	
     <img src="/path/to/picture.jpg" alt="user_avatar"/>
-</div>');
+</span>');
         $this->assertEquals($expected, $html);
     }
 
@@ -168,9 +168,9 @@ class AvatarTest extends ILIAS_UI_TestBase
         $letter = $f->picture($str, 'ro')->withAlternativeText("alternative");
         $html = $this->brutallyTrimHTML($r->render($letter));
         $expected = $this->brutallyTrimHTML('
-<div class="il-avatar il-avatar-picture il-avatar-size-large">	
+<span class="il-avatar il-avatar-picture il-avatar-size-large">	
     <img src="/path/to/picture.jpg" alt="alternative"/>
-</div>');
+</span>');
         $this->assertEquals($expected, $html);
     }
     /**
@@ -178,7 +178,7 @@ class AvatarTest extends ILIAS_UI_TestBase
      * @param int $length
      * @return Generator|Closure
      */
-    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 10) : Generator
+    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 2) : Generator
     {
         $sh = static function ($length = 10) {
             return substr(str_shuffle(str_repeat($x = 'abcdefghijklmnopqrstuvwxyz', (int) ceil($length / strlen($x)))), 1, $length);

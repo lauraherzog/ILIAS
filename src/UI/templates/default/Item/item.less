@@ -14,6 +14,10 @@
 		.btn-link, a {
 			font-size: inherit;
 			line-height: @line-height-base;
+			
+			&:focus-visible {
+				display: block;
+			}
 		}
 	}
 
@@ -158,6 +162,12 @@
 			padding: @il-item-divider-padding;
 			margin: 0;
 			border-bottom: 0;
+		}
+	}
+
+	.il-panel-listing-std-container{
+		.il-item .media-left{
+			min-width: @il-icon-size-small+2*@il-padding-large-horizontal;
 		}
 	}
 

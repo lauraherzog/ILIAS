@@ -314,8 +314,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=" . $this->object->getType() . "_" .
-                $this->object->getRefId(), "_top");
+            $ilTabs->setBackTarget($lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
         }
 
         // page object
@@ -636,7 +636,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ) {
                 if ($ilSetting->get("enable_cat_page_edit")) {
                     if (!$this->isActiveAdministrationPanel() &&
-                        !$this->isActiveOrdering()) {
+                        !$this->isActiveOrdering() &&
+                        $this->supportsPageEditor()) {
                         $toolbar->addButton($lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
                         );
@@ -653,6 +654,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ((int) $_GET["ref_id"] > 1 && $ilSetting->get("rep_tree_synchronize")) {
             $ilCtrl->setParameter($this, "active_node", (int) $_GET["ref_id"]);
         }
+    }
+
+    protected function supportsPageEditor() : bool
+    {
+        return true;
     }
 
     /**
@@ -2498,12 +2504,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $ilAccess = $this->access;
         parent::setColumnSettings($column_gui);
-
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-            $this->isActiveAdministrationPanel() &&
-            $this->allowBlocksMoving()) {
-            $column_gui->setEnableMovement(true);
-        }
         
         $column_gui->setRepositoryItems(
             $this->object->getSubItems($this->isActiveAdministrationPanel(), true)
@@ -2882,8 +2882,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "_top"
             );
         } else {
-            $ilTabs->setBackTarget($lng->txt("back"), "./goto.php?target=" . $this->object->getType() . "_" .
-                $this->object->getRefId(), "_top");
+            $ilTabs->setBackTarget($lng->txt("back"),
+                $this->ctrl->getLinkTargetByClass("ilcontainerpagegui", "edit"));
         }
 
         include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
@@ -3718,17 +3718,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         );
 
 
-        $filter_data = [];
-
-        // @todo: this is something we need to do better
-        if ($request->getMethod() == "POST" && $_GET["cmd"] == "render") {
-            $filter_data = $DIC->uiService()->filter()->getData($filter);
-        } else {
-            /** @var \ILIAS\UI\Implementation\Component\Input\Field\Input $i */
-            foreach ($filter->getInputs() as $k => $i) {
-                $filter_data[$k] = $i->getValue();
-            }
-        }
+        $filter_data = $DIC->uiService()->filter()->getData($filter);
 
 
         $this->container_user_filter = $filter_service->userFilter($filter_data);

@@ -22,10 +22,14 @@
 
 package de.ilias.services.lucene.index;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.Logger;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
  * 
@@ -35,7 +39,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class CommandControllerThread extends Thread {
 
-	protected Logger logger = Logger.getLogger(CommandControllerThread.class);
+	protected Logger logger = LogManager.getLogger(CommandControllerThread.class);
 	protected String clientKey = null;
 	
 	protected CommandController controller = null;
@@ -87,7 +91,10 @@ public class CommandControllerThread extends Thread {
 			controller.start();
 		} 
 		catch (Exception e) {
-			logger.error("Cannot start indexer thread: " + e);
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
+			logger.error("Cannot start indexer thread: " + e.getMessage());
 			this.interrupt();
 		}
 		finally {

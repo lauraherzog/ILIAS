@@ -42,9 +42,9 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withParent($top)
                                   ->withTitle($title)
                                   ->withSymbol($icon)
-                                  ->withPosition(7)
+                                  ->withPosition(65)
                                   ->withVisibilityCallable(
-                                      $access_helper->hasAdministrationAccess(function () {
+                                      $access_helper->hasAdministrationAccess(function () : bool {
                                           return (bool) $this->dic->access()->checkAccess('read', '', ilObjOrgUnit::getRootOrgRefId());
                                       }));
 

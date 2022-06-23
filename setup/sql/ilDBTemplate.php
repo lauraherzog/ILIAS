@@ -2366,6 +2366,9 @@ $ilDB->addPrimaryKey("booking_object", $pk_fields);
 $in_fields = array("pool_id");
 $ilDB->addIndex("booking_object", $in_fields, "i1", false);
 
+$in_fields = array("schedule_id");
+$ilDB->addIndex("booking_object", $in_fields, "i2", false);
+
 $ilDB->createSequence("booking_object", 1);
 
 
@@ -2484,6 +2487,9 @@ $ilDB->addIndex("booking_reservation", $in_fields, "i3", false);
 $in_fields = array("date_to");
 $ilDB->addIndex("booking_reservation", $in_fields, "i4", false);
 
+$in_fields = array("context_obj_id");
+$ilDB->addIndex("booking_reservation", $in_fields, "i5", false);
+
 $ilDB->createSequence("booking_reservation", 1);
 
 
@@ -2559,6 +2565,9 @@ $ilDB->createTable("booking_schedule", $fields);
 
 $pk_fields = array("booking_schedule_id");
 $ilDB->addPrimaryKey("booking_schedule", $pk_fields);
+
+$in_fields = array("pool_id");
+$ilDB->addIndex("booking_schedule", $in_fields, "i1", false);
 
 $ilDB->createSequence("booking_schedule", 1);
 
@@ -5616,6 +5625,48 @@ $fields = array (
 		,"default" => "0"
 		,"type" => "integer"
 	)
+	,"publisher_id" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"anonymous_homepage" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "1"
+		,"type" => "integer"
+	)
+	,"moveon" => array (
+		"notnull" => true
+		,"length" => 32
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"launch_parameters" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"entitlement_key" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"switch_to_review" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "1"
+		,"type" => "integer"
+	)
 );
 $ilDB->createTable("cmix_settings", $fields);
 
@@ -5666,6 +5717,24 @@ $fields = array (
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
+	)
+	,"cmi5_session" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"returned_for_cmi5_session" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"cmi5_session_data" => array (
+		"notnull" => false
+		,"type" => "clob"
 	)
 );
 $ilDB->createTable("cmix_token", $fields);
@@ -5718,6 +5787,20 @@ $fields = array (
 	,"privacy_ident" => array (
 		"notnull" => true
 		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"registration" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"satisfied" => array (
+		"notnull" => true
+		,"length" => 1
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
@@ -11417,6 +11500,9 @@ $ilDB->createTable("exc_ass_file_order", $fields);
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("exc_ass_file_order", $pk_fields);
 
+$in_fields = array("assignment_id");
+$ilDB->addIndex("exc_ass_file_order", $in_fields, "i1", false);
+
 $ilDB->createSequence("exc_ass_file_order", 1);
 
 
@@ -11828,6 +11914,12 @@ $ilDB->createTable("exc_assignment", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("exc_assignment", $pk_fields);
+
+$in_fields = array("exc_id");
+$ilDB->addIndex("exc_assignment", $in_fields, "i1", false);
+
+$in_fields = array("deadline_mode","exc_id");
+$ilDB->addIndex("exc_assignment", $in_fields, "i2", false);
 
 $ilDB->createSequence("exc_assignment", 1);
 
@@ -12304,6 +12396,9 @@ $ilDB->addPrimaryKey("exc_members", $pk_fields);
 $in_fields = array("obj_id");
 $ilDB->addIndex("exc_members", $in_fields, "ob", false);
 
+$in_fields = array("usr_id");
+$ilDB->addIndex("exc_members", $in_fields, "i1", false);
+
 
 //
 // exc_returned
@@ -12655,8 +12750,9 @@ $fields = array (
 		,"type" => "integer"
 	)
 	,"rid" => array (
-		"notnull" => false
-		,"length" => 255
+		"notnull" => true
+		,"length" => 64
+		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -12665,6 +12761,9 @@ $ilDB->createTable("file_data", $fields);
 
 $pk_fields = array("file_id");
 $ilDB->addPrimaryKey("file_data", $pk_fields);
+
+$in_fields = array("rid");
+$ilDB->addIndex("file_data", $in_fields, "i1", false);
 
 
 //
@@ -15405,6 +15504,9 @@ $ilDB->createTable("il_bt_bucket", $fields);
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_bt_bucket", $pk_fields);
 
+$in_fields = array("user_id");
+$ilDB->addIndex("il_bt_bucket", $in_fields, "i1", false);
+
 $ilDB->createSequence("il_bt_bucket", 1);
 
 
@@ -18079,6 +18181,9 @@ $ilDB->createTable("il_exc_team", $fields);
 
 $pk_fields = array("ass_id","user_id");
 $ilDB->addPrimaryKey("il_exc_team", $pk_fields);
+
+$in_fields = array("id");
+$ilDB->addIndex("il_exc_team", $in_fields, "i1", false);
 
 $ilDB->createSequence("il_exc_team", 1);
 
@@ -23318,46 +23423,45 @@ $ilDB->insert("il_request_token", array(
 // il_resource
 //
 $fields = array (
-	"identification" => array (
+	"rid" => array (
 		"notnull" => true
-		,"length" => 250
+		,"length" => 64
 		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
 	,"storage_id" => array (
-		"notnull" => false
+		"notnull" => true
 		,"length" => 8
+		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
 );
 $ilDB->createTable("il_resource", $fields);
 
-$pk_fields = array("identification");
+$pk_fields = array("rid");
 $ilDB->addPrimaryKey("il_resource", $pk_fields);
+
+$in_fields = array("storage_id");
+$ilDB->addIndex("il_resource", $in_fields, "i1", false);
 
 
 //
 // il_resource_info
 //
 $fields = array (
-	"internal" => array (
+	"rid" => array (
 		"notnull" => true
-		,"length" => 250
+		,"length" => 64
 		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
-	,"identification" => array (
-		"notnull" => false
-		,"length" => 250
-		,"fixed" => false
-		,"type" => "text"
-	)
 	,"title" => array (
-		"notnull" => false
-		,"length" => 250
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -23374,39 +23478,44 @@ $fields = array (
 		,"type" => "text"
 	)
 	,"size" => array (
-		"notnull" => false
-		,"length" => 8
-		,"unsigned" => false
-		,"type" => "integer"
-	)
-	,"creation_date" => array (
-		"notnull" => false
+		"notnull" => true
 		,"length" => 8
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
 	)
+	,"creation_date" => array (
+		"notnull" => true
+		,"length" => 8
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"version_number" => array (
+		"notnull" => true
+		,"length" => 8
+		,"unsigned" => false
+		,"default" => ""
+		,"type" => "integer"
+	)
 );
 $ilDB->createTable("il_resource_info", $fields);
 
-$pk_fields = array("internal");
+$pk_fields = array("rid","version_number");
 $ilDB->addPrimaryKey("il_resource_info", $pk_fields);
+
+$in_fields = array("rid");
+$ilDB->addIndex("il_resource_info", $in_fields, "i1", false);
 
 
 //
 // il_resource_revision
 //
 $fields = array (
-	"internal" => array (
+	"rid" => array (
 		"notnull" => true
-		,"length" => 250
+		,"length" => 64
 		,"default" => ""
-		,"fixed" => false
-		,"type" => "text"
-	)
-	,"identification" => array (
-		"notnull" => false
-		,"length" => 250
 		,"fixed" => false
 		,"type" => "text"
 	)
@@ -23414,69 +23523,90 @@ $fields = array (
 		"notnull" => false
 		,"length" => 1
 		,"unsigned" => false
+		,"default" => "1"
 		,"type" => "integer"
 	)
 	,"version_number" => array (
-		"notnull" => false
+		"notnull" => true
 		,"length" => 8
 		,"unsigned" => false
+		,"default" => ""
 		,"type" => "integer"
 	)
 	,"owner_id" => array (
-		"notnull" => false
+		"notnull" => true
 		,"length" => 8
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
 	)
 	,"title" => array (
-		"notnull" => false
-		,"length" => 255
-		,"default" => "-"
-		,"fixed" => false
-		,"type" => "text"
-	)
-);
-$ilDB->createTable("il_resource_revision", $fields);
-
-$pk_fields = array("internal");
-$ilDB->addPrimaryKey("il_resource_revision", $pk_fields);
-
-
-//
-// il_resource_stakeh
-//
-$fields = array (
-	"internal" => array (
 		"notnull" => true
 		,"length" => 255
 		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
-	,"identification" => array (
-		"notnull" => false
-		,"length" => 255
+);
+$ilDB->createTable("il_resource_revision", $fields);
+
+$pk_fields = array("rid","version_number");
+$ilDB->addPrimaryKey("il_resource_revision", $pk_fields);
+
+$in_fields = array("rid");
+$ilDB->addIndex("il_resource_revision", $in_fields, "i1", false);
+
+
+//
+// il_resource_stkh
+//
+$fields = array (
+	"id" => array (
+		"notnull" => true
+		,"length" => 64
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"class_name" => array (
+		"notnull" => true
+		,"length" => 250
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+);
+$ilDB->createTable("il_resource_stkh", $fields);
+
+$pk_fields = array("id");
+$ilDB->addPrimaryKey("il_resource_stkh", $pk_fields);
+
+
+//
+// il_resource_stkh_u
+//
+$fields = array (
+	"rid" => array (
+		"notnull" => true
+		,"length" => 64
+		,"default" => ""
 		,"fixed" => false
 		,"type" => "text"
 	)
 	,"stakeholder_id" => array (
 		"notnull" => false
-		,"length" => 255
-		,"fixed" => false
-		,"type" => "text"
-	)
-	,"stakeholder_class" => array (
-		"notnull" => false
-		,"length" => 255
+		,"length" => 64
 		,"fixed" => false
 		,"type" => "text"
 	)
 );
-$ilDB->createTable("il_resource_stakeh", $fields);
+$ilDB->createTable("il_resource_stkh_u", $fields);
 
-$pk_fields = array("internal");
-$ilDB->addPrimaryKey("il_resource_stakeh", $pk_fields);
+$in_fields = array("rid");
+$ilDB->addIndex("il_resource_stkh_u", $in_fields, "i1", false);
+
+$in_fields = array("stakeholder_id");
+$ilDB->addIndex("il_resource_stkh_u", $in_fields, "i2", false);
 
 
 //
@@ -32604,7 +32734,18 @@ $fields = array (
 		,"unsigned" => false
 		,"type" => "integer"
 	)
-	,"risky_to_fail_mail_send" => array (
+	,"sent_mail_risky_to_fail" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"individual" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"sent_mail_expires" => array (
 		"notnull" => false
 		,"type" => "timestamp"
 	)
@@ -48625,10 +48766,13 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '48')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '81')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
+
+$ilDB->insert("settings", array(
+'module' => array('text', 'common'), 'keyword' => array('text', 'rep_favourites'), 'value' => array('clob', '1')));
 
 
 //
@@ -54542,6 +54686,12 @@ $fields = array (
 		,"length" => 250
 		,"fixed" => false
 		,"type" => "text"
+	)
+	,"pool_ref_id" => array (
+		"notnull" => false
+		,"length" => 8
+		,"unsigned" => false
+		,"type" => "integer"
 	)
 );
 $ilDB->createTable("tst_rnd_quest_set_qpls", $fields);

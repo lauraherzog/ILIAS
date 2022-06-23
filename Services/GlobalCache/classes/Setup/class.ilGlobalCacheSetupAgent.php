@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
@@ -73,8 +72,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                 if ($data["components"] === "all") {
                     $settings->activateAll();
                 } else {
-                    foreach ($data["components"] as $cmp) {
-                        $settings->addActivatedComponent($cmp);
+                    foreach ($data["components"] as $cmp => $active) {
+                        if ($active) {
+                            $settings->addActivatedComponent($cmp);
+                        }
                     }
                 }
             }
@@ -135,5 +136,15 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [];
+    }
+
+    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    {
+        if ($name == "flushAll") {
+            return new ilGlobalCacheAllFlushedObjective();
+        }
+        throw new InvalidArgumentException(
+            "There is no named objective '$name'"
+        );
     }
 }

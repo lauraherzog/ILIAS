@@ -13,25 +13,34 @@
         public function __construct() {
             $this->dic = $GLOBALS['DIC'];
             $this->xapiproxy = $this->dic['xapiproxy'];
-            //$this->xapiProxyRequest = $this->xapiproxy->getXapiProxyRequest();
         }
 
-        public function checkResponse($response, $endpoint) {
-            if ($response['state'] === 'fulfilled') {
+        public function checkResponse($response, $endpoint)
+        {
+            if ($response['state'] == 'fulfilled')
+            {
                 $status = $response['value']->getStatusCode();
-                if ($status === 200 || $status === 204) {
+                if ($status === 200 || $status === 204 || $status === 404)
+                {
                     return true;
                 }
-                else {
-                    $this->xapiproxy->log()->error($this->msg("Could not get valid response status_code: " . $status .  " from " . $endpoint));
+                else
+                {
+                    $this->xapiproxy->log()->error("LRS error {$endpoint}: " . $response['value']->getBody());
                     return false;
                 }
             }
             else {
-                $this->xapiproxy->log()->error($this->msg("Could not fulfill request to " . $endpoint));
+                try
+                {
+                    $this->xapiproxy->log()->error("Connection error {$endpoint}: " . $response['reason']->getMessage());
+                }
+                catch(\Exception $e)
+                {
+                    $this->xapiproxy->log()->error("error {$endpoint}:" . $e->getMessage());
+                }
                 return false;
             }
-            return false;
         }
         
         public function handleResponse($request, $response, $fakePostBody = NULL) {
@@ -84,12 +93,18 @@
         }
 
         public function exitResponseError() {
+            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            header('Access-Control-Allow-Credentials: true');
+            header('X-Experience-API-Version: 1.0.3');
             header("HTTP/1.1 412 Wrong Response");
             echo "HTTP/1.1 412 Wrong Response";
             exit;
         }
         
         public function exitProxyError() {
+            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            header('Access-Control-Allow-Credentials: true');
+            header('X-Experience-API-Version: 1.0.3');
             header("HTTP/1.1 500 XapiProxy Error (Ask For Logs)");
             echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
             exit;

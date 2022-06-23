@@ -1682,11 +1682,13 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     public function showPossibleSubObjects()
     {
-        if ($this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE
-            && !$this->isActiveAdministrationPanel()) {
-            return false;
+        if (
+            $this->object->getViewMode() == ilContainer::VIEW_OBJECTIVE &&
+            !$this->isActiveAdministrationPanel()) {
+            return;
         }
-        parent::showPossibleSubObjects();
+        $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
+        $gui->render();
     }
 
 
@@ -2441,6 +2443,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 if ($ret != "") {
                     $this->tpl->setContent($ret);
                 }
+                $header_action = false;
                 break;
                 
             case "ilcontainerstartobjectspagegui":
@@ -2535,6 +2538,10 @@ class ilObjCourseGUI extends ilContainerGUI
                     $this->lng->txt("crs_start_objects"),
                     $this->ctrl->getLinkTargetByClass("ilcontainerstartobjectsgui", "listStructure")
                 );
+                if (strtolower($this->ctrl->getCmdClass()) ==
+                    "ilcontainerstartobjectspagegui") {
+                    $header_action = false;
+                }
                 global $DIC;
 
                 $ilHelp = $DIC['ilHelp'];
@@ -3238,7 +3245,7 @@ class ilObjCourseGUI extends ilContainerGUI
             
             // notification
             include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-            if (ilMembershipNotifications::isActive()) {
+            if (ilMembershipNotifications::isActiveForRefId($this->ref_id)) {
                 $noti = new ilMembershipNotifications($this->ref_id);
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(

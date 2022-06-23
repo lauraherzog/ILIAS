@@ -149,7 +149,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
       </li>
       <li role="none">
          <button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" >
-             <span class="glyph" aria-label="disclose">
+             <span class="glyph" aria-label="disclose" role="img">
                 <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
                 <span class="il-counter"><span class="badge badge-notify il-counter-status" style="display:none">0</span></span>
                 <span class="il-counter"><span class="badge badge-notify il-counter-novelty" style="display:none">0</span></span>
@@ -169,5 +169,17 @@ class MetaBarTest extends ILIAS_UI_TestBase
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
         );
+    }
+
+
+    public function testAcceptsBulkyLinkAsEntry() : void
+    {
+        $r = $this->getDefaultRenderer();
+
+        $bulky_link = $this->createMock(ILIAS\UI\Component\Link\Bulky::class);
+        $mb = $this->metabar
+            ->withAdditionalEntry('bulky link', $bulky_link);
+
+        $this->assertTrue(true); // Should not throw...
     }
 }

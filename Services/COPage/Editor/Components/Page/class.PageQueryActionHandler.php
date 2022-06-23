@@ -8,6 +8,7 @@ use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
 use ILIAS\COPage\Editor\Components\Paragraph\ParagraphStyleSelector;
 use ILIAS\COPage\Editor\Components\Section\SectionStyleSelector;
+use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -104,6 +105,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->multiActions = $this->getMultiActions();
         $o->pasteMessage = $this->getPasteMessage();
         $o->errorMessage = $this->getErrorMessage();
+        $o->errorModalMessage = $this->getErrorModalMessage();
         $o->config = $this->getConfig();
         $o->components = $this->getComponentsEditorUI();
         $o->pcModel = $this->getPCModel();
@@ -115,6 +117,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
         $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
             count($this->user->getPCClipboardContent()) > 0;
+        $o->loaderUrl = \ilUtil::getImagePath("loader.svg");
         return new Server\Response($o);
     }
 
@@ -254,6 +257,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ]
         );
         $tpl->setVariable("SWITCH", $html);
+        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
 
         return $tpl->get();
     }
@@ -361,6 +365,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             );
         }
 
+
+        // additional page actions
+        foreach ($this->page_gui->getAdditionalPageActions() as $item) {
+            $items[] = $item;
+        }
 
         return $ui->factory()->dropdown()->standard($items);
     }
@@ -495,6 +504,16 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     }
 
     /**
+     * error message in modal
+     */
+    protected function getErrorModalMessage() : string
+    {
+        $html = $this->ui_wrapper->getRenderedModalFailureBox();
+
+        return $html;
+    }
+
+    /**
      * Format selection
      */
     protected function getFormatSelection()
@@ -504,12 +523,16 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl = new \ilTemplate("tpl.format_selection.html", true, true, "Services/COPage/Editor");
         $tpl->setVariable("TXT_PAR", $lng->txt("cont_choose_characteristic_text"));
         $tpl->setVariable("TXT_SECTION", $lng->txt("cont_choose_characteristic_section"));
+        $tpl->setVariable("TXT_MEDIA", $lng->txt("cont_media"));
 
-        $par_sel = new ParagraphStyleSelector($this->ui_wrapper, (int) $this->page_gui->getStyleId());
+        $par_sel = new ParagraphStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
         $tpl->setVariable("PAR_SELECTOR", $ui->renderer()->renderAsync($par_sel->getStyleSelector("", "format", "format.paragraph", "format")));
 
-        $sec_sel = new SectionStyleSelector($this->ui_wrapper, (int) $this->page_gui->getStyleId());
+        $sec_sel = new SectionStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
         $tpl->setVariable("SEC_SELECTOR", $ui->renderer()->renderAsync($sec_sel->getStyleSelector("", "format", "format.section", "format")));
+
+        $med_sel = new MediaObjectStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
+        $tpl->setVariable("MEDIA_SELECTOR", $ui->renderer()->renderAsync($med_sel->getStyleSelector("", "format", "format.media", "format")));
 
         $tpl->setVariable(
             "SAVE_BUTTON",
@@ -517,6 +540,14 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $lng->txt("save"),
                 "format",
                 "format.save"
+            )
+        );
+        $tpl->setVariable(
+            "CANCEL_BUTTON",
+            $this->ui_wrapper->getRenderedButton(
+                $lng->txt("cancel"),
+                "format",
+                "format.cancel"
             )
         );
         return $tpl->get();
@@ -587,6 +618,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
             $pcdef["types"][$def["name"]] = $def["pc_type"];
             $pcdef["names"][$def["pc_type"]] = $def["name"];
+            $pcdef["txt"][$def["pc_type"]] = $this->lng->txt("cont_" . "pc_" . $def["pc_type"]);
         }
         return $pcdef;
     }

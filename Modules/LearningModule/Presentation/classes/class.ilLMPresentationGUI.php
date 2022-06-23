@@ -182,6 +182,11 @@ class ilLMPresentationGUI
      */
     protected $additional_content = [];
 
+    /**
+     * @var ilObjectTranslation
+     */
+    protected $ot;
+
     public function __construct(
         $a_export_format = "",
         $a_all_languages = false,
@@ -311,6 +316,7 @@ class ilLMPresentationGUI
 
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
+        $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
     /**
@@ -393,6 +399,12 @@ class ilLMPresentationGUI
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
                 
+            case "ilassgenfeedbackpagegui":
+                $page_gui = new ilAssGenFeedbackPageGUI($_GET["pg_id"]);
+                //$this->basicPageGuiInit($page_gui);
+                $ret = $ilCtrl->forwardCommand($page_gui);
+                break;
+
             case "ilglossarydefpagegui":
                 $page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
                 $this->basicPageGuiInit($page_gui);
@@ -1208,7 +1220,7 @@ class ilLMPresentationGUI
         if (!$this->offlineMode()) {
             // LTI
             if ($ltiview->isActive()) {
-                // Do nothing, its complicated...
+                $ilLocator->addRepositoryItems();
             } else {
                 $ilLocator->addRepositoryItems();
                 //$ilLocator->addItem("...", "");
@@ -2990,6 +3002,9 @@ class ilLMPresentationGUI
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPageGUI($a_id, 0, false, $this->lang);
+        }
+        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage());
         }
         return new ilLMPageGUI($a_id);
     }

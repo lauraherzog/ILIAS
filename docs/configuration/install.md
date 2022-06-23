@@ -124,6 +124,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 | wkhtmltopdf    | 0.12.6                      |
 | Ghostscript    | 9.50                        |
 | Imagemagick    | 6.9.10-23 Q16               |
+| MathJax        | 2.7.9                       |
 
 
 <a name="other-platforms"></a>
@@ -209,7 +210,7 @@ systemctl restart httpd.service
 ### PHP Installation and Configuration
 
 Refer to the to documentation of your installation to install either PHP 7.3 to
-PHP 7.4 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
+PHP 7.4 including packages for gd, mysql, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -283,7 +284,7 @@ We recommend to create a dedicated database user for ILIAS:
 mysql -u root -p
 CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE USER 'ilias'@'localhost' IDENTIFIED BY 'password';
-GRANT LOCK TABLES on *.* TO 'ilias@localhost';
+GRANT LOCK TABLES on *.* TO 'ilias'@'localhost';
 GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';
 FLUSH PRIVILEGES;
 ```
@@ -421,7 +422,7 @@ configuration might look like this afterwards:
 	},
 	"database" : {
 		"user" : "ilias_user",
-        "password" : "my_password"
+		"password" : "my_password"
 	},
 	"filesystem" : {
 		"data_dir" : "/var/www/files"
@@ -448,7 +449,7 @@ configuration might look like this afterwards:
     "utilities" : {
         "path_to_convert" : "/usr/bin/convert",
         "path_to_zip" : "/usr/bin/zip",
-        "path_to_zip" : "/usr/bin/unzip"
+        "path_to_unzip" : "/usr/bin/unzip"
     }
 }
 ```
@@ -730,7 +731,7 @@ each ILIAS release.
 |-----------------|---------------------------------------|
 | 7.x             | 7.3.x, 7.4.x                          |
 | 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
-| 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |
+| 5.4.x           | 7.2.x, 7.3.x, 7.4.x                   |
 | 5.3.x           | 5.6.x, 7.0.x, 7.1.x                   |
 | 5.2.x           | 5.5.x - 5.6.x, 7.0.x, 7.1.x           |
 | 5.0.x - 5.1.x   | 5.3.x - 5.5.x                         |

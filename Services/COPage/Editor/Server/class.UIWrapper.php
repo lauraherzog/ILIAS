@@ -42,7 +42,8 @@ class UIWrapper
         string $content,
         string $type,
         string $action,
-        array $data = null
+        array $data = null,
+        string $component = ""
     ) : \ILIAS\UI\Component\Button\Standard {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -51,8 +52,9 @@ class UIWrapper
             $data = [];
         }
         $b = $b->withOnLoadCode(
-            function ($id) use ($type, $data, $action) {
+            function ($id) use ($type, $data, $action, $component) {
                 $code = "document.querySelector('#$id').setAttribute('data-copg-ed-type', '$type');
+                         document.querySelector('#$id').setAttribute('data-copg-ed-component', '$component');
                          document.querySelector('#$id').setAttribute('data-copg-ed-action', '$action')";
                 foreach ($data as $key => $val) {
                     $code .= "\n document.querySelector('#$id').setAttribute('data-copg-ed-par-$key', '$val');";
@@ -81,6 +83,19 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m);
     }
 
+    public function getRenderedModalFailureBox() : string
+    {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $m = $f->messageBox()->failure($this->lng->txt("copg_error_occured_modal"))
+               ->withButtons([$f->button()->standard($this->lng->txt("copg_reload_page"), "#")->withOnLoadCode(function ($id) {
+                   return
+                       "$(\"#$id\").click(function() { location.reload(); return false;});";
+               })]);
+
+        return $ui->renderer()->renderAsync($m)."<p>".$this->lng->txt("copg_details").":</p>";
+    }
+
     /**
      * Get rendered button
      * @param string     $content
@@ -89,10 +104,11 @@ class UIWrapper
      * @param array|null $data
      * @return string
      */
-    public function getRenderedButton(string $content, string $type, string $action, array $data = null) : string
+    public function getRenderedButton(string $content, string $type, string $action, array $data = null,
+        string $component = "") : string
     {
         $ui = $this->ui;
-        $b = $this->getButton($content, $type, $action, $data);
+        $b = $this->getButton($content, $type, $action, $data, $component);
         return $ui->renderer()->renderAsync($b);
     }
 
@@ -117,6 +133,27 @@ class UIWrapper
             $tpl->setCurrentBlock("section");
             $tpl->parseCurrentBlock();
         }
+
+        return $tpl->get();
+    }
+
+    /**
+     * Get rendered form footer
+     * @return string
+     */
+    public function getRenderedFormFooter($buttons)
+    {
+        $ui = $this->ui;
+        $r = $ui->renderer();
+
+        $tpl = new \ilTemplate("tpl.form_footer.html", true, true, "Services/COPage");
+
+        $html = "";
+        foreach ($buttons as $b) {
+            $html .= $ui->renderer()->renderAsync($b);
+        }
+
+        $tpl->setVariable("BUTTONS", $html);
 
         return $tpl->get();
     }
@@ -167,6 +204,7 @@ class UIWrapper
             }
         } else {
             $page_gui->setOutputMode(\ilPageObjectGUI::EDIT);
+            $page_gui->setDefaultLinkXml(); // fixes #31225
             $page_data = $page_gui->showPage();
             $pc_model = $page_gui->getPageObject()->getPCModel();
             $last_change = $page_gui->getPageObject()->getLastChange();

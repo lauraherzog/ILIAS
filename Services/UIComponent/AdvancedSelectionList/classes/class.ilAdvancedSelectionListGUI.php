@@ -228,7 +228,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     */
     public function getAriaListTitle()
     {
-        return $this->aria_listtitle;
+        return strip_tags($this->aria_listtitle);
     }
 
     /**
@@ -871,7 +871,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ? $this->getAriaListTitle() != ""
+                ? $this->getAriaListTitle()
                 : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }
@@ -897,6 +897,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             case self::STYLE_LINK:
                 $tpl->setVariable("BTN_CLASS", "");
                 $tpl->setVariable("TAG", "a");
+                $tpl->touchBlock("href_link");
                 break;
         }
 

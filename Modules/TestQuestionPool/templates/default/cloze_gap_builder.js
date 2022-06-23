@@ -3,6 +3,7 @@ var ClozeGlobals = {
 	active_gap:                   -1,
 	cursor_pos:                   '',
 	gap_count:                    0,
+	scrollable_page_element:      'il-layout-page-content',
 	form_class:                   '#form_assclozetest',
 	form_class_adjustment:        '#form_adjustment',
 	form_footer_class:            '.ilFormFooter',
@@ -66,13 +67,14 @@ var ClozeGapBuilder = (function () {
 	pro.addModalFakeFooter = function () {
 		if (ClozeGlobals.jour_fixe_incompatible === false) {
 			if ($('.modal-fake-footer').length === 0) {
-				$('<div class="modal-fake-footer"><input type="button" id="modal_ok_button" class="btn btn-default btn-sm btn-dummy" value="' + ClozeSettings.ok_text + '"> <input type="button" id="modal_cancel_button" class="btn btn-default btn-sm btn-dummy" value="' + ClozeSettings.cancel_text + '"></div>').appendTo('.modal-content');
-				$('#modal_ok_button').on('click', function () {
+				var footer = $('<div class="modal-fake-footer"><input type="button" class="btn btn-default btn-sm btn-dummy modal_ok_button" value="' + ClozeSettings.ok_text + '"> <input type="button" class="btn btn-default btn-sm btn-dummy modal_cancel_button" value="' + ClozeSettings.cancel_text + '"></div>');
+				$(footer).find('.modal_ok_button').on('click', function () {
 					pro.closeModalWithOkButton();
 				});
-				$('#modal_cancel_button').on('click', function () {
+				$(footer).find('.modal_cancel_button').on('click', function () {
 					pro.closeModalWithCancelButton();
 				});
+				footer.appendTo('.modal-content');
 			}
 		}
 	};
@@ -150,14 +152,17 @@ var ClozeGapBuilder = (function () {
 	};
 
 	pro.getCursorPositionTiny = function (editor) {
+		var scrollableElement = document.getElementsByClassName(ClozeGlobals.scrollable_page_element)[0];
 		var bm = editor.selection.getBookmark(0);
 		var selector = '[data-mce-type=bookmark]';
 		var bmElements = editor.dom.select(selector);
 		editor.selection.select(bmElements[0]);
 		editor.selection.collapse();
 		var elementID = '######cursor######';
+		var windowPosition = scrollableElement.scrollTop;
 		var positionString = '<span id="' + elementID + '"></span>';
 		editor.selection.setContent(positionString);
+		scrollableElement.scrollTop = windowPosition;
 		var content = editor.getContent({format: 'html'});
 		var index = content.indexOf(positionString);
 		editor.dom.remove(elementID, false);

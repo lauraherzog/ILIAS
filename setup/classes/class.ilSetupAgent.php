@@ -50,7 +50,7 @@ class ilSetupAgent implements Setup\Agent
         return $this->refinery->custom()->transformation(function ($data) {
             $datetimezone = $this->refinery->to()->toNew(\DateTimeZone::class);
             return new \ilSetupConfig(
-                $data["client_id"],
+                $this->data->clientId($data["client_id"] ?? ''),
                 $datetimezone->transform([$data["server_timezone"] ?? "UTC"]),
                 $data["register_nic"] ?? false
             );
@@ -136,5 +136,21 @@ class ilSetupAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [];
+    }
+
+
+    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    {
+        if ($name == "registerNICKey") {
+            if (is_null($config)) {
+                throw new \RuntimeException(
+                    "Missing Config for objective '$name'."
+                );
+            }
+            return new ilNICKeyRegisteredObjective($config);
+        }
+        throw new \InvalidArgumentException(
+            "There is no named objective '$name'"
+        );
     }
 }

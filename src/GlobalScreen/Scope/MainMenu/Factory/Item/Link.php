@@ -16,7 +16,12 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem
+class Link extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
@@ -45,7 +50,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -65,7 +70,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withAltText(string $alt_text) : Link
     {
-        $clone           = clone($this);
+        $clone = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -85,7 +90,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withAction(string $action) : hasAction
     {
-        $clone         = clone($this);
+        $clone = clone($this);
         $clone->action = $action;
 
         return $clone;
@@ -105,7 +110,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone                     = clone $this;
+        $clone = clone $this;
         $clone->is_external_action = $is_external;
 
         return $clone;
@@ -118,5 +123,4 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, 
     {
         return $this->is_external_action;
     }
-
 }

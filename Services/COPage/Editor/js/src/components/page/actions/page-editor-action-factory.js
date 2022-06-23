@@ -110,6 +110,18 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  componentAfterSave(afterPcid, pcid, component, data) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_AFTER_SAVE, {
+      afterPcid: afterPcid,
+      pcid: pcid,
+      component: component,
+      data: data
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   componentUpdate(pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_UPDATE, {
       pcid: pcid,
@@ -163,12 +175,20 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  formatSave(pcids, parFormat, secFormat) {
+  formatSave(pcids, parFormat, secFormat, medFormat) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_SAVE, {
       pcids: pcids,
       parFormat: parFormat,
-      secFormat: secFormat
+      secFormat: secFormat,
+      medFormat: medFormat
     });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  formatCancel() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_CANCEL, {});
   }
 
   /**
@@ -210,6 +230,15 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+    formatMedia(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_MEDIA, {
+      format: format
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   switchSingle(pcids) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SWITCH_SINGLE);
   }
@@ -219,6 +248,23 @@ export default class PageEditorActionFactory {
    */
   switchMulti(pcids) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SWITCH_MULTI);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  enablePageEditing() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.PAGE_EDITING);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  editListItem(listCmd, pcid) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_EDIT, {
+      listCmd: listCmd,
+      pcid: pcid
+    });
   }
 
 }

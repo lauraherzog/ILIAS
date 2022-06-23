@@ -77,9 +77,12 @@ export default class PageUI {
   constructor(client, dispatcher, actionFactory, model, toolSlate
     , pageModifier) {
 
-    this.debug = true;
+    this.debug = false;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
+    this.first_add = "<span class='il-copg-add-text'> " +
+      il.Language.txt("cont_ed_click_to_add_pg") +
+      "</span>";
     this.model = {};
     this.uiModel = {};
 
@@ -112,6 +115,7 @@ export default class PageUI {
     this.uiModel = uiModel;
     this.initComponentClick();
     this.initAddButtons();
+    this.initListButtons();
     this.initDragDrop();
     this.initMultiSelection();
     this.initComponentEditing();
@@ -124,10 +128,50 @@ export default class PageUI {
   reInit() {
     this.initComponentClick();
     this.initAddButtons();
+    this.initListButtons();
     this.initDragDrop();
     this.initMultiSelection();
     this.initComponentEditing();
     this.markCurrent();
+  }
+
+  refreshUIFromModelState(model) {
+    switch (model.getState()) {
+      case model.STATE_PAGE:
+        this.showEditPage();
+        this.showAddButtons();
+        this.hideDropareas();
+        this.enableDragDrop();
+        break;
+
+      case model.STATE_MULTI_ACTION:
+        if ([model.STATE_MULTI_CUT, model.STATE_MULTI_COPY].includes(model.getMultiState())) {
+          this.showAddButtons();
+        } else {
+          this.hideAddButtons();
+        }
+        this.showMultiButtons();
+        this.hideDropareas();
+        this.disableDragDrop();
+        break;
+
+      case model.STATE_DRAG_DROP:
+        this.showEditPage();
+        this.hideAddButtons();
+        this.showDropareas();
+        break;
+
+      case model.STATE_COMPONENT:
+        //this.ui.showPageHelp();
+        this.hideAddButtons();
+        this.hideDropareas();
+        this.disableDragDrop();
+        break;
+
+      case model.STATE_SERVER_CMD:
+        this.displayServerWaiting();
+        break;
+    }
   }
 
   addComponentUI(cname, ui) {
@@ -162,9 +206,9 @@ export default class PageUI {
       drop.id = "TARGET" + hier_id + ":" + (area.dataset.pcid || "");
 
       // add dropdown
-      area.querySelectorAll("div.dropdown > button").forEach(b => {
+      const addButtons = area.querySelectorAll("div.dropdown > button");
+      addButtons.forEach(b => {
         b.classList.add("copg-add");
-        b.innerHTML = this.add;
         b.addEventListener("click", (event) => {
 
           // we need that to "filter" out these events on the single clicks
@@ -218,6 +262,82 @@ export default class PageUI {
         });
       });
     });
+    this.refreshAddButtonText();
+  }
+
+  /**
+   * Init add buttons
+   */
+  initListButtons(selector) {
+    const dispatch = this.dispatcher;
+    const action = this.actionFactory;
+
+    if (!selector) {
+      selector = "[data-copg-ed-type='edit-list-item']"
+    }
+
+    // init add buttons
+    document.querySelectorAll(selector).forEach(area => {
+
+      const uiModel = this.uiModel;
+      let li, li_templ, ul;
+
+      const originalHTML = area.innerHTML;
+      area.innerHTML = uiModel.dropdown;
+
+      console.log(uiModel.dropdown);
+
+      const model = this.model;
+
+      // edit dropdown
+      const addButtons = area.querySelectorAll("div.dropdown > button");
+      addButtons.forEach(b => {     // the "one" toggle button in the dropdown
+        b.classList.add("il-copg-edit-list-button");
+        b.innerHTML = originalHTML;
+        b.addEventListener("click", (event) => {
+
+          // we need that to "filter" out these events on the single clicks
+          // on editareas
+          event.isDropDownToggleEvent = true;
+
+          ul = b.parentNode.querySelector("ul");
+          li_templ = ul.querySelector("li").cloneNode(true);
+          ul.innerHTML = "";
+
+          this.log("add dropdown: click");
+          this.log(model);
+
+          const list_commands = {
+            "newItemAfter": il.Language.txt("cont_ed_new_item_after"),
+            "newItemBefore": il.Language.txt("cont_ed_new_item_before")
+          };
+          const li1 = b.closest("li.ilc_list_item_StandardListItem");
+          if (li1.previousSibling || li1.nextSibling) {
+            list_commands.deleteItem = il.Language.txt("cont_ed_delete_item");
+          }
+          if (li1.previousSibling) {
+            list_commands.moveItemUp = il.Language.txt("cont_ed_item_up");
+          }
+          if (li1.nextSibling) {
+            list_commands.moveItemDown = il.Language.txt("cont_ed_item_down");
+          }
+
+          // add each components
+          for (const [listCommand, txt] of Object.entries(list_commands)) {
+            let cname;
+            li = li_templ.cloneNode(true);
+            li.querySelector("a").innerHTML = txt;
+            li.querySelector("a").addEventListener("click", (event) => {
+              event.isDropDownSelectionEvent = true;
+              console.log(area.dataset);
+              dispatch.dispatch(action.page().editor().editListItem(listCommand, area.dataset.pcid));
+            });
+            ul.appendChild(li);
+          }
+        });
+      });
+    });
+    this.refreshAddButtonText();
   }
 
   getPCTypeForName(name) {
@@ -228,18 +348,36 @@ export default class PageUI {
     return this.uiModel.pcDefinition.names[type];
   }
 
+  getLabelForType(type) {
+    return this.uiModel.pcDefinition.txt[type];
+  }
+
+  getCnameForPCID(pcid) {
+    const el = document.querySelector("[data-pcid='" + pcid + "']");
+    if (el) {
+      return el.dataset.cname;
+    }
+    return null;
+  }
+
   /**
    * Click and DBlClick is not naturally supported on browsers (click is also fired on
    * dblclick, time period for dblclick varies)
    */
   initComponentClick(selector) {
+    let areaSelector, coverSelector, area;
 
     if (!selector) {
-      selector = "[data-copg-ed-type='pc-area']";
+      areaSelector = "[data-copg-ed-type='pc-area']";
+      coverSelector = "[data-copg-ed-type='media-cover']";
+    } else {
+      areaSelector = selector + "[data-copg-ed-type='pc-area']";
+      coverSelector = selector + "[data-copg-ed-type='media-cover']";
     }
 
-    // init add buttons
-    document.querySelectorAll(selector).forEach(area => {
+
+    // init area clicks
+    document.querySelectorAll(areaSelector).forEach(area => {
       area.addEventListener("click", (event) => {
         if (event.isDropDownToggleEvent === true ||
           event.isDropDownSelectionEvent === true) {
@@ -250,10 +388,30 @@ export default class PageUI {
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
           area.dispatchEvent(new Event("areaCmdClick"));
         } else {
+          console.log("*** DISPATCH areaClick");
           area.dispatchEvent(new Event("areaClick"));
         }
       });
     });
+
+    // init add buttons
+    document.querySelectorAll(coverSelector).forEach(cover => {
+      cover.addEventListener("click", (event) => {
+        console.log("---COVER CLICKED---");
+        if (event.isDropDownToggleEvent === true ||
+            event.isDropDownSelectionEvent === true) {
+          return;
+        }
+        event.stopPropagation();
+        area = cover.closest("[data-copg-ed-type='pc-area']");
+        if (event.shiftKey || event.ctrlKey || event.metaKey) {
+          area.dispatchEvent(new Event("areaCmdClick"));
+        } else {
+          area.dispatchEvent(new Event("areaClick"));
+        }
+      });
+    });
+
   }
 
   initComponentEditing(selector) {
@@ -322,7 +480,7 @@ export default class PageUI {
     const action = this.actionFactory;
 
     if (!draggableSelector) {
-      draggableSelector = ".il_editarea";
+      draggableSelector = ".il_editarea, .il_editarea_disabled";
     }
 
     if (!droppableSelector) {
@@ -351,9 +509,7 @@ export default class PageUI {
 
     $(droppableSelector).droppable({
       drop: (event, ui) => {
-        ui.draggable.draggable( 'option', 'revert', false );
-
-
+        ui.draggable.draggable( 'option', 'revert', false);
 
         // @todo: remove legacy
         const target_id = event.target.id.substr(6);
@@ -417,6 +573,10 @@ export default class PageUI {
       });
 
       buttonDisabled = (selected.size === 0 && type !== "all");
+      if (type === "all") {
+        const all_areas = document.querySelectorAll("[data-copg-ed-type='pc-area']");
+        buttonDisabled = (selected.size === all_areas.length);
+      }
       multi_button.disabled = buttonDisabled
 
     });
@@ -440,6 +600,44 @@ export default class PageUI {
       });
     });
     this.refreshModeSelector();
+    this.refreshTopDropdown();
+    this.refreshFinishEditingButton();
+    this.refreshTopLoader();
+  }
+
+  refreshTopLoader() {
+    const model = this.model;
+    const tl = document.querySelector("[data-copg-ed-type='top-loader']");
+    if (tl) {
+      tl.style.display = 'none';
+      if (model.getState() === model.STATE_SERVER_CMD) {
+        tl.style.display = '';
+      }
+    }
+  }
+
+  refreshFinishEditingButton() {
+    const model = this.model;
+    // dropdown
+    const b = document.querySelector("#copg-top-actions .ilFloatLeft .btn-default");
+    if (b) {
+      b.disabled = false;
+      if (model.getState() === model.STATE_SERVER_CMD) {
+        b.disabled = true;
+      }
+    }
+  }
+
+  refreshTopDropdown() {
+    const model = this.model;
+    // dropdown
+    const dd = document.querySelector("#copg-top-actions .dropdown-toggle");
+    if (dd) {
+      dd.style.display = '';
+      if (model.getState() === model.STATE_SERVER_CMD) {
+        dd.style.display = 'none';
+      }
+    }
   }
 
   refreshModeSelector() {
@@ -448,6 +646,8 @@ export default class PageUI {
     const single = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.single']");
     multi.classList.remove("engaged");
     single.classList.remove("engaged");
+    multi.disabled = false;
+    single.disabled = false;
     if (model.getState() === model.STATE_PAGE) {
       //multi.disabled = false;
       //single.disabled = true;
@@ -457,6 +657,10 @@ export default class PageUI {
       //single.disabled = false;
       multi.classList.add("engaged");
     }
+    if (model.getState() === model.STATE_SERVER_CMD) {
+      multi.disabled = true;
+      single.disabled = true;
+    }
   }
 
   initFormatButtons() {
@@ -464,9 +668,37 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const model = this.model;
+    const selected = model.getSelected();
+    let pcModel, cname;
 
 
     this.toolSlate.setContent(this.uiModel.formatSelection);
+
+    document.querySelector("#il-copg-format-paragraph").
+        style.display = "none";
+    document.querySelector("#il-copg-format-section").
+        style.display = "none";
+    document.querySelector("#il-copg-format-media").
+        style.display = "none";
+    console.log("***INIT FORMAT");
+    console.log(selected);
+    selected.forEach((id) => {
+      cname = this.getCnameForPCID(id.split(":")[1]);
+      switch (cname) {
+        case "MediaObject":
+          document.querySelector("#il-copg-format-media").
+              style.display = "";
+          break;
+        case "Section":
+          document.querySelector("#il-copg-format-section").
+              style.display = "";
+          break;
+        case "Paragraph":
+          document.querySelector("#il-copg-format-paragraph").
+              style.display = "";
+          break;
+      }
+    });
 
     document.querySelectorAll("[data-copg-ed-type='format']").forEach(multi_button => {
       const act = multi_button.dataset.copgEdAction;
@@ -486,14 +718,27 @@ export default class PageUI {
           });
           break;
 
+        case "format.media":
+          multi_button.addEventListener("click", (event) => {
+            dispatch.dispatch(action.page().editor().formatMedia(format));
+          });
+          break;
+
         case "format.save":
           multi_button.addEventListener("click", (event) => {
             const pcids = new Set(this.model.getSelected());
             dispatch.dispatch(action.page().editor().formatSave(
               pcids,
               model.getParagraphFormat(),
-              model.getSectionFormat()
+              model.getSectionFormat(),
+              model.getMediaFormat()
             ));
+          });
+          break;
+
+        case "format.cancel":
+          multi_button.addEventListener("click", (event) => {
+            dispatch.dispatch(action.page().editor().formatCancel());
           });
           break;
       }
@@ -510,12 +755,15 @@ export default class PageUI {
     if (f2) {
       dispatch.dispatch(action.page().editor().formatSection(f2));
     }
+    const b3 = document.querySelector("#il-copg-format-media div.dropdown ul li button");
+    const f3 = b3.dataset.copgEdParFormat;
+    if (f3) {
+      dispatch.dispatch(action.page().editor().formatMedia(f3));
+    }
   }
 
   setParagraphFormat(format) {
-    console.log("setParagraphFormat " + format);
     const b1 = document.querySelector("#il-copg-format-paragraph div.dropdown > button");
-    console.log(b1);
     if (b1) {
       b1.firstChild.textContent = format + " ";
     }
@@ -525,6 +773,13 @@ export default class PageUI {
     const b2 = document.querySelector("#il-copg-format-section div.dropdown > button");
     if (b2) {
       b2.firstChild.textContent = format + " ";
+    }
+  }
+
+  setMediaFormat(format) {
+    const b3 = document.querySelector("#il-copg-format-media div.dropdown > button");
+    if (b3) {
+      b3.firstChild.textContent = format + " ";
     }
   }
 
@@ -547,9 +802,26 @@ export default class PageUI {
     });
   }
 
+  refreshAddButtonText() {
+    const addButtons = document.querySelectorAll("button.copg-add");
+    document.querySelectorAll("button.copg-add").forEach(b => {
+      if (addButtons.length === 1) {
+        b.innerHTML = this.add + this.first_add;
+      } else {
+        b.innerHTML = this.add;
+      }
+    });
+  }
+
   hideAddButtons() {
     document.querySelectorAll("button.copg-add").forEach(el => {
       el.style.display = "none";
+    });
+  }
+
+  disableListButtons() {
+    document.querySelectorAll("button.il-copg-edit-list-button").forEach(el => {
+      el.disabled = true;
     });
   }
 
@@ -588,8 +860,14 @@ export default class PageUI {
         this.initMultiButtons();
         break;
     }
+  }
 
-
+  displayServerWaiting() {
+    this.showEditPage();
+    this.hideAddButtons();
+    this.hideDropareas();
+    this.disableDragDrop();
+    this.disableListButtons();
   }
 
   /**
@@ -631,8 +909,9 @@ export default class PageUI {
     {
       $('#il_center_col').html(pl.renderedContent);
 
-      console.log("PCMODEL---");
-      console.log(pl.pcModel);
+      this.log("PCMODEL---");
+      this.log(pl.pcModel);
+      il.COPagePres.initAudioVideo();
 
       for (const [key, value] of Object.entries(pl.pcModel)) {
         this.model.addPCModelIfNotExists(key, value);
@@ -640,6 +919,7 @@ export default class PageUI {
 
 //      il.IntLink.refresh();           // missing
       this.reInit();
+      this.refreshUIFromModelState(this.model);
     }
   }
 
@@ -674,7 +954,7 @@ export default class PageUI {
     if (this.uiModel.components[this.model.getCurrentPCName()] &&
       this.uiModel.components[this.model.getCurrentPCName()].icon) {
       content = "<div class='copg-new-content-placeholder'>" + this.uiModel.components[this.model.getCurrentPCName()].icon +
-        "<div>" + this.model.getCurrentPCName() + "</div></div>";
+        "<div>" +  this.getLabelForType(this.getPCTypeForName(this.model.getCurrentPCName())) + "</div></div>";
     }
 
     this.pageModifier.insertComponentAfter(

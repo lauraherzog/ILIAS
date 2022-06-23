@@ -85,6 +85,10 @@ class PageCommandActionHandler implements Server\CommandActionHandler
                 return $this->activate($body);
                 break;
 
+            case "list.edit":
+                return $this->listEdit($body);
+                break;
+
             default:
                 throw new Exception("Unknown action " . $body["action"]);
                 break;
@@ -122,8 +126,8 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     {
         $target_pcid = $body["data"]["target_pcid"];
         $page = $this->page_gui->getPageObject();
-
-        $updated = $page->pasteContents($this->getIdForPCId($target_pcid));
+        $updated = $page->pasteContents($this->getIdForPCId($target_pcid),
+            $page->getPageConfig()->getEnableSelfAssessment());
 
         return $this->sendPage($updated);
     }
@@ -160,6 +164,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $pcids = $body["data"]["pcids"];
         $par = $body["data"]["paragraph_format"];
         $sec = $body["data"]["section_format"];
+        $med = $body["data"]["media_format"];
         $page = $this->page_gui->getPageObject();
 
         $hids = array_map(
@@ -169,7 +174,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             $pcids
         );
 
-        $updated = $page->assignCharacteristic($hids, $par, $sec);
+        $updated = $page->assignCharacteristic($hids, $par, $sec, $med);
         return $this->sendPage($updated);
     }
 
@@ -326,4 +331,41 @@ class PageCommandActionHandler implements Server\CommandActionHandler
 
         return $this->sendPage($updated);
     }
+
+    /**
+     * Activate command
+     * @param $body
+     * @return Server\Response
+     */
+    protected function listEdit($body) : Server\Response
+    {
+        $pcid = $body["data"]["pcid"];
+        $list_cmd = $body["data"]["list_cmd"];
+        $page = $this->page_gui->getPageObject();
+
+        $pc = $page->getContentObjectForPcId($pcid);
+
+        $updated = true;
+        switch ($list_cmd) {
+            case "newItemAfter":
+                $pc->newItemAfter();
+                break;
+            case "newItemBefore":
+                $pc->newItemBefore();
+                break;
+            case "deleteItem":
+                $pc->deleteItem();
+                break;
+            case "moveItemUp":
+                $pc->moveItemUp();
+                break;
+            case "moveItemDown":
+                $pc->moveItemDown();
+                break;
+        }
+        $updated = $page->update();
+
+        return $this->sendPage($updated);
+    }
+
 }

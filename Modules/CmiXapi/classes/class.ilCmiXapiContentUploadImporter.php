@@ -186,7 +186,7 @@ class ilCmiXapiContentUploadImporter
         switch ($this->fetchFileExtension($uploadResult)) {
             case self::IMP_FILE_EXTENSION_XML:
                 
-                $this->handleXmlFile($uploadResult->getName());
+                $this->handleXmlFileFromUpload($uploadResult->getName(),$uploadResult->getPath());
                 break;
                 
             case self::IMP_FILE_EXTENSION_ZIP:
@@ -211,6 +211,36 @@ class ilCmiXapiContentUploadImporter
         $dom->load($xmlFilePath);
         
         switch (basename($xmlFilePath)) {
+            case self::CMI5_XML:
+                
+                $xsdFilePath = $this->getXsdFilePath(self::CMI5_XSD);
+                $this->validateXmlFile($dom, $xsdFilePath);
+                
+                $this->initObjectFromCmi5Xml($dom);
+                
+                break;
+            
+            case self::TINCAN_XML:
+                
+                $xsdFilePath = $this->getXsdFilePath(self::TINCAN_XSD);
+                $this->validateXmlFile($dom, $xsdFilePath);
+                
+                $this->initObjectFromTincanXml($dom);
+                
+                break;
+        }
+    }
+
+    /**
+     * @param string $xmlFileName
+     * @param string $xmlFilePath
+     * @throws ilCmiXapiInvalidUploadContentException
+     */
+    protected function handleXmlFileFromUpload($xmlFileName, $xmlFilePath)
+    {
+        $dom = new DOMDocument();
+        $dom->load($xmlFilePath);
+        switch (basename($xmlFileName)) {
             case self::CMI5_XML:
                 
                 $xsdFilePath = $this->getXsdFilePath(self::CMI5_XSD);
@@ -315,28 +345,78 @@ class ilCmiXapiContentUploadImporter
     
     protected function initObjectFromCmi5Xml($dom)
     {
+        global $DIC;
         $xPath = new DOMXPath($dom);
         
         $courseNode = $xPath->query("//*[local-name()='course']")->item(0);
-        
-        $title = $xPath->query("//*[local-name()='title']", $courseNode)->item(0)->nodeValue;
+        // TODO: multilanguage support
+        $title = $xPath->query("//*[local-name()='title']/*[local-name()='langstring']", $courseNode)->item(0)->nodeValue;
         $this->object->setTitle(trim($title));
         
-        $description = $xPath->query("//*[local-name()='description']", $courseNode)->item(0)->nodeValue;
+        $description = $xPath->query("//*[local-name()='description']/*[local-name()='langstring']", $courseNode)->item(0)->nodeValue;
         $this->object->setDescription(trim($description));
         
-        $activityId = $courseNode->getAttribute('id');
-        $this->object->setActivityId(trim($activityId));
+        $publisherId = trim($courseNode->getAttribute('id'));
+        $this->object->setPublisherId($publisherId);
+
+        $activityId = $this->generateActivityId($publisherId);
+        $this->object->setActivityId($activityId);
         
         foreach ($xPath->query("//*[local-name()='au']") as $assignedUnitNode) {
             $relativeLaunchUrl = $xPath->query("//*[local-name()='url']", $assignedUnitNode)->item(0)->nodeValue;
-            $this->object->setLaunchUrl(trim($relativeLaunchUrl));
+            $launchParameters = $xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue;
+            $moveOn = trim($assignedUnitNode->getAttribute('moveOn'));
+            $entitlementKey = $xPath->query("//*[local-name()='entitlementKey']", $assignedUnitNode)->item(0)->nodeValue;
+            $masteryScore = trim($assignedUnitNode->getAttribute('masteryScore'));
+
+            if (!empty($relativeLaunchUrl)) {
+                $this->object->setLaunchUrl(trim($relativeLaunchUrl));
+            }
+            if (!empty($launchParameters)) {
+                $this->object->setLaunchParameters(trim($launchParameters));
+            }
+            if (!empty($moveOn)) {
+                if ($moveOn == ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED) {
+                    $moveOn = ilCmiXapiLP::MOVEON_PASSED;
+                }
+                $this->object->setMoveOn($moveOn);
+            }
+            if (!empty($entitlementKey)) {
+                $this->object->setEntitlementKey($entitlementKey);
+            }
+            if (!empty($masteryScore)) {
+                $this->object->setMasteryScore($masteryScore);
+            }
+            else {
+                $this->object->setMasteryScore(ilObjCmiXapi::LMS_MASTERY_SCORE);
+            }
             
             break; // TODO: manage multi au imports
         }
-        
+        $xml_str = $dom->saveXML();
+        $this->object->setXmlManifest($xml_str);
         $this->object->update();
         $this->object->save();
+        
+        $lpSettings = new ilLPObjSettings($this->object->getId());
+        $mode = ilLPObjSettings::LP_MODE_DEACTIVATED;
+        switch ($moveOn)
+        {
+            case ilCmiXapiLP::MOVEON_COMPLETED :
+                $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;
+            break;
+            case ilCmiXapiLP::MOVEON_PASSED :
+                $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED;
+            break;
+            case ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED :
+                $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED;
+            break;
+            case ilCmiXapiLP::MOVEON_COMPLETED_AND_PASSED : // ich würde es noch implementieren
+                $mode = ilLPObjSettings::LP_MODE_CMIX_PASSED; 
+            break;
+        }
+        $lpSettings->setMode($mode);
+        $lpSettings->update();
     }
     
     protected function initObjectFromTincanXml($dom)
@@ -359,8 +439,19 @@ class ilCmiXapiContentUploadImporter
             break; // TODO: manage multi activities imports
         }
         
-        
+        $xml_str = $dom->saveXML();
+        $this->object->setXmlManifest($xml_str);
         $this->object->update();
         $this->object->save();
     }
+
+    private function generateActivityId($publisherId)
+    {
+        global $DIC;
+        $objId = $this->object->getId();
+        $activityId = "https://ilias.de/cmi5/activityid/".(new \Ramsey\Uuid\UuidFactory())->uuid3(ilCmiXapiUser::getIliasUuid(),$objId . '-' . $publisherId);
+        return $activityId;
+    }
+
+
 }

@@ -1,4 +1,16 @@
-/* Copyright (c) 1998-2021 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file
 *
@@ -14,6 +26,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
@@ -245,7 +258,10 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+content#:#cont_lpe_saml_login#:#SAML Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
+common#:#msg_no_files_selected#:#No files selected
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
@@ -309,7 +325,7 @@ lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
-lti#:#lti_member#:#LTI Member
+lti#:#lti_member#:#LTI Member / Learner
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
@@ -606,7 +622,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
-assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
+assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
@@ -624,6 +640,7 @@ assessment#:#assessment_scoring_adjust#:#Enable corrections
 assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
 assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.
 assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
@@ -724,7 +741,9 @@ assessment#:#assTextSubset#:#Text Subset Question
 assessment#:#autosave_failed#:#Autosave failed!
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#average_reached_points#:#Average Points
-assessment#:#backtocallingtest#:#Back to the calling test
+assessment#:#backtocallingtest#:#Back to the test
+assessment#:#backtocallingpage#:#Back to the question page
+assessment#:#backtocallingpool#:#Back to the question pool
 assessment#:#assLongMenu#:#Long Menu
 assessment#:#answers_text_box#:#Text
 assessment#:#min_auto_complete#:#Autocomplete
@@ -805,9 +824,9 @@ assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
 assessment#:#deleteSuggestedSolution#:#Remove this content for recapitulation
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s
+assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s hours.
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s
+assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s hours.
 assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the ‘Detailed Evaluation’ for a selected participant!
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
@@ -841,7 +860,7 @@ assessment#:#end_tag#:#End Tag
 assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#enlarge#:#Enlarge
-assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
+assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
@@ -1331,7 +1350,7 @@ assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#true#:#True
-assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
@@ -1383,7 +1402,9 @@ assessment#:#tst_finish_notification_desc#:#Sends an e-mail to the test owner fo
 assessment#:#tst_finished#:#Finished
 assessment#:#unfinished_passes#:#Unfinished Passes
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.
 assessment#:#finish_all_user_passes#:#Finish all Test Passes
 assessment#:#finish_unfinished_passes#:#Finish Open Passes
 assessment#:#finish_unfinished_passes_desc#:#Passes which have a finishing time or a duration limit configured will be closed by this cron job.
@@ -1789,7 +1810,7 @@ assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
 assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.
-assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.
+assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants can no longer answer questions, the test is finished by ILIAS.
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
@@ -1972,13 +1993,13 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
-common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
 common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
 common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
 common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
@@ -1992,7 +2013,9 @@ common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account d
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -2270,6 +2293,7 @@ rbac#:#cert_read#:#User has read access to Certificates Administration
 rbac#:#cert_visible#:#Certificates Administration is visible
 rbac#:#cert_write#:#User can edit settings in Certificates Administration
 common#:#certificate#:#Certificate
+common#:#certificates#:#Certificates
 common#:#change_assignment#:#Change assignment
 rbac#:#change_existing_object_type_desc#:#This will also change the permissions of already existing objects of that type
 rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adopted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropriate object type.
@@ -2287,10 +2311,10 @@ common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
 common#:#characters#:#characters
-common#:#chat_enter_public_room_tooltip#:#Enter public chat.
-common#:#chat_enter_public_room#:#Public Chat
-common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
-common#:#chat_invite_public_room#:#Public Chat
+common#:#chat_enter_public_room_tooltip#:#Enter public chat room
+common#:#chat_enter_public_room#:#Public Chat Room
+common#:#chat_invite_public_room_tooltip#:#Invite to public chat room
+common#:#chat_invite_public_room#:#Public Chat Room
 chatroom#:#chat_settings#:#Chat Settings
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
@@ -2383,7 +2407,7 @@ common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at ’Administration -> Search’.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please enable the option ‘%s’ first to use this function.
+common#:#cron_mail_notification_desc#:#On request, ILIAS sends e-mail notifications about new mails. In contrast to the immediate forwarding of all mails, this cronjob collects the mails of one day and delivers them as a package. Please enable the option '%s' to use this feature. Additionally, the e-mail notifications for each ILIAS account have to be activated in the personal mail settings.
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
 common#:#crs_activation_start_invalid#:#The start and the finish time is not valid.
@@ -2618,6 +2642,7 @@ common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 rbac#:#file_read#:#User can download file
@@ -2710,7 +2735,7 @@ common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
-common#:#gender_n#:#No salutation desired
+common#:#gender_n#:#Not stated
 common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
@@ -2772,7 +2797,7 @@ rbac#:#grp_leave#:#User can unsubscribe from group
 common#:#grp_list_members#:#List members
 common#:#grp_list_users#:#List users
 common#:#grp_mem_change_status#:#Change Participant Status
-common#:#grp_mem_send_mail#:#Send Participants a Message
+common#:#grp_mem_send_mail#:#Send member a mail
 common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
@@ -2803,6 +2828,7 @@ common#:#hint#:#Hint
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
@@ -2975,8 +3001,8 @@ common#:#legend#:#Legend
 common#:#level#:#Level
 common#:#link_all#:#Link all
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
-common#:#link_check_message_disabled#:#Messages disabled
-common#:#link_check_message_enabled#:#Messages enabled
+common#:#link_check_message_disabled#:#The sending of mails is deactivated.
+common#:#link_check_message_enabled#:#The sending of mails is activated.
 common#:#link_check_subject#:#[ILIAS] Weblink check
 common#:#link_check#:#Weblink Check
 common#:#link_checker_refreshed#:#Refreshed view
@@ -3061,8 +3087,8 @@ common#:#mail_import_file#:#Export file
 common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_members#:#Mail to Members
-common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
+common#:#mail_multiple_recipients_found#:#Please enter a more precise e-mail address, as ILIAS has found several possible recipients for this address: %s
+common#:#mail_no_recipient_found#:#Please enter a different e-mail address. ILIAS could not find a corresponding recipient.
 common#:#mail_not_sent#:#Mail not sent!
 rbac#:#mail_read#:#User has read access to Mail administration
 common#:#mail_search_no#:#No entries found.
@@ -3746,7 +3772,7 @@ common#:#selected_items_back#:#Back to Personal Items
 common#:#selected_items#:#Personal Items
 common#:#selected_languages_updated#:#The selected languages have been updated (if installed):
 common#:#selected#:#Selected
-common#:#send_mail#:#Send Message
+common#:#send_mail#:#Send mail
 common#:#send#:#Send
 common#:#sender#:#Sender
 common#:#sent#:#Sent
@@ -3780,8 +3806,8 @@ common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
 common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
-common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
-common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
+common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the %s
+common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the %s
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
 common#:#shib_institution#:#Attribute for institution
 common#:#shib_invalid_home_organization#:#Please choose a valid organization!
@@ -3915,7 +3941,6 @@ common#:#time_limit_from#:#From (time limit)
 common#:#time_limit_message#:#Message (time limit)
 common#:#time_limit_no_users_selected#:#Please select a user.
 common#:#time_limit_not_valid#:#The period is not valid.
-common#:#time_limit_owner#:#Owner (time limit)
 common#:#time_limit_reached#:#Your user account is not active.
 common#:#time_limit_unlimited#:#Unlimited (time limit)
 common#:#time_limit_until#:#Until (time limit)
@@ -3959,7 +3984,7 @@ common#:#tst_warning_test_not_complete#:#The test is not complete!
 rbac#:#tst_write#:#User can edit content and settings of test
 common#:#tst#:#Test
 common#:#tutors#:#Tutors
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.
+common#:#txt_registered_passw_gen#:#You have successfully registered with ILIAS. You will receive an e-mail with your password shortly.
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Object Type Definition
@@ -4024,7 +4049,7 @@ common#:#user_import_failed#:#User import failed.
 common#:#user_imported_with_warnings#:#User import complete with warnings.
 common#:#user_imported#:#User import complete.
 common#:#user_language#:#User Language
-common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with enabled setting ‘Send mail to inform user about changes’.
+common#:#user_new_account_mail_desc#:#This e-mail is sent after an ILIAS account has been created. If the account was created by an administrator, ILIAS will only send an e-mail if the option "Send mail to inform user about changes" was activated when creating the account.
 common#:#user_new_account_mail#:#New Account Mail
 common#:#user_not_known#:#Please insert a valid username.
 common#:#user_profile_other#:#Other Information
@@ -4569,6 +4594,7 @@ content#:#cont_pc_hacc#:#Accordion (Horizontal)
 content#:#cont_pc_incl#:#Content Snippet
 content#:#cont_pc_list#:#Advanced List
 content#:#cont_pc_map#:#Map
+content#:#cont_pc_media#:#Image/Media
 content#:#cont_pc_mob#:#Media
 content#:#cont_pc_modified#:#Modified Content
 content#:#cont_pc_new#:#New Content
@@ -4707,7 +4733,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln_link#:#Interal Link
+content#:#cont_text_iln_link#:#Internal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -5115,7 +5141,7 @@ crs#:#event_unregistered#:#You have been unregistered.
 crs#:#event_updated#:#Saved Settings
 crs#:#event#:#Session
 crs#:#events#:#Sessions
-crs#:#export_members#:#Export Participants
+crs#:#export_members#:#Export Data of Participants
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#sess_attendance_list#:#Attendance List
 crs#:#sess_gen_attendance_list#:#Generate List
@@ -5585,7 +5611,7 @@ forum#:#forums_disable_notification#:#Disable Notification for this Thread
 forum#:#forums_download_attachment#:#Download file
 forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
-forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
+forum#:#forums_info_censor_post#:#Please provide a reason for hiding this article.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
@@ -5807,7 +5833,7 @@ jscalendar#:#wk#:#wk
 mathjax#:#mathjax_enable_mathjax_info#:#Activates support for MathJax based mathematical output of LaTeX expressions.
 mathjax#:#mathjax_enable_mathjax#:#Enable MathJax
 mathjax#:#mathjax_mathjax#:#MathJax
-mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation.
+mathjax#:#mathjax_path_to_mathjax_desc#:#E.g. https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML or a URL to your local installation. ILIAS 6 and 7 supports MathJax 2.7, not yet MathJax 3.
 mathjax#:#mathjax_path_to_mathjax#:#URL to MathJax
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_limiter#:#Inline Delimiters
@@ -6014,6 +6040,7 @@ mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_name#:#Client Name
 mail#:#mail_nacc_client_desc#:#Client Description
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
+mail#:#mail_no_subject#:#No Subject available
 mail#:#mail_nacc_login#:#Login Account
 mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
 mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
@@ -6059,6 +6086,8 @@ mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
 mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
 mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
 mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -6857,8 +6886,8 @@ ps#:#ps_error_message_password_min3_because_chars_numbers_sc#:#Minimum password 
 ps#:#ps_export_admin#:#Administrators
 ps#:#ps_export_confirm#:#User Confirmation when Entering Courses
 ps#:#ps_export_confirm_group#:#User Confirmation when Entering Groups
-ps#:#ps_export_course#:#Visibility of User Profile Data in Courses
-ps#:#ps_export_groups#:#Visibility of User Profile Data in Groups
+ps#:#ps_export_course#:#Allow export of user profile data in courses
+ps#:#ps_export_groups#:#Allow export of user profile data in groups
 ps#:#ps_export_data#:#Data Types of the Personal Profile
 ps#:#ps_export_files#:#Export Files
 ps#:#ps_export_member#:#Members
@@ -6911,13 +6940,13 @@ pwassist#:#pwassist_enter_email#:#Please enter an e-mail address and submit the 
 pwassist#:#pwassist_enter_username_and_email#:#Enter a username and the associated e-mail address in the fields shown below. ILIAS will send a message to that e-mail address. The message contains an address for a web page, where you can enter a new password for the user account. In case you are unable to assign a password to your user account using this form, contact your course administration or send an e-mail to %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Enter the username and the new password in the fields below.
 pwassist#:#pwassist_login_not_match#:#Please enter another username. The username you have entered does not match the username for which you had asked for password assistance.
-pwassist#:#pwassist_mail_body#:#Register a new password for your user account: \t%1$s  This message has been generated automatically by the ILIAS server \t%2$s  You (or someone at %3$s) has asked for password assistance for the user account "%4$s".  Please check carefully the conditions listed below, and proceed accordingly:  - If you have used the password assistance form on the ILIAS server by accident: Delete this mail.  - If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.  - If you asked for password assistance, please proceed as follows:  1. Open your browser.  2. Enter the following address in your browser: \t%6$s  Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.  3. On the web page shown by your browser, enter a new password for your user account.  Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
+pwassist#:#pwassist_mail_body#:#Register a new password for your user account: %1$s<br><br>This message has been generated automatically by the ILIAS server %2$s<br><br>You (or someone at %3$s) has asked for password assistance for the user account "%4$s". Please check carefully the conditions listed below and proceed accordingly:<br><br>• If you have used the password assistance form on the ILIAS server by accident: Delete this mail.<br><br>• If you are certain, that you never asked for password assistance at this ILIAS server: Please contact %5$s.<br><br>• If you asked for password assistance, please proceed as follows:<br>1. Open your browser.<br>2. Enter the following address in your browser: %6$s<br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. On the web page shown by your browser, enter a new password for your user account.<br><br>Please note, that for security reasons, you can perform the three steps above only exactly once and for a limited time only. Afterwards the address becomes invalid, and you have to use the password assistance page on the ILIAS server again.
 pwassist#:#pwassist_mail_sent#:#A message has been sent to %1$s. Please check your mail box.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#ILIAS Password Assistance
 pwassist#:#pwassist_password_assigned#:#The password has been successfully assigned to user "%1$s".
 pwassist#:#pwassist_session_expired#:#Please fill in this form again. Your password assistance session has expired. This may have happened, because you tried to use the link that has been sent by e-mail to you more than once, or because too much time has passed since the link has been sent to you.
-pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address: %s  This message has been created automatically by the following ILIAS Server: \t%s  You (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'.  Please check the following and act as suggested::  -You have requested this e-mail by accident: Delete this e-mail.  -You are sure, that you never requested this e-mail: Please contact %s.  - If you requested this e-mail, please proceed as follows::  1. Start your internet browser.  2. Enter the following url: \t%s  Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.  3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
+pwassist#:#pwassist_username_mail_body#:#These are the active username found for the given e-mail address: %s <br><br>This message has been created automatically by the following ILIAS Server: %s  <br><br>You (or somebody with IP  %s) have requested support for forgotten user names for the e-mail address '%s'. Please check the following and act as suggested:<br><br>• You have requested this e-mail by accident: Delete this e-mail.<br><br>• You are sure, that you never requested this e-mail: Please contact %s.<br><br>• If you requested this e-mail, please proceed as follows:<br>1. Start your internet browser.<br>2. Enter the following url: %s <br>Important: The address is a single line. If you see this address split into multiple lines, then your e-mail program has inserted these line breaks.<br>3. Your Browser now shows the Password-Service. Use this page together with one of the usernames and the according e-mail address to retrieve a new password.
 pwassist#:#pwassist_disabled_no_access#:#Password assistance is not enabled. Please contact the system administration for further assistance: %s
 pwassist#:#unassist_disabled_no_access#:#Username assistance is not enabled. Please contact the system administration for further assistance: %s
 rating#:#rating_your_rating#:#Your Rating
@@ -7365,7 +7394,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter, does not use spaces and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
@@ -8251,6 +8280,7 @@ dateplaner#:#cal_ch_deadline_info#:#Please define the number of hours until the 
 dateplaner#:#cal_ch_num_appointments_info#:#Please define the number of sequent appointments.
 dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours
 dateplaner#:#cal_ch_ch#:#Consultation Hours
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View
 ps#:#rbac_log_age#:#Keep Log Entries
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
 rbac#:#rbac_role_rights_copy#:#Copy Permissions
@@ -8537,8 +8567,8 @@ trac#:#trac_sum#:#Sum
 trac#:#trac_others#:#Others
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a question pool (only available in this test)
 rbac#:#add_consultation_hours#:#Add Consultation Hours
-common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message
-common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.
+common#:#cron_mail_notification_message#:#Mail content as part of the e-mail notification
+common#:#cron_mail_notification_message_info#:#E-mail notifications contain the complete content of the mails received in ILIAS. This means that they can be read without having to log in again.
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mail_at_the_ilias_installation#:#You received %1$s new mail at the ILIAS-Installation %2$s
@@ -8895,8 +8925,8 @@ wsp#:#wsp_type_excv#:#Certificate: Exercise
 excv#:#excv_create#:#Create Exercise Certificate
 excv#:#excv_create_info#:#Select a completed exercise to generate a certificate for it.
 content#:#cont_fn#:#Footnote
-common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News
-common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
+common#:#enable_course_group_notifications#:#Daily mail for group and course news
+common#:#enable_course_group_notifications_desc#:#If enabled, participants can subscribe to a daily summary of news.
 assessment#:#copy_no_questions_selected#:#Please select at least one question to copy.
 assessment#:#copy_questions_success#:#The question(s) has been copied.
 sahs#:#sahs_choose_pages_chap_scos_ass_only#:#Please select either pages, SCOs, assets or chapters only.
@@ -9355,6 +9385,7 @@ chatroom#:#kicked#:#You have been kicked from this chat room
 chatroom#:#unban#:#Unban
 chatroom_adm#:#settings_has_been_saved#:#Settings has been saved
 common#:#obj_chtr#:#Chat Room
+common#:#obj_chtr_duplicate#:#Copy Chat Room
 chatroom#:#unable_to_connect#:#The connection to the chat server could not be established.
 user#:#user_account_codes_add#:#Add Codes
 user#:#user_account_codes_export#:#Export Codes
@@ -9561,7 +9592,7 @@ skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Referen
 skmg#:#skmg_create_skill_category#:#Create Competence Category
 skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
-common#:#public_room#:#Public room
+common#:#public_room#:#Public Chat Room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
 chatroom#:#chtr_new#:#New Chat Room
 chatroom#:#chtr_add#:#Add Chat Room
@@ -10108,7 +10139,7 @@ tax#:#tax_target_within_nodes#:#The target must not be a sub-node of the selecte
 tax#:#tax_please_select_target#:#Please select the target.
 rep#:#rep_activation_availability#:#Availability
 rep#:#rep_activation_online#:#Online
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and roles with permission "Edit Settings" have access to it.
 rep#:#rep_activation_access#:#Access
 rep#:#rep_activation_limited_start#:#Start Time
 rep#:#rep_activation_limited_end#:#Finish Time
@@ -10571,14 +10602,6 @@ blog#:#blog_edit_keywords#:#Edit Keywords
 blog#:#blog_keyword#:#Keyword
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
 administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
-fm#:#fm_settings_tab#:#File Manager
-fm#:#fm_settings_active#:#Enable File Manager
-fm#:#fm_settings_active_info#:#Users can open categories, courses, groups and folders using the ‘Open With File Manager’ action in the repository.
-common#:#fm_start#:#Open With File Manager
-fm#:#fm_settings_local#:#Show Local Filesystem
-fm#:#fm_settings_local_info#:#If enabled, the file manager starts with two frames, one shows the local filesystem, the other contains the view on the ILIAS repository. If disabled, only the ILIAS repository is shown.
-fm#:#fm_settings_filesize#:#Maximum Upload File Size
-fm#:#fm_settings_filesize_info#:#Enter the maximum allowed file size for uploaded files in mebibyte.
 blog#:#blog_authors#:#Authors
 blog#:#blog_author#:#Written by
 blog#:#blog_enable_approval#:#Approve Postings
@@ -10976,7 +10999,7 @@ dcl#:#dcl_view_own_records_perm#:#View only own entries
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
-dcl#:#dcl_link_detail_page#:#Link entries to detail page
+dcl#:#dcl_link_detail_page#:#Link to detailed view
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_delete_records#:#Delete Entries
@@ -11304,6 +11327,7 @@ ecs#:#ecs_cmap_att_module#:#Module
 ecs#:#ecs_cmap_att_venue#:#Venue
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
+assessment#:#tst_man_scoring_only_answered#:#Only answered
 assessment#:#tst_no_scorable_qst_available#:#No question to score available
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#answers_of#:#Answers of:
@@ -11712,6 +11736,8 @@ assessment#:#tolerance#:#Tolerance (%)
 assessment#:#result_units#:#Available Units
 assessment#:#precision#:#Precision
 assessment#:#err_range#:#The maximum range must be greater than the minimum range
+assessment#:#err_division#:#This value has to be smaller than the maximum range.
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.
 assessment#:#err_no_formula#:#You must enter a formula
 assessment#:#err_wrong_rating_advanced#:#Please make sure that the addition of the advanced rating settings equals to 100 percent
 assessment#:#rating_sign#:#Rate Sign
@@ -11831,8 +11857,8 @@ content#:#cont_current_lang#:#Current Language
 obj#:#obj_deactivate_content_lang#:#Deactivate Translation for Page Editing
 content#:#cont_edit_language_version#:#Edit Version
 content#:#cont_page_translation_does_not_exist#:#The translation page does not exist yet and will be created by copying the content of the current master page. Language of the translation page
-search#:#search_user_search_form#:#Search in Personal Profiles
-search#:#search_user_search_info_form#:#Data in personal profiles of users is indexed and can be used to search for users.
+search#:#search_user_search_form#:#Global User Search
+search#:#search_user_search_info_form#:#Users can be found in the global search. Furthermore, data in personal profiles of users is indexed if the Lucene fulltext search is enabled.
 adve#:#adve_blocking_mode#:#Edit Lock
 adve#:#adve_minutes#:#Minutes
 adve#:#adve_minutes_info#:#Minutes of inactivity before an edit lock expires and a page can be edited by another user.
@@ -12485,7 +12511,7 @@ rbac#:#file_read_learning_progress#:#User can view learning progress of other us
 rbac#:#mcst_read_learning_progress#:#User can view learning progress of other users
 rbac#:#lso_read_learning_progress#:#User can view learning progress of other users
 content#:#cont_progress_icons#:#Progress Icons
-content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode. Please note that progress information is stored only with ILIAS 5.0 and higher.
+content#:#cont_progress_icons_info#:#Show progress icons instead of chapter page icons in presentation mode.
 content#:#cont_self_assessment#:#Self Assessment
 content#:#cont_tries#:#Question Behaviour
 content#:#cont_tries_reset_on_visit#:#Reset on Page Visit
@@ -13033,7 +13059,7 @@ common#:#clientlist_public_access#:#Public Access
 common#:#clientlist_login#:#Login
 common#:#clientlist_start_page#:#Start page
 common#:#clientlist_login_page#:#Login page
-forum#:#file_upload_allowed_fora_desc#:#If "Allow Attachments in Selected Forums" is selected, forum moderators can individually allow attaching files to postings in the settings of each forum. In new forums the upload of attachments will be disabled by default.
+forum#:#file_upload_allowed_fora_desc#:#The attachment of files must be enabled in every forum. In new forums the upload of attachments will be disabled by default.
 forum#:#file_upload_allowed_fora#:#Attachments
 forum#:#file_upload_option_allow#:#Allow Attachments in All Forums
 forum#:#file_upload_option_disallow#:#Allow Attachments in Selected Forums
@@ -13203,12 +13229,12 @@ blog#:#blog_contributors#:#Blog-Contributors
 meta#:#meta_obj_type_inactive#:#Dataset not Used
 meta#:#meta_obj_type_mandatory#:#Dataset always offered
 meta#:#meta_obj_type_optional#:#Dataset needs activation
-common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.
+common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
+common#:#obj_tool_setting_custom_metadata_info#:#Custom Metadata sets can be managed in the "Metadata" tab.
 meta#:#meta_section#:#Section
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_tab_advmd#:#Custom Metadata
-meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
+meta#:#meta_tab_advmd_def#:#Manage Custom Metadata Sets
 meta#:#meta_global#:#Global
 wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
@@ -13377,10 +13403,15 @@ buddysystem#:#buddy_bs_action_already_ignored#:#Action not possible. Already ign
 buddysystem#:#buddy_bs_action_already_unlinked#:#Action not possible. The contact state for user '%s' is already unlinked.
 buddysystem#:#buddy_bs_state_linked#:#Linked
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_requested_a#:#Requested
 buddysystem#:#buddy_bs_state_requested_p#:#Requested
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_a#:#Requested
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
@@ -13455,6 +13486,7 @@ awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the t
 common#:#contact_sysadmin#:#Contact Technical Support
 common#:#report_accessibility_issue#:#Report Accessibility Issue
 common#:#report_accessibility_link#:#Reported Link:
+common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#accessibility_control_concept#:#Accessibility Control Concept
 common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
 common#:#mainbar_aria_label#:#Mainbar
@@ -13533,12 +13565,12 @@ prg#:#prg_points_current#:#Points Current
 prg#:#prg_custom_plan#:#Custom Plan
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_show_individual_plan#:#Show Individual Plan
-prg#:#prg_remove_user#:#Remove User
+prg#:#prg_remove_user#:#Remove Assignment
 prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
-prg#:#prg_remove_user_success#:#Removed User successfully.
+prg#:#prg_remove_user_success#:#Assignment removed successfully.
 prg#:#prg_type_add#:#Study Programme Type
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_subtype_add#:#Add new subtype
@@ -13811,7 +13843,7 @@ skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
 skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
-copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
+copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
 logging#:#log_error_message_send_mail#:#Please send a mail to <a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_folder#:#Path
@@ -13864,13 +13896,13 @@ badge#:#badge_settings#:#Badge Settings
 badge#:#badge_service_activate#:#Activate Service
 badge#:#badge_service_activate_info#:#Activate the service to make badges available
 badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
-badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications.
+badge#:#badge_obi_activate_info#:#Users can export badges from ILIAS. They can use their badges to prove their qualification in other web applications.
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
+badge#:#badge_obi_organisation_info#:#This entry will be displayed as the issuer of the badge.
 badge#:#badge_obi_contact#:#Contact E-Mail
-badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge.
+badge#:#badge_obi_contact_info#:#This e-mail address is not displayed, but it is baked into the badge.
 badge#:#badge_obi_salt#:#Salt
-badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards.
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a badge. Please do not change the entry afterwards.
 badge#:#badge_types#:#Types
 badge#:#badge_image_templates#:#Image Templates
 badge#:#badge_activity_badges#:#Activity Badges
@@ -13987,6 +14019,7 @@ glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_term_reference#:#Term Reference
 glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
+glo#:#glo_please_select_other_glo#:#Please select another glossary.
 prg#:#prg_assign_date#:#Assignment date
 prg#:#prg_assigned_by#:#Assigned by
 style#:#add_system_style#:#Add System Style
@@ -14174,7 +14207,7 @@ rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline_landing_page#:#Landing Page
@@ -14330,12 +14363,12 @@ chatroom#:#chtr_server_status#:#Server Status
 chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
-common#:#chtr_import#:#Import Chatroom
+common#:#chtr_import#:#Import Chat Room
 usr#:#user_actions#:#User Actions
 usr#:#user_action#:#User Action
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
 usr#:#user_actions_activation_info#:#Actions will only be listet for users, if the corresponding services are activated and all preconditions are given (e.g. permissions requirements).
-chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chatroom
+chatroom#:#chat_user_action_invite_public_room#:#Invite to Public Chat Room
 chatroom#:#chat_user_action_invite_osd#:#Invite to On-Screen Chat
 chatroom#:#chat_osc_no_conv#:#No conversations.
 chatroom#:#chat_osc_no_sub_directory#:#Sub-Directory
@@ -14492,7 +14525,7 @@ common#:#auth_saml#:#SAML
 common#:#saml_log_in#:#Direct login
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
-common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentification
+common#:#login_to_ilias_via_saml#:#Login to ILIAS via SAML Authentication
 auth#:#auth_saml_configure#:#Configure SAML Authentication
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_sure_delete_idp#:#Are you sure you want to delete the selected Identity Provider? This cannot be undone. The affected user accounts will be switched to the default authentication.
@@ -15412,7 +15445,7 @@ rbac#:#lso_participate#:#User can subscribe to a Learning Sequence
 rbac#:#lso_unparticipate#:#User can unsubscribe from a Learning Sequence
 rbac#:#lso_edit_learning_progress#:#User can edit learning progress settings
 rbac#:#mcst_edit_learning_progress#:#User can edit learning progress settings
-dateplaner#:#btn_ical#:#iCal
+dateplaner#:#btn_ical#:#Subscribe
 style#:#sty_type_code_block#:#Code (Block)
 style#:#sty_type_code_inline#:#Code (Inline)
 common#:#pagination_label_x_of_y#:#Page %1$d of %2$d
@@ -15887,6 +15920,10 @@ cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
+cmix#:#conf_switch_to_review#:#Switch to Review Mode
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.
+cmix#:#conf_mastery_score#:#Mastery Score
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store
@@ -15930,12 +15967,17 @@ cmix#:#conf_lrs_secret#:#Secret / Password
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_any_window#:#Any Window
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#conf_new_window#:#New Window
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#type_cmi5#:#cmi5 Learning Module
+cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.
 cmix#:#conf_launch_mode_browse#:#Browse
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.
 cmix#:#conf_launch_mode_review#:#Review
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.
 cmix#:#conf_keep_lp#:#Keep Learning Progress
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.
 cmix#:#conf_external_lrs#:#External LRS
@@ -16054,20 +16096,7 @@ content#:#cont_page_template#:#Page Template
 content#:#cont_page_created#:#Page created
 prg#:#assignment_date#:#Assignment Date
 prg#:#completion_date#:#Completion Date
-prg#:#prg_no_deadline#:#No fixed prozessing time
-prg#:#prg_deadline_period#:#Processing time is determined inividually
-prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
-prg#:#prg_deadline_date#:#Processing time expires at fixed date
-prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
-prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
-prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
-prg#:#validity_qualification_period#:#Qualification expires individually
-prg#:#validity_qualification_period_desc#:#days after completion
-prg#:#validity_qualification_date#:#Qualification expires at fixed date
-prg#:#validity_qualification_date_desc#:#expiry date
-prg#:#prg_no_restart#:#No restart required
-prg#:#restart_period#:#Restart obligatory
-prg#:#restart_period_desc#:#days before expiry
+prg#:#prg_validity_of_qualification#:#Validity of achieved Qualifications
 prg#:#sp_certificate_title#:#Title of the Study Programme
 prg#:#sp_certificate_description#:#Description of the Study Programme
 prg#:#sp_certificate_type#:#Type of the Study Programme
@@ -16077,12 +16106,8 @@ prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_validity#:#Validity
-prg#:#prg_still_valid#:#still valid
+prg#:#prg_still_valid#:#valid
 prg#:#prg_not_valid#:#not valid
-prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
-prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
-prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
-prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_orgus#:#Organisational Units
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#content_automation#:#Content Automation
@@ -16093,8 +16118,8 @@ prg#:#modal_categories_title#:#Category to be monitored
 prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
-prg#:#prgr_new#:#Create Study Programme Link
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+common#:#prgr_new#:#Create Study Programme Link
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
 prg#:#prg_validity_of_qualification_restart#:#Restart
@@ -16104,6 +16129,7 @@ prg#:#auto_memberships#:#Membership Automation
 prg#:#orgu#:#Organisational Unit
 prg#:#rol#:#Role
 prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.
 prg#:#add_automembership_source#:#Add Source
 prg#:#auto_membership_src_type#:#Type
 prg#:#membership_source_id#:#Id
@@ -16121,11 +16147,8 @@ orgu#:#org_op_view_individual_plan#:#View Individual Plan
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 prg#:#prg_formatted_period#:#%d days
 prg#:#deadline_information#:#Information regarding processing period
-prg#:#dealine_period_info#:#Days to process after assignment
-prg#:#dealine_date_info#:#Deadline date
 prg#:#vq_information#:#Information regarding validity of achived qualification
 prg#:#vq_period_info#:#Days until qualification will expire after achivement
-prg#:#vq_date_info#:#Qualification expires at fixed date
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
@@ -16136,22 +16159,8 @@ prg#:#prg_title#:#Title
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
-prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
-prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
-prg#:#prg_processing_ends_no_success#:#Reminder mail failing
-prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
-prg#:#send_re_assigned_mail#:#E-mail renewed participation
-prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
-prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
-prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
-prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
-prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
-prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
-prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
-prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
-prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
 search#:#search_for_orgu_members#:#Search for Organisational Units
 search#:#select_orgu#:#Select Organisational Units
 prg#:#prg_dash_label_valid#:#Valid:
@@ -16242,6 +16251,7 @@ prg#:#prg_additional_settings#:#Additional Features
 prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions
 prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.
 ui#:#ui_numeric_only#:#Please insert a whole number.
+ui#:#ui_tag_required#:#Please insert at least one tag.
 mmbr#:#mmbr_memberships#:#Memberships
 notes#:#note_without_object#:#Without reference
 prg#:#msg_fill_required#:#Please fill all required fields.
@@ -16268,8 +16278,6 @@ mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrat
 mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
-prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
-prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
 common#:#collapse_content#:#Collapse Content
 common#:#expand_content#:#Expand Content
 common#:#briefcase#:#Background Tasks
@@ -16543,11 +16551,13 @@ file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#upload_info#:#File
 file#:#resource_id#:#Resource ID
+file#:#storage_id#:#Storage ID
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#file_import#:#Import File
 file#:#file_download#:#Download File
 file#:#file_uploaded_by#:#Version uploaded by
+file#:#versionname#:#Title
 file#:#version_uploaded#:#Version uploaded
 file#:#file_copy#:#Copy File
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
@@ -16561,5 +16571,99 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
+file#:#migrated#:#Status
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
+common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_instructor#:#LTI Instructor
+rbac#:#il_lti_global_role#:#LTI User
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+prg#:#msg_mark_relevant#:#%s users successfully marked relevant
+prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:
+prg#:#msg_mark_not_relevant#:#%s users successfully unmarked relevant
+prg#:#msg_mark_not_relevant_failed#:#Not unmarked relevant:
+prg#:#msg_mark_accredited#:#%s users successfully marked accredited
+prg#:#msg_mark_accredited_failed#:#Not marked accredited:
+prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.
+prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:
+prg#:#msg_update_from_settings#:#Updated %s users from settings:
+prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
+prg#:#msg_change_deadline_date#:#Updated deadline for %s users.
+prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:
+prg#:#msg_change_expire_date#:#Updated expire date for %s users.
+prg#:#msg_change_expire_date_failed#:#Expire date not updated for:
+prg#:#status_transition_not_allowed#:#Status change not allowed
+prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant
+prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited
+prg#:#status_changed#:#Updated status
+prg#:#validity_updated#:#Updated validity
+prg#:#deadline_updated#:#Updated deadline
+prg#:#updated_from_settings#:#Updated from settings
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
+prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
+prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
+prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
+prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_no_deadline#:#No fixed processing time
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
+prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
+prg#:#validity_qualification_period#:#Qualification expires individually
+prg#:#validity_qualification_period_desc#:#days after completion
+prg#:#validity_qualification_date#:#Qualification expires at fixed date
+prg#:#validity_qualification_date_desc#:#expiry date
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#prg_no_restart#:#No restart required
+prg#:#restart_period#:#Restart obligatory
+prg#:#restart_period_desc#:#days before expiry
+prg#:#send_re_assigned_mail#:#E-mail renewed participation
+prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
+prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
+prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
+prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
+prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
+prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
+prg#:#prg_processing_ends_no_success#:#Reminder mail failing
+prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)
+prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
+prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.
+prg#:#msg_impossible_target_status#:#Impossible target status
+prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
+prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.
+prg#:#assignments#:#Assignments
+prg#:#mail_assignments#:#Mail to assigned Users
+prg#:#manage_assignments#:#Manage Assignments
+prg#:#prg_manage_members_short#:#Manage Assignments
+prg#:#will_not_modify_relevant_progress#:#already relevant
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful
+prg#:#status_unchanged#:#Status unchanged
+content#:#cont_media#:#Images/Media
+content#:#cont_sur_block_format#:#Surrounding Section
+ui#:#datetime_required#:#Time/Date required
+ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.
+forum#:#sticky_threads_sorting#:#Sticky Threads Sorting
+common#:#actions_for#:#Actions for %s
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.
+exc#:#exc_fullscreen#:#Fullscreen
+rating#:#rating_avg_rating#:#Average Rating
+rating#:#rating_personal_rating#:#Your Rating
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars
+rating#:#rating_open_dialog#:#Open rating dialog
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
+rep#:#rep_favourites#:#Favourites
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+prtf#:#prtf_copy_pg#:#Copy Page
+prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
+assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
+copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
+copg#:#copg_reload_page#:#Reload Page

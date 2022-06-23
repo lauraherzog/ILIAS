@@ -162,7 +162,7 @@ class ilMailFormGUI
         $files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         $mailer = $this->umail
-            ->withContextId(ilMailFormCall::getContextId() ? ilMailFormCall::getContextId() : '')
+            ->withContextId(ilMailFormCall::getContextId() ?: '')
             ->withContextParameters(is_array(ilMailFormCall::getContextParameters()) ? ilMailFormCall::getContextParameters() : []);
 
         $mailer->setSaveInSentbox(true);
@@ -198,7 +198,7 @@ class ilMailFormGUI
     public function saveDraft()
     {
         if (!$_POST['m_subject']) {
-            $_POST['m_subject'] = 'No title';
+            $_POST['m_subject'] = $this->lng->txt('mail_no_subject');
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();
@@ -428,7 +428,7 @@ class ilMailFormGUI
 
             echo json_encode([
                 'm_subject' => $template->getSubject(),
-                'm_message' => $template->getMessage(),
+                'm_message' => $template->getMessage() . $this->umail->appendSignature(),
             ]);
         } catch (Exception $e) {
         }
@@ -503,6 +503,9 @@ class ilMailFormGUI
             case 'draft':
                 $_SESSION["draft"] = $_GET["mail_id"];
                 $mailData = $this->umail->getMail($_GET["mail_id"]);
+                if (isset($mailData['m_subject']) && $mailData['m_subject'] === $this->lng->txt('mail_no_subject')) {
+                    $mailData['m_subject'] = '';
+                }
                 ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
                 break;
@@ -697,7 +700,7 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData["m_message"] = $template->getMessage();
+                            $mailData["m_message"] = $template->getMessage()  . $this->umail->appendSignature();
                         }
                     }
                     if (isset($mailData['template_id'])) {

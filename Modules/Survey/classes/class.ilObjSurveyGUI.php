@@ -108,7 +108,7 @@ class ilObjSurveyGUI extends ilObjectGUI
             if (!$this->getCreationMode() &&
                 $this->checkPermissionBool("read")) {
                 $this->ctrl->setParameterByClass("ilobjsurveygui", "ref_id", $this->ref_id);
-                $link = $this->ctrl->getLinkTargetByClass("ilobjsurveygui", "");
+                $link = ilLink::_getLink($this->ref_id);
                 $ilNavigationHistory->addItem($this->ref_id, $link, "svy");
             }
         }
@@ -1967,7 +1967,7 @@ class ilObjSurveyGUI extends ilObjectGUI
             $info->addProperty("", $this->object->prepareTextareaOutput($introduction) .
                 "<br />" . $info->getHiddenToggleButton());
         } else {
-            $info->addSection("");
+            $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());
         }
 
