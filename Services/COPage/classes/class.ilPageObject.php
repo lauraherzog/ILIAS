@@ -2854,7 +2854,6 @@ s     */
 
         foreach ($usages as $u) {
             $id = $this->db->nextId('page_style_usage');
-
             $this->db->manipulate("INSERT INTO page_style_usage " .
                 "(id, page_id, page_type, page_lang, page_nr, template, stype, sname) VALUES (" .
                 $this->db->quote($id, "integer") . "," .
@@ -4417,10 +4416,10 @@ s     */
         while ($hpage = $db->fetchAssoc($set)) {
             if ($a_lang == "") {
                 $contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] =
-                    $contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] + $hpage["cnt"];
+                    ($contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] ?? 0) + $hpage["cnt"];
             } else {
                 $contributors[$hpage["user_id"]][$hpage["page_id"]] =
-                    $contributors[$hpage["user_id"]][$hpage["page_id"]] + $hpage["cnt"];
+                    ($contributors[$hpage["user_id"]][$hpage["page_id"]] ?? 0) + $hpage["cnt"];
             }
         }
 

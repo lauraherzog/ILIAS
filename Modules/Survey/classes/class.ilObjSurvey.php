@@ -963,7 +963,7 @@ class ilObjSurvey extends ilObject
             $data = $ilDB->fetchAssoc($result);
             $this->setSurveyId($data["survey_id"]);
             $this->setAuthor($data["author"]);
-            $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data["introduction"], 1));
+            $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data["introduction"], 1));
             if (strcmp($data["outro"], "survey_finished") === 0) {
                 $this->setOutro($this->lng->txt("survey_finished"));
             } else {
@@ -1006,7 +1006,7 @@ class ilObjSurvey extends ilObject
             
             $this->setViewOwnResults($data["own_results_view"]);
             $this->setMailOwnResults($data["own_results_mail"]);
-            $this->setMailConfirmation($data["confirmation_mail"]);
+            $this->setMailConfirmation((bool) $data["confirmation_mail"]);
             $this->setCalculateSumScore($data["calculate_sum_score"]);
             
             $this->setAnonymousUserList($data["anon_user_list"]);
@@ -4617,7 +4617,7 @@ class ilObjSurvey extends ilObject
      * @return int[]
      */
     public function getAppraiseesToRate(
-        int $a_user_id,
+        ?int $a_user_id,
         int $a_anonymous_id = null
     ) : array {
         $ilDB = $this->db;
@@ -4770,7 +4770,7 @@ class ilObjSurvey extends ilObject
                 " WHERE sf.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
                 " AND sf.user_fi = " . $ilDB->quote($a_user_id, "integer"));
             $a_code = $ilDB->fetchAssoc($set);
-            return (string) $a_code["anonymous_id"];
+            return (string) ($a_code["anonymous_id"] ?? "");
         }
         return "";
     }
@@ -4958,7 +4958,7 @@ class ilObjSurvey extends ilObject
             $anonym_repo->setExternalRaterValidation($a_ref_id, false);
             return false;
         }
-        
+
         return $anonym_repo->isExternalRaterValidated($a_ref_id);
     }
     

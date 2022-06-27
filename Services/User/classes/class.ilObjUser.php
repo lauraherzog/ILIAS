@@ -81,7 +81,7 @@ class ilObjUser extends ilObject
     public ?string $agree_date = null;
     public int $active = 0;
     public string $client_ip = ""; // client ip to check before login
-    public string $auth_mode; // authentication mode
+    public ?string $auth_mode = null; // authentication mode
     public ?string $latitude = null;
     public ?string $longitude = null;
     public ?string $loc_zoom = null;
@@ -2323,14 +2323,14 @@ class ilObjUser extends ilObject
         string $a_type,
         string $a_title,
         int $a_parent = 0,
-        int $a_time = 0,
+        string $a_time = "",
         int $a_order_nr = 0
     ) : void {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        if ($a_time == 0) {
+        if ($a_time === "") {
             $a_time = date("Y-m-d H:i:s");
         }
 
@@ -2594,12 +2594,12 @@ class ilObjUser extends ilObject
         return self::lookupOrgUnitsRepresentation($this->getId());
     }
 
-    public function setAuthMode(string $a_str) : void
+    public function setAuthMode(?string $a_str) : void
     {
         $this->auth_mode = $a_str;
     }
 
-    public function getAuthMode(bool $a_auth_key = false) : string
+    public function getAuthMode(bool $a_auth_key = false) : ?string
     {
         if (!$a_auth_key) {
             return $this->auth_mode;

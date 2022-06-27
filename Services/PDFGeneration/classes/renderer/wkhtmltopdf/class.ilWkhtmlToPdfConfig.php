@@ -59,7 +59,7 @@ class ilWkhtmlToPdfConfig
     protected string $radio_button_svg = '';
     protected string $radio_button_checked_svg = '';
     protected string $path = '';
-    protected string $overwrite_default_font = '';
+    protected string $overwrite_default_font = 'arial';
 
     /**
      * @param array|null|self $config
@@ -134,8 +134,9 @@ class ilWkhtmlToPdfConfig
                     settype($value, $type->getName());
                 }
             }
-
-            $this->{$function}($value);
+            if($value != null) {
+                $this->{$function}($value);
+            }
         }
     }
 
@@ -196,7 +197,7 @@ class ilWkhtmlToPdfConfig
         return $this->enabled_forms;
     }
 
-    public function setEnabledForms(bool $enabled_forms) : void
+    public function setEnabledForms(?bool $enabled_forms) : void
     {
         $this->enabled_forms = $enabled_forms;
     }
@@ -519,6 +520,9 @@ class ilWkhtmlToPdfConfig
             }
             
             return '';
+        }
+        if($this->overwrite_default_font === '') {
+            return 'arial';
         }
 
         return $this->overwrite_default_font;

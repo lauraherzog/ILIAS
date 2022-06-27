@@ -563,7 +563,7 @@ class ilPersonalProfileGUI
             $it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
         }
         if (trim($it) !== "") {
-            $pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
+            $pub_prof = in_array($ilUser->prefs["public_profile"] ?? "", array("y", "n", "g"))
                 ? $ilUser->prefs["public_profile"]
                 : "n";
             $box = $DIC->ui()->factory()->messageBox()->info($it);
@@ -978,7 +978,7 @@ class ilPersonalProfileGUI
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting
             $cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_" . $definition["field_id"]);
-            $cb->setOptionTitle($user_defined_data["f_" . $definition["field_id"]]);
+            $cb->setOptionTitle($user_defined_data["f_" . $definition["field_id"]] ?? "");
             $public_udf = (string) ($prefs["public_udf_" . $definition["field_id"]] ?? '');
             if ($public_udf === 'y') {
                 $cb->setChecked(true);
@@ -1064,7 +1064,7 @@ class ilPersonalProfileGUI
     
             // additional defined user data fields
             foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-                if (($checked_values["chk_udf_" . $definition["field_id"]])) {
+                if ($checked_values["chk_udf_" . $definition["field_id"]] ?? false) {
                     $ilUser->setPref("public_udf_" . $definition["field_id"], "y");
                 } else {
                     $ilUser->setPref("public_udf_" . $definition["field_id"], "n");

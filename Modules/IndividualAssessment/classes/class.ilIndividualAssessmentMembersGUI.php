@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Denis Klöpfer <denis.kloepfer@concepts-and-training.de>  Extended GPL, see ./LICENSE */
-/* Copyright (c) 2018 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see ./LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI;
 use ILIAS\UI\Component\ViewControl;
@@ -234,7 +247,7 @@ class ilIndividualAssessmentMembersGUI
         }
         $usr_id = $this->request_wrapper->retrieve("usr_id", $this->refinery->kindlyTo()->int());
         $confirm = new ilConfirmationGUI();
-        $confirm->addItem('usr_id', $usr_id, ilObjUser::_lookupFullname($usr_id));
+        $confirm->addItem('usr_id', (string) $usr_id, ilObjUser::_lookupFullname($usr_id));
         $confirm->setHeaderText($this->txt('iass_remove_user_qst'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->txt('remove'), 'removeUser');
@@ -278,15 +291,21 @@ class ilIndividualAssessmentMembersGUI
 
     protected function getModeControl(ViewControl\Factory $vc_factory) : ViewControl\Mode
     {
-        $active = $this->getActiveLabelForModeByFilter(
-            $this->request_wrapper->retrieve(self::F_STATUS, $this->refinery->kindlyTo()->string())
-        );
-
-        return $vc_factory->mode(
+        $vc = $vc_factory->mode(
             $this->getModeOptions(),
             ""
-        )
-        ->withActive($active);
+        );
+
+        if ($this->request_wrapper->has(self::F_STATUS)) {
+            $vc = $vc->withActive(
+                $this->request_wrapper->retrieve(
+                    self::F_STATUS,
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+
+        return $vc;
     }
 
     protected function getSortationControl(ViewControl\Factory $vc_factory) : ViewControl\Sortation

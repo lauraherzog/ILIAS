@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Settings for a single didactic template
@@ -253,14 +268,15 @@ class ilDidacticTemplateSetting
         $lang = $this->getTranslationObject()->getLanguages();
 
         if (!$lang) {
-            return "";
+            return '';
         }
-
         if (!$a_lng) {
             $a_lng = $this->user->getCurrentLanguage();
         }
-
-        return $lang[$a_lng][$a_value] ?? $lang[$a_lng][$this->getTranslationObject()->getDefaultLanguage()];
+        if (!isset($lang[$a_lng])) {
+            $a_lng = $this->getTranslationObject()->getDefaultLanguage();
+        }
+        return $lang[$a_lng][$a_value] ?? '';
     }
 
     public function delete() : bool

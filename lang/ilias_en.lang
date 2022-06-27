@@ -46,10 +46,10 @@ acc#:#acc_document#:#Document
 acc#:#acc_form_attach_criterion_head#:#Select Language Criterion for Displaying Accessibility Info Document
 acc#:#acc_form_criterion#:#Criterion
 acc#:#acc_form_document#:#Document
-acc#:#acc_form_document_content_changed#:#The uploaded file has had its html <head> information removed by ILIAS. Please check the result and upload a new file if necessary.
-acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their <head> information removed – only the contents of the body element will be used.
+acc#:#acc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed – only the contents of the body element will be used.
 acc#:#acc_form_document_new#:#Change Content
-acc#:#acc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their <head> information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected.
+acc#:#acc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected.
 acc#:#acc_form_document_title#:#Title
 acc#:#acc_form_document_title_info#:#Please enter a title for the document.
 acc#:#acc_form_edit_criterion_head#:#Edit Language Criterion
@@ -1332,6 +1332,7 @@ assessment#:#tst_browse_for_qpl_questions#:#Add from Pool
 assessment#:#tst_browse_for_tst_questions#:#Add from Other Test
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
+assessment#:#tst_btn_reset_pool_sync#:#Edit/Cancel Synchronisation
 assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
 assessment#:#tst_cannot_online_due_to_switched_quest_set_type_setting#:#The test cannot be set to online, because the test mode setting has been changed. You have to set a test mode relating question config before the test can be set to online.
 assessment#:#tst_change_dyn_test_question_selection#:#Change Question Selection
@@ -2102,7 +2103,7 @@ awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
 awrn#:#awrn_filter#:#User Filter
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
-awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
+awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is Online?’ tool can be found in the header bar and lists selected users (e.g. contacts or members of your courses).
 awrn#:#awrn_inactive#:#Not Listed
 awrn#:#awrn_incl_offline#:#Online and Offline
 awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
@@ -2115,7 +2116,7 @@ awrn#:#awrn_online_only#:#Online Only
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
+awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"
 awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
@@ -2561,8 +2562,8 @@ book#:#booking_nr_of_items#:#Nr of Items
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Reservation deleted
-buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me
-buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
+buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2706,7 +2707,7 @@ certificate#:#certificate_ph_street#:#Street of the user's address
 certificate#:#certificate_ph_testtitle#:#Title of the test
 certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_title_sco#:#title
-certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
+certificate#:#certificate_ph_zipcode#:#ZIP / Post code of the user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Preview
 certificate#:#certificate_settings#:#Certificate Settings
@@ -2811,7 +2812,7 @@ chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
-chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
+chatroom#:#chat_osc_accept_msg_info#:#Allow other users to send you messages using the on-screen chat system.
 chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
 chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
 chatroom#:#chat_osc_add_user#:#Add Further Users
@@ -3317,7 +3318,7 @@ cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept terms of service?
+common#:#accept_usr_agreement#:#Accept Terms of Service?
 common#:#accept_usr_agreement_btn#:#Accept
 common#:#access#:#Access
 common#:#accessFree#:#Remove 'Valid Until' Date
@@ -3329,10 +3330,10 @@ common#:#access_public#:#Public
 common#:#access_restricted#:#Set the selected user(s) to limited access
 common#:#access_scope#:#Access
 common#:#access_unlimited#:#Unlimited
-common#:#access_until#:#Valid until
+common#:#access_until#:#Valid Until
 common#:#access_users#:#Logged in Users
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
-common#:#accessibility_control_concept#:#Accessibility Control Concept
+common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#Your account expires
@@ -3440,17 +3441,17 @@ common#:#at_least_one_style#:#At least one style must remain activated.
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#attempts#:#Attempts
-common#:#auth_active_roles#:#Global roles available on registration form
+common#:#auth_active_roles#:#Global Roles Available on Registration Form
 common#:#auth_allow_local#:#Allow Local Authentication
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
+common#:#auth_cas_allow_local_desc#:#Allows CAS users to authenticate themselves with their local ILIAS username and a local password.
 common#:#auth_cas_auth#:#Configure CAS Authentication
 common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
 common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configure...
-common#:#auth_create_users#:#Create non-existing users automatically
+common#:#auth_create_users#:#Create Non-Existing Users Automatically
 common#:#auth_default#:#Default setting
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_ecs#:#ECS
@@ -3459,17 +3460,17 @@ common#:#auth_ldap_enable#:#Enable LDAP support
 common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
 common#:#auth_local#:#ILIAS Auth
-common#:#auth_login_instructions#:#Instructions shown on login page
-common#:#auth_mode#:#Authentication mode
+common#:#auth_login_instructions#:#Instructions Shown on Login Page
+common#:#auth_mode#:#Authentication Mode
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_new_account_mail_desc#:#Send new account e-mail to user, if user is generated automatically. A password will only be generated, if ‘Allow Local Authentication’ is also activated.
 common#:#auth_per_default#:#Per Default
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
-common#:#auth_role_auth_mode#:#Authentication mode
+common#:#auth_remark_non_local_auth#:#Selecting an authentication mode other than ‘ILIAS Auth’ (which uses the ILIAS database) means that users will not be able to change their login name or password after registration.
+common#:#auth_role_auth_mode#:#Authentication Mode
 common#:#auth_saml#:#SAML
 common#:#auth_script#:#Custom
-common#:#auth_select#:#Select authentication mode
+common#:#auth_select#:#Select Authentication Mode
 common#:#auth_selection#:#Login Options
 common#:#auth_settings#:#Authentication Settings
 common#:#auth_shib#:#Shibboleth
@@ -3579,7 +3580,7 @@ common#:#certificates#:#Certificates
 common#:#change#:#Change
 common#:#change_assignment#:#Change assignment
 common#:#change_header_title#:#Edit Header Title
-common#:#change_owner#:#Change owner
+common#:#change_owner#:#Change Owner
 common#:#change_sort_direction#:#Change sort direction
 common#:#changeable#:#Changeable in Profile
 common#:#changed_to#:#changed to
@@ -3804,12 +3805,12 @@ common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
 common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s".
 common#:#deliver#:#Deliver
-common#:#deny_usr_agreement#:#Do not accept terms of service?
-common#:#deny_usr_agreement_btn#:#Not Accept
+common#:#deny_usr_agreement#:#Do Not Accept Terms of Service?
+common#:#deny_usr_agreement_btn#:#Do Not Accept
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
-common#:#desired_password#:#Desired Password
+common#:#desired_password#:#New Password
 common#:#details#:#Details
 common#:#didactic_template#:#Didactic Template
 common#:#disable#:#disable
@@ -3870,7 +3871,7 @@ common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_multi_download#:#«Download multiple objects» enabled
 common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
-common#:#enable_password_assistance#:#Enable password assistance
+common#:#enable_password_assistance#:#Enable Password Assistance
 common#:#enable_preview#:#Enable Preview
 common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
@@ -4040,10 +4041,10 @@ common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#folder#:#Folder
 common#:#folders#:#Folders
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
-common#:#force_accept_usr_agreement#:#You must accept the terms of service!
+common#:#force_accept_usr_agreement#:#You must accept the Terms of Service!
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
-common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+common#:#form_input_not_valid#:#Some of the information entered is incomplete or invalid. Please correct your entry.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Notification
 common#:#forum_notify_me#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.
@@ -4591,7 +4592,7 @@ common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all avai
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
+common#:#msg_copy_clipboard#:#Please select the location to which the selected objects should be pasted and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
 common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
@@ -4681,14 +4682,14 @@ common#:#never#:#never
 common#:#new#:#New
 common#:#new_language#:#New Language
 common#:#new_pass_equals_old_pass#:#The new password equals the old one.
-common#:#newline#:#Newline
+common#:#newline#:#New Line
 common#:#news#:#News
 common#:#next#:#Next
 common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
-common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
-common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
+common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility document available for this installation. Please contact your <a href="%1$s">Contact Point for Accessibility Issues</a>.
+common#:#no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_checkbox#:#You did not select any item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_date#:#No date
@@ -5107,19 +5108,19 @@ common#:#passwd_not_match#:#Your entries for the new password don’t match! Ple
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#password_allow_chars#:#Allowed chars: %s
-common#:#password_assistance_info#:#If password assistance is enabled, a link ‘Forgot Password?’ is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
+common#:#password_assistance_info#:#Display a ‘Forgot Password?’ link on the ILIAS login page. Users can use this link to set a new password for their user account without needing assistance from a system administrator.
 common#:#password_change_on_first_login_demand#:#You have to change your password before you can start using ILIAS services.
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
 common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
 common#:#password_empty#:#The password field must not be empty.
 common#:#password_expired#:#Your password is expired and has to be changed as the last change was %s day(s) ago.
 common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
-common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
+common#:#password_must_chars_and_numbers#:#The password must contain both letters and numbers.
 common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
 common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.
 common#:#password_must_special_chars#:#The password must contain special characters.
-common#:#password_to_long#:#The password must have at most a size of %s characters.
-common#:#password_to_short#:#The password must have at least a size of %s characters.
+common#:#password_to_long#:#The password may have at most a length of %s characters.
+common#:#password_to_short#:#The password must have a length of at least of %s characters.
 common#:#paste#:#Paste
 common#:#pasteChapter#:#Paste
 common#:#pastePage#:#Paste
@@ -5225,11 +5226,11 @@ common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check web links) please activate the checkbox above.
 common#:#ps_export_scorm#:#Personal Data in Protocol Data
 common#:#ps_password_lowercase_chars_num#:#Lower Case Letters
-common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement.
+common#:#ps_password_lowercase_chars_num_info#:#Enter the minimum number of lower case letters a password must contain. Set to 0 to disable this requirement.
 common#:#ps_password_must_not_contain_loginame#:#Prevent Username in Password
-common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the username.
+common#:#ps_password_must_not_contain_loginame_info#:#Disallow passwords that contain the user’s username.
 common#:#ps_password_uppercase_chars_num#:#Capital Letters
-common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement.
+common#:#ps_password_uppercase_chars_num_info#:#Enter the minimum number of capital letters a password must contain. Set to 0 to disable this requirement.
 common#:#pub_section#:#Anonymous Access
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentication. The permissions of the ‘Anonymous’ role will control the access to repository resources.
 common#:#public#:#public
@@ -5260,7 +5261,7 @@ common#:#refuse#:#Refuse
 common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
-common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
+common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hello
@@ -5429,27 +5430,27 @@ common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Server Software
 common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
-common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
+common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
 common#:#sess_mode#:#Session Mode
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
-common#:#session_max_count#:#Max active sessions
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Setting this to ‘0’ disables the feature.
-common#:#session_max_idle#:#Max session idle (in minutes)
+common#:#session_max_count#:#Max Number of Active Sessions
+common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Set the value to ‘0’ to disable the feature.
+common#:#session_max_idle#:#Maximum Session Idle (in minutes)
 common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
-common#:#session_min_idle#:#Min session idle (in minutes)
-common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
-common#:#session_reminder#:#Session-Reminder
+common#:#session_min_idle#:#Max Session Idle (in Minutes) When Max Number of Active Sessions Reached
+common#:#session_min_idle_info#:#If a user has been idle for at least this period of time and the maximum number of active sessions allowed has been reached, then their session will be automatically ended when a different user starts a new session.
+common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
-common#:#session_reminder_info#:#If enabled, you receive a reminder before the online-session of your browser expires.
+common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify the lead time for the session reminder in minutes. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 5 (minutes)<br / >The current length of a user session is %s.
-common#:#session_reminder_session_duration#:#(Session Duration: %s).
+common#:#session_reminder_session_duration#:#(Session duration: %s).
 common#:#set#:#Set
 common#:#setSystemLanguage#:#Set System Language
 common#:#setUserLanguage#:#Set User Language
@@ -5461,16 +5462,16 @@ common#:#settings#:#Settings
 common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 common#:#settings_presentation_header#:#Presentation
-common#:#settings_saved#:#Saved settings
+common#:#settings_saved#:#Settings saved
 common#:#shib#:#Shibboleth
-common#:#shib_active#:#Enable Shibboleth support
+common#:#shib_active#:#Enable Shibboleth Support
 common#:#shib_city#:#Attribute for city
 common#:#shib_country#:#Attribute for country
-common#:#shib_data_conv#:#Absolute path to data manipulation API
+common#:#shib_data_conv#:#Absolute Path to Data Manipulation API
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read
 common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
-common#:#shib_federation_name#:#Name of your Shibboleth federation
+common#:#shib_federation_name#:#Name of Your Shibboleth Federation
 common#:#shib_firstname#:#Attribute for first name
 common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the %s
@@ -5483,9 +5484,9 @@ common#:#shib_lastname#:#Attribute for lastname
 common#:#shib_login#:#Unique Shibboleth attribute
 common#:#shib_login_button#:#Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration
 common#:#shib_login_embedded_wayf#:#Design custom login area
-common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.
-common#:#shib_login_external_wayf#:#Use external WAYF service
-common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service
+common#:#shib_login_embedded_wayf_description#:#This option allows you to enter any HTML code in the ‘Instructions Shown on Login Page’ text area below in order to, for example, embed your own JavaScript WAYF/Discovery Service or to customise the design of the login area to best suit your needs.
+common#:#shib_login_external_wayf#:#Use External WAYF Service
+common#:#shib_login_internal_wayf#:#Use ILIAS WAYF Service
 common#:#shib_login_type#:#Organization selection
 common#:#shib_matriculation#:#Attribute for Matriculation Number
 common#:#shib_member_of#:#I am a member of ...
@@ -5497,7 +5498,7 @@ common#:#shib_settings_saved#:#The Shibboleth settings were saved
 common#:#shib_street#:#Attribute for street
 common#:#shib_title#:#Attribute for title
 common#:#shib_update#:#Update this field on login
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
+common#:#shib_user_default_role#:#Default Role Assigned to Shibboleth Users
 common#:#shib_zipcode#:#Attribute for zipcode
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
@@ -5539,7 +5540,7 @@ common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent course
 common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
 common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
-common#:#sorting_save#:#Save Sorting
+common#:#sorting_save#:#Save Order
 common#:#sorting_title_header#:#Titles in Alphabetical Order
 common#:#spacer#:#Spacer
 common#:#spl#:#Question Pool Survey
@@ -5645,9 +5646,9 @@ common#:#tst_statistics#:#Statistics
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tutors#:#Tutors
-common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
-common#:#txt_registered_passw_gen#:#You have successfully registered with ILIAS. You will receive an e-mail with your password shortly.
-common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
+common#:#txt_registered#:#You have successfully registered your account with ILIAS. Please click on the button below to log in to ILIAS with your user account.
+common#:#txt_registered_passw_gen#:#YYou have successfully registered your account with ILIAS. You will receive an e-mail including your generated password shortly.
+common#:#txt_submitted#:#You have successfully registered your account with ILIAS. Your account request will be reviewed by our system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#udf_added_field#:#Added new field.
@@ -5724,7 +5725,7 @@ common#:#user_never_logged_in#:#Delete user accounts without login
 common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
 common#:#user_new_account_mail#:#New Account Mail
-common#:#user_new_account_mail_desc#:#This e-mail is sent after an ILIAS account has been created. If the account was created by an administrator, ILIAS will only send an e-mail if the option "Send mail to inform user about changes" was activated when creating the account.
+common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with the setting ‘Send mail to inform user about changes’ enabled.
 common#:#user_not_found#:#User not found
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#user_not_known#:#Please insert a valid username.
@@ -5765,7 +5766,7 @@ common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_without_courses#:#Users without courses assigned
-common#:#usrf#:#User accounts
+common#:#usrf#:#User Accounts
 common#:#usrf_profile_link#:#Link to user profile
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
@@ -5858,25 +5859,25 @@ common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_new#:#New Wiki
 common#:#with#:#with
-common#:#withdraw_consent#:#Withdraw Acceptance
-common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
-common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
-common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
-common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
-common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service
-common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
-common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
-common#:#withdraw_usr_agreement#:#Withdraw
+common#:#withdraw_consent#:#Withdraw Consent
+common#:#withdraw_consent_description#:#Withdraw your consent to our Terms of Service here.
+common#:#withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#withdraw_consent_header#:#Withdraw Terms of Service Consent
+common#:#withdraw_consent_info#:#Withdraw your consent to our Terms of Service.
+common#:#withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service.
+common#:#withdraw_consent_info_internal#:#If you click on ‘Withdraw Consent’, your account will be deleted.
+common#:#withdraw_usr_agreement#:#Withdraw Consent
 common#:#withdrawal_complete#:#Withdrawal of consent complete.
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
-common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
-common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
+common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have your account deleted, please contact your organisation.
+common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
-common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
-common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
-common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
-common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
-common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
+common#:#withdrawal_mail_text#:#Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of your consent?
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted.
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service?
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
 common#:#wizard_title_info#:#Search for the object you want to duplicate. Please enter the object's title or a part of it and click on 'Continue' to get matching search results.
 common#:#write#:#Write
@@ -5886,10 +5887,10 @@ common#:#yearly#:#yearly
 common#:#years#:#Years
 common#:#yes#:#Yes
 common#:#yesterday#:#Yesterday
-common#:#zip#:#Zip Code
+common#:#zip#:#Zip Code / Post Code
 common#:#zip_structure_error#:#Archive contains same file names. Upload aborted.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
-common#:#zipcode#:#Zip Code
+common#:#zipcode#:#Zip Code / Post Code
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
 cont#:#cont_add_global_profile#:#Add Global Profile
 cont#:#cont_add_local_profile#:#Add Local Profile
@@ -6027,7 +6028,7 @@ content#:#cont_add_area#:#Add Area
 content#:#cont_add_cell#:#Add Column
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_elements#:#Click on a plus symbol to add new elements.
+content#:#cont_add_elements#:#Click on a plus symbol to add a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
 content#:#cont_add_popup#:#Add Popup
@@ -6215,7 +6216,7 @@ content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Enable Download
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b> content elements on placeholders to <b>move</b> elements.
+content#:#cont_drag_and_drop_elements#:#To <b>move</b> an element, <b>Drag and drop</b> it to a placeholder.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left#:#Align: Left
@@ -6877,7 +6878,7 @@ content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
 content#:#cont_settings#:#Settings for learning modules
 content#:#cont_shape#:#Shape
-content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode.
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
 content#:#cont_short_titles#:#Short Titles
@@ -7104,7 +7105,7 @@ content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
 content#:#sahs_insert_st_from_clip#:#Import Chapters from ILIAS Learning Module
 content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Learning Module (inside chapter)
 content#:#save_new#:#Save and New
-content#:#saved_media_object#:#Saved media object.
+content#:#saved_media_object#:#Media object saved.
 content#:#scplayer_collapsetree#:#Collapse All
 content#:#scplayer_continue#:#Continue
 content#:#scplayer_debugger#:#Show test tool
@@ -7803,7 +7804,7 @@ crs#:#event_title#:#Title
 crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
-crs#:#event_updated#:#Saved Settings
+crs#:#event_updated#:#Settings saved
 crs#:#event_user_selection#:#Selection of Users
 crs#:#event_user_selection_include_filter#:#Include "%1$s"
 crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
@@ -7932,8 +7933,8 @@ dateplaner#:#cal_assigned_appointments#:#Assigned Appointments
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
 dateplaner#:#cal_back_to_list#:#Back to List
 dateplaner#:#cal_back_to_search#:#Back to Search
-dateplaner#:#cal_batch_file_downloads#:#Batch File Downloads in Calendar
-dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
+dateplaner#:#cal_batch_file_downloads#:#Batch Download of Calendar Files
+dateplaner#:#cal_batch_file_downloads_info#:#Display a button in calendars to allow all files related to the current calendar/appointment view to be downloaded as a batch.
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.
@@ -8040,8 +8041,8 @@ dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1
 dateplaner#:#cal_contained_in#:#Contained in
 dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.
-dateplaner#:#cal_created_milestone#:#Added milestone.
-dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.
+dateplaner#:#cal_created_milestone#:#Milestone added.
+dateplaner#:#cal_created_milestone_resp_q#:#Milestone added. Please select users that are responsible to meet the milestone.
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
@@ -8083,7 +8084,7 @@ dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_deleted_app#:#The selected appointments have been deleted.
 dateplaner#:#cal_details#:#Appointment Details
-dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
+dateplaner#:#cal_down_no_files#:#Nothing to download! The events listed do not contain any files.
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_download_files#:#Download Files
 dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
@@ -8201,7 +8202,7 @@ dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
 dateplaner#:#cal_shared_header#:#Shared Calendars
 dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.
 dateplaner#:#cal_show_weeks#:#Show Weeks
-dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block.
+dateplaner#:#cal_show_weeks_info#:#Show ‘weeks’ column in calendar side block.
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_subscription#:#Subscription
 dateplaner#:#cal_subscription_header#:#Calendar Address
@@ -8215,11 +8216,11 @@ dateplaner#:#cal_table_categories#:#Calendar Selection
 dateplaner#:#cal_task_completion#:#Task Completion
 dateplaner#:#cal_third#:#Third
 dateplaner#:#cal_time_format_info#:#Please choose a format for the input and presentation of time.
-dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.
+dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your time zone to make sure that appointments within ILIAS are displayed properly in your local time.
 dateplaner#:#cal_type_crs#:#Course Calendar
 dateplaner#:#cal_type_exc#:#Exercise Calendar
 dateplaner#:#cal_type_grp#:#Group Calendar
-dateplaner#:#cal_type_info#:#Please choose one calendar type. ‘Public Calendars’ are visible for all ILIAS users.
+dateplaner#:#cal_type_info#:#Please choose a calendar type. ‘Public Calendars’ are visible for all ILIAS users.
 dateplaner#:#cal_type_local#:#Local Calendar
 dateplaner#:#cal_type_personal#:#Private Calendar
 dateplaner#:#cal_type_remote#:#Web Calendar
@@ -8235,12 +8236,12 @@ dateplaner#:#cal_user_notification#:#User Notification
 dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by e-mail. Please enter ILIAS user names or e-mail addresses.
 dateplaner#:#cal_user_settings#:#Calendar Settings
 dateplaner#:#cal_user_time_format#:#Time Format
-dateplaner#:#cal_user_timezone#:#ILIAS-Timezone
+dateplaner#:#cal_user_timezone#:#ILIAS Time Zone
 dateplaner#:#cal_usr_info#:#Appointment Information
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation
-dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.
+dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x hours.
 dateplaner#:#cal_week_abbrev#:#W
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings
 dateplaner#:#cal_week_overview#:#Week Overview
@@ -8583,7 +8584,7 @@ didactic#:#activate_local_didactic_template_info#:#Usage of this didactical temp
 didactic#:#didactic_activated_msg#:#Activated didactic templates
 didactic#:#didactic_adm_tab#:#Didactic Templates
 didactic#:#didactic_applicable_for#:#Applicable for
-didactic#:#didactic_auto_generated#:#Automatic Generated
+didactic#:#didactic_auto_generated#:#Automatically Generated
 didactic#:#didactic_available_templates#:#Available Didactic Templates
 didactic#:#didactic_back_to_overview#:#Back to Overview
 didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.
@@ -9658,6 +9659,8 @@ forum#:#publish#:#Publish
 forum#:#reopen_topics#:#Reopen
 forum#:#reply_to_postings#:#Reply
 forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
+forum#:#reset_limited_view_info#:#Limited view on this post and all posts below it.
+forum#:#reset_limited_view_button#:#Show entire thread
 forum#:#restore#:#Restore
 forum#:#restore_draft_from_autosave#:#Restore Draft
 forum#:#save_draft_successfully#:#The draft was saved successfully.
@@ -10255,7 +10258,7 @@ log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
 log#:#log_log_level#:#Log Level
 log#:#log_memory#:#Log Memory Usage
-logging#:#error_settings_saved#:#Saved settings
+logging#:#error_settings_saved#:#Settings saved
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
@@ -10679,10 +10682,10 @@ mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#mail_incoming#:#Incoming Mail
-mail#:#mail_incoming_both#:#local and forwarding
-mail#:#mail_incoming_local#:#only local
+mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
+mail#:#mail_incoming_local#:#Receive Mail Locally Only
 mail#:#mail_incoming_mail#:#Incoming Mail
-mail#:#mail_incoming_smtp#:#forward to e-mail address
+mail#:#mail_incoming_smtp#:#Forward to E-mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
@@ -10713,14 +10716,14 @@ mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_desc#:#Client Description
 mail#:#mail_nacc_client_name#:#Client Name
-mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
+mail#:#mail_nacc_if_timelimit#:#This text is only included if the user has a limited access period.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
-mail#:#mail_nacc_login#:#Login Account
-mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
-mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
+mail#:#mail_nacc_login#:#Username (Login ID)
+mail#:#mail_nacc_no_pw_block#:#This text block is only included if the new user account has been created without a password.
+mail#:#mail_nacc_pw_block#:#This text block is only included if the new user account has been created with a password included.
 mail#:#mail_nacc_salutation#:#Greeting
-mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
-mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
+mail#:#mail_nacc_target#:#URL of target item, e.g. a link to a course outside of ILIAS.
+mail#:#mail_nacc_target_block#:#This text is only included if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
 mail#:#mail_nacc_timelimit#:#User access period
@@ -11047,7 +11050,7 @@ mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffi
 meta#:#adt_error_max_length#:#Please enter a shorter text.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
 meta#:#md_adv_active#:#Active
-meta#:#md_adv_added_new_record#:#Added new data set
+meta#:#md_adv_added_new_record#:#A new data set has been added.
 meta#:#md_adv_col_presentation_ordering#:#Position
 meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.
 meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
@@ -11064,7 +11067,7 @@ meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following exp
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following data sets?
 meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 meta#:#md_adv_deleted_files#:#Deleted export files.
-meta#:#md_adv_deleted_records#:#Deleted Data Set
+meta#:#md_adv_deleted_records#:#Data set deleted.
 meta#:#md_adv_desc_show#:#Show Description
 meta#:#md_adv_edit_complex_option#:#Edit Option Properties
 meta#:#md_adv_edit_field#:#Edit Field
@@ -11396,7 +11399,7 @@ meta#:#meta_copyright_change_info#:#You are going to change the licence assigned
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_in_use#:#In use
 meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_show_usages#:#Show usages
+meta#:#meta_copyright_show_usages#:#Show Usages
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
 meta#:#meta_copyright_usage#:#Usage
@@ -11629,9 +11632,9 @@ meta#:#meta_no_relation#:#No metadata available for the Relation section.
 meta#:#meta_no_rights#:#No metadata available for the Rights section.
 meta#:#meta_no_technical#:#No metadata available for the Technical section.
 meta#:#meta_obj_type_active#:#Dataset offered
-meta#:#meta_obj_type_inactive#:#Dataset not offered
-meta#:#meta_obj_type_mandatory#:#Dataset always offered
-meta#:#meta_obj_type_optional#:#Dataset needs activation
+meta#:#meta_obj_type_inactive#:#Data set not used
+meta#:#meta_obj_type_mandatory#:#Data set always offered
+meta#:#meta_obj_type_optional#:#Data set needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
@@ -11998,7 +12001,7 @@ notification_adm#:#osd_interval#:#Refreshinterval
 notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 notification_adm#:#osd_vanish#:#Presentation Time
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.
-notification_adm#:#play_sound#:#Play a sound
+notification_adm#:#play_sound#:#Play a Sound
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
@@ -12553,7 +12556,7 @@ prg#:#prg_status_not_relevant#:#Not Relevant
 prg#:#prg_status_outdated#:#Outdated
 prg#:#prg_still_valid#:#valid
 prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_subtypes#:#Subtypes
+prg#:#prg_subtypes#:#Types
 prg#:#prg_title#:#Title
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_type_add#:#Study Programme Type
@@ -12648,7 +12651,7 @@ prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 prtf#:#prtf_allow_my_courses#:#Page Element ‘My Courses’
-prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.
+prtf#:#prtf_allow_my_courses_info#:#Portfolios may include a list showing which courses the user is currently a member of.
 prtf#:#prtf_author#:#Author
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
 prtf#:#prtf_banner#:#Banner
@@ -12741,7 +12744,7 @@ prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog
 prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.
 prtf#:#prtf_template_title#:#Portfolio Template
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
-prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
+prtf#:#prtf_unset_default_share_info#:#Your changes have been saved. Please check the current ‘share’ settings for your portfolio.
 prtf#:#prtf_use_page_layout#:#Use Page Layout
 prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.

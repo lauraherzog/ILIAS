@@ -61,9 +61,6 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = array();
-        if (!is_array($ids)) {
-            $ids = array($ids);
-        }
         $this->_readData($a_entity, $a_ids);
     }
 
@@ -75,6 +72,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
         switch ($entity) {
             case 'iass':
                 foreach ($ids as $iass_id) {
+                    $iass_id = (int) $iass_id;
                     if (ilObject::_lookupType($iass_id) == 'iass') {
                         $obj = new ilObjIndividualAssessment($iass_id, false);
                         $settings = $obj->getSettings();

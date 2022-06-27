@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -522,14 +536,14 @@ class ilIndividualAssessmentMembersStorageDBTest extends TestCase
             "obj_id" => ["integer", 11],
             ilIndividualAssessmentMembers::FIELD_USR_ID => ["integer", 22],
             ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS => ["text", 33],
+            ilIndividualAssessmentMembers::FIELD_NOTIFY => ["integer", true],
+            ilIndividualAssessmentMembers::FIELD_FINALIZED => ["integer", 0],
+            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => ["integer", -1],
             ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => ["integer", 44],
             ilIndividualAssessmentMembers::FIELD_RECORD => ["text", "record"],
             ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => ["text", "internalNote"],
             ilIndividualAssessmentMembers::FIELD_PLACE => ["text", "place"],
             ilIndividualAssessmentMembers::FIELD_EVENTTIME => ["integer", $timestamp],
-            ilIndividualAssessmentMembers::FIELD_NOTIFY => ["integer", true],
-            ilIndividualAssessmentMembers::FIELD_FINALIZED => ["integer", 0],
-            ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => ["integer", -1],
             ilIndividualAssessmentMembers::FIELD_FILE_NAME => ["text", "fileName"],
             ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => ["integer", true],
             ilIndividualAssessmentMembers::FIELD_CHANGER_ID => ["integer", 55],

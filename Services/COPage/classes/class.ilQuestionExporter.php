@@ -67,7 +67,7 @@ class ilQuestionExporter
         
         $this->preview_mode = $a_preview_mode;
         
-        $this->tpl = new ilTemplate("tpl.question_export.html", true, true, "Modules/Scorm2004");
+        $this->tpl = new ilTemplate("tpl.question_export.html", true, true, "Services/COPage");
         
         // fix for bug 5386, alex 29.10.2009
         if (!$a_preview_mode) {
@@ -197,7 +197,7 @@ class ilQuestionExporter
         if ($this->preview_mode) {
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
-        if ($this->json_decoded->path) {
+        if (isset($this->json_decoded->path)) {
             $this->tpl->setVariable(
                 "HANDLE_IMAGES",
                 "ilias.questions.handleMCImages(" . $this->json_decoded->id . ");"
@@ -226,7 +226,7 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         
-        if ($this->json_decoded->path) {
+        if ($this->json_decoded->path ?? false) {
             $this->tpl->setVariable(
                 "HANDLE_IMAGES",
                 "ilias.questions.handleKprimImages(" . $this->json_decoded->id . ");"

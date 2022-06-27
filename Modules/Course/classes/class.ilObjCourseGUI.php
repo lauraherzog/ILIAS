@@ -107,7 +107,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tabs_gui->setTabActive('view_content');
         $this->checkPermission('read', 'view');
         if ($this->view_manager->isAdminView()) {
-            parent::viewObject();
+            parent::renderObject();
             return;
         }
 
@@ -141,7 +141,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $stgui->getHTML();
             return;
         }
-
         // views handled by general container logic
         if (
             $this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
@@ -2532,9 +2531,9 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->lng->txt("crs_map_location"),
             "location"
         );
-        $loc_prop->setLatitude($latitude);
-        $loc_prop->setLongitude($longitude);
-        $loc_prop->setZoom($zoom);
+        $loc_prop->setLatitude((float) $latitude);
+        $loc_prop->setLongitude((float) $longitude);
+        $loc_prop->setZoom((int) $zoom);
         $form->addItem($loc_prop);
 
         $form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
@@ -2666,6 +2665,7 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         //}
+
         $this->addStandardContainerSubTabs(false);
     }
 
